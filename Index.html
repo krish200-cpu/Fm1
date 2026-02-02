@@ -24,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* --- INTRO ANIMATION STYLES (From your code) --- */
+        /* --- INTRO ANIMATION STYLES --- */
         #intro-overlay {
             position: fixed;
             top: 0;
@@ -35,8 +35,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 9999; /* Always on top */
+            z-index: 9999;
             transition: opacity 1.5s ease-in-out, visibility 1.5s;
+            cursor: pointer; /* Indicates you can click to skip */
         }
 
         .logo-wrap {
@@ -48,7 +49,7 @@
 
         .brand-text {
             font-family: 'Bodoni Moda', serif;
-            font-size: 1.5rem; /* Slightly larger for impact */
+            font-size: 1.5rem;
             text-transform: uppercase;
             opacity: 0;
         }
@@ -90,6 +91,19 @@
             animation-delay: 4.5s;
         }
 
+        /* Skip Button Style */
+        .skip-hint {
+            position: absolute;
+            bottom: 30px;
+            font-size: 0.7rem;
+            color: #ccc;
+            opacity: 0;
+            animation: pureFade 1s ease-out forwards;
+            animation-delay: 2s;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
         @keyframes fadeInSettling {
             from { opacity: 0; letter-spacing: 1.2em; filter: blur(8px); transform: translateY(5px); }
             to { opacity: 1; filter: blur(0); transform: translateY(0); }
@@ -122,7 +136,6 @@
             opacity: 1;
         }
 
-        /* Custom Input Reset */
         input:focus, select:focus {
             outline: none;
             box-shadow: none;
@@ -131,13 +144,14 @@
 </head>
 <body>
 
-    <div id="intro-overlay">
+    <div id="intro-overlay" onclick="dismissIntro()">
         <div class="logo-wrap">
             <span class="brand-text brand-funeral">Funeral</span>
             <div class="logo-divider"></div>
             <span class="brand-text brand-match">Match</span>
             <p class="slogan-reveal">The New Standard of Care</p>
         </div>
+        <div class="skip-hint">Click to Enter</div>
     </div>
 
     <div id="main-content">
@@ -191,12 +205,12 @@
                     Transparent. Independent. Dignified.
                 </span>
                 
-                <h1 className="text-5xl md:text-7xl font-serif text-[#1a1a1a] mb-8 leading-tight">
+                <h1 class="text-5xl md:text-7xl font-serif text-[#1a1a1a] mb-8 leading-tight">
                     The New Standard <br />
                     <span class="italic font-light text-[#1a1a1a]">of Funeral Care</span>
                 </h1>
                 
-                <p className="max-w-2xl mx-auto text-gray-500 text-lg mb-12 font-light leading-relaxed">
+                <p class="max-w-2xl mx-auto text-gray-500 text-lg mb-12 font-light leading-relaxed">
                     Compare verified funeral directors in your area. Transparent pricing, 
                     genuine reviews, and the dignity your loved ones deserve.
                 </p>
@@ -350,26 +364,32 @@
     </div>
 
     <script>
-        window.addEventListener('load', () => {
-            // Set the timeout to match your animation duration (7 seconds)
+        // Function to run the transition
+        function dismissIntro() {
+            const intro = document.getElementById('intro-overlay');
+            const main = document.getElementById('main-content');
+
+            // Fade out intro
+            intro.classList.add('exit-clean');
+            
+            // Fade in main site
+            main.classList.add('visible');
+
+            // Remove from DOM after transition
             setTimeout(() => {
-                const intro = document.getElementById('intro-overlay');
-                const main = document.getElementById('main-content');
+                intro.style.display = 'none';
+            }, 1500);
+        }
 
-                // 1. Fade out the intro
-                intro.classList.add('exit-clean');
-                
-                // 2. Fade in the main site
-                main.classList.add('visible');
-
-                // 3. Optional: Remove intro from DOM after transition for performance
-                setTimeout(() => {
-                    intro.style.display = 'none';
-                }, 1500);
-
-            }, 7000); // 7000ms = 7 seconds
+        // Auto-run after 7 seconds, OR user can click to skip earlier
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                // Only run if it hasn't been dismissed yet
+                if(document.getElementById('intro-overlay').style.display !== 'none') {
+                    dismissIntro();
+                }
+            }, 7000); 
         });
     </script>
 </body>
 </html>
-
