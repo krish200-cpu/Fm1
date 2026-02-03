@@ -2,12 +2,12 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Funeral Match | Search Results</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -26,7 +26,10 @@
                     },
                     borderRadius: {
                         'pill': '9999px',
-                        'card': '1.2rem',
+                        'card': '1rem',
+                    },
+                    boxShadow: {
+                        'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
                     },
                     animation: {
                         'fade-out': 'fadeOut 1.5s ease-in-out forwards',
@@ -48,198 +51,202 @@
     </script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        /* Mobile Optimizations */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            -webkit-tap-highlight-color: transparent;
+        }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .smooth-transition { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .smooth-transition { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         
-        /* Loading Screen specific */
+        /* Intro Overlay */
         #intro-overlay {
             position: fixed;
             inset: 0;
             z-index: 9999;
-            background-color: #1a1a1a; /* Your Brand Black */
+            background-color: #1a1a1a;
             display: flex;
             align-items: center;
             justify-content: center;
-        }
-        
-        .brand-text {
-            font-family: 'Bodoni Moda', serif;
-            text-transform: uppercase;
-            color: white;
+            padding: 20px;
         }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-gold selection:text-white overflow-hidden" id="body-lock">
 
     <div id="intro-overlay">
-        <div class="text-center flex flex-col items-center">
-            <div class="flex items-center gap-4">
-                <span class="brand-text text-3xl tracking-[0.3em] opacity-0 animate-[slideUp_1s_ease-out_forwards]">Funeral</span>
-                <div class="h-[1px] w-12 bg-[#C5A059] opacity-0 animate-[slideUp_1s_ease-out_0.5s_forwards]"></div>
-                <span class="brand-text text-3xl tracking-[0.3em] text-[#C5A059] opacity-0 animate-[slideUp_1s_ease-out_0.2s_forwards]">Match</span>
+        <div class="text-center flex flex-col items-center max-w-[90%]">
+            <div class="flex items-center gap-3 md:gap-4 scale-90 md:scale-100 transition-transform">
+                <span class="font-serif text-white text-2xl md:text-4xl tracking-[0.2em] md:tracking-[0.3em] opacity-0 animate-[slideUp_1s_ease-out_forwards]">Funeral</span>
+                <div class="h-[1px] w-8 md:w-12 bg-[#C5A059] opacity-0 animate-[slideUp_1s_ease-out_0.5s_forwards]"></div>
+                <span class="font-serif text-[#C5A059] text-2xl md:text-4xl tracking-[0.2em] md:tracking-[0.3em] opacity-0 animate-[slideUp_1s_ease-out_0.2s_forwards]">Match</span>
             </div>
             <div class="mt-8 flex gap-2 justify-center opacity-0 animate-[slideUp_1s_ease-out_1s_forwards]">
-                <div class="w-2 h-2 bg-[#C5A059] rounded-full animate-bounce"></div>
-                <div class="w-2 h-2 bg-[#C5A059] rounded-full animate-bounce delay-100"></div>
-                <div class="w-2 h-2 bg-[#C5A059] rounded-full animate-bounce delay-200"></div>
+                <div class="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#C5A059] rounded-full animate-bounce"></div>
+                <div class="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#C5A059] rounded-full animate-bounce delay-100"></div>
+                <div class="w-1.5 h-1.5 md:w-2 md:h-2 bg-[#C5A059] rounded-full animate-bounce delay-200"></div>
             </div>
-            <p class="text-gray-500 text-xs mt-4 uppercase tracking-widest opacity-0 animate-[slideUp_1s_ease-out_1.5s_forwards]">Finding Providers...</p>
+            <p class="text-gray-500 text-[10px] md:text-xs mt-4 uppercase tracking-widest opacity-0 animate-[slideUp_1s_ease-out_1.5s_forwards]">Finding Providers...</p>
         </div>
     </div>
 
-    <div id="app-content" class="opacity-0 transition-opacity duration-1000">
+    <div id="app-content" class="opacity-0 transition-opacity duration-1000 flex flex-col min-h-screen">
         
-        <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100 transition-all duration-300">
-            <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all duration-300">
+            <div class="max-w-7xl mx-auto px-4 py-3 md:py-4">
                 
-                <div class="flex items-center gap-3 group cursor-pointer" onclick="window.location.href='/'">
-                    <div class="w-10 h-10 bg-slate-900 rounded-full flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform">
-                        <span class="text-white font-serif font-bold text-xs tracking-wider">FM</span>
-                    </div>
-                    <span class="font-serif font-semibold text-lg tracking-tight text-slate-900">Funeral Match</span>
-                </div>
+                <div class="flex flex-wrap items-center justify-between gap-y-4">
+                    
+                    <div class="flex items-center justify-between w-full md:w-auto md:gap-8">
+                        <div class="flex items-center gap-3 group cursor-pointer active:scale-95 transition-transform" onclick="window.location.href='/'">
+                            <div class="w-8 h-8 md:w-10 md:h-10 bg-slate-900 rounded-full flex items-center justify-center shadow-lg">
+                                <span class="text-white font-serif font-bold text-[10px] md:text-xs tracking-wider">FM</span>
+                            </div>
+                            <span class="font-serif font-semibold text-base md:text-lg tracking-tight text-slate-900 leading-none">Funeral<br class="md:hidden"><span class="md:hidden">&nbsp;</span>Match</span>
+                        </div>
 
-                <div class="flex-1 max-w-lg w-full mx-4">
-                    <div class="relative group">
-                        <i data-lucide="map-pin" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-brand-gold transition-colors"></i>
-                        <input type="text" value="Manchester, UK" class="w-full bg-slate-50 border border-slate-200 rounded-pill py-2.5 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-100 focus:border-brand-gold transition-all shadow-sm">
+                        <button onclick="toggleFilters()" class="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-full border border-slate-200">
+                            <i data-lucide="sliders-horizontal" class="w-5 h-5"></i>
+                        </button>
                     </div>
-                </div>
 
-                <div class="flex items-center gap-3">
-                    <button class="p-2 text-slate-500 hover:bg-slate-50 rounded-full sm:hidden">
-                        <i data-lucide="search" class="w-5 h-5"></i>
-                    </button>
-                    <button onclick="toggleFilters()" class="flex items-center gap-2 px-6 py-2.5 bg-white border border-slate-200 shadow-sm rounded-pill hover:shadow-md hover:border-slate-300 transition-all duration-300 active:scale-95 group">
-                        <i data-lucide="sliders-horizontal" class="w-4 h-4 text-slate-600 group-hover:text-slate-900"></i>
-                        <span class="text-sm font-medium text-slate-700 group-hover:text-slate-900">Filters</span>
-                    </button>
+                    <div class="order-last md:order-none w-full md:flex-1 md:max-w-lg mx-auto">
+                        <div class="relative group">
+                            <i data-lucide="map-pin" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-brand-gold transition-colors"></i>
+                            <input type="text" value="Manchester, UK" class="w-full bg-slate-50 border border-slate-200 rounded-pill py-3 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-slate-100 focus:border-brand-gold transition-all shadow-inner md:shadow-none">
+                        </div>
+                    </div>
+
+                    <div class="hidden md:flex items-center gap-3">
+                        <button onclick="toggleFilters()" class="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 shadow-sm rounded-pill hover:shadow-md hover:border-slate-300 transition-all active:scale-95 group">
+                            <i data-lucide="sliders-horizontal" class="w-4 h-4 text-slate-600 group-hover:text-slate-900"></i>
+                            <span class="text-sm font-medium text-slate-700 group-hover:text-slate-900">Filters</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </header>
 
-        <main class="max-w-7xl mx-auto px-4 py-8 pb-32">
+        <main class="flex-1 max-w-7xl mx-auto px-4 py-6 md:py-8 w-full">
             
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 border-b border-slate-200/60 pb-6 animate-slide-up">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-4 border-b border-slate-200/60 pb-6 animate-slide-up">
                 <div>
-                    <h1 class="text-2xl font-medium text-slate-900 tracking-tight">
-                        Services near <span class="font-semibold">Manchester, UK</span>
+                    <h1 class="text-xl md:text-2xl font-medium text-slate-900 tracking-tight leading-tight">
+                        Services near <span class="font-semibold block md:inline">Manchester, UK</span>
                     </h1>
-                    <p class="text-sm text-slate-500 mt-1.5 flex items-center gap-2">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    <p class="text-xs md:text-sm text-slate-500 mt-2 flex items-center gap-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
                         <span id="result-count">Loading...</span> providers found
                     </p>
                 </div>
                 
-                <div class="flex items-center gap-3">
-                    <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider hidden sm:block">Sort</span>
-                    <div class="relative group">
-                        <select class="appearance-none bg-white pl-4 pr-10 py-2.5 rounded-pill border border-slate-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-slate-100 cursor-pointer shadow-sm hover:border-slate-300 transition-colors">
+                <div class="flex items-center gap-3 w-full md:w-auto">
+                    <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider hidden md:block">Sort</span>
+                    <div class="relative group w-full md:w-48">
+                        <select class="w-full appearance-none bg-white pl-4 pr-10 py-3 md:py-2.5 rounded-lg md:rounded-pill border border-slate-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-slate-100 cursor-pointer shadow-sm">
                             <option>Recommended</option>
                             <option>Price: Low to High</option>
                             <option>Highest Rated</option>
                             <option>Distance</option>
                         </select>
-                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
                     </div>
                 </div>
             </div>
 
-            <div id="results-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div id="results-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
                 </div>
             
-            <div class="mt-16 text-center">
-                <button class="px-8 py-3 bg-white border border-slate-200 text-slate-600 font-medium rounded-pill hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm group">
-                    <span class="group-hover:hidden">View more providers</span>
-                    <span class="hidden group-hover:inline-block">Loading more...</span>
+            <div class="mt-12 text-center pb-12">
+                <button class="w-full md:w-auto px-8 py-4 md:py-3 bg-white border border-slate-200 text-slate-600 font-medium rounded-xl md:rounded-pill hover:bg-slate-50 hover:border-slate-300 transition-colors shadow-sm active:scale-95">
+                    View more providers
                 </button>
             </div>
 
         </main>
 
-        <footer class="bg-white border-t border-slate-100 py-10 px-4">
+        <footer class="bg-white border-t border-slate-100 py-8 px-4">
             <div class="max-w-5xl mx-auto text-center">
-                <div class="flex justify-center items-center gap-2 mb-5 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
-                    <div class="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center">
-                        <span class="text-white font-serif text-[10px]">FM</span>
+                <div class="flex justify-center items-center gap-2 mb-4 opacity-40 grayscale">
+                    <div class="w-6 h-6 bg-slate-900 rounded-full flex items-center justify-center">
+                        <span class="text-white font-serif text-[8px]">FM</span>
                     </div>
-                    <span class="font-serif font-bold text-slate-900 text-lg">Funeral Match</span>
+                    <span class="font-serif font-bold text-slate-900 text-sm">Funeral Match</span>
                 </div>
-                <p class="text-slate-400 text-[11px] leading-relaxed max-w-xl mx-auto font-medium">
-                    Funeral Match Ltd is an independent intermediary platform connecting families with verified directors. <br>
-                    Regulated by the Competition and Markets Authority (CMA) guidelines. <br>
-                    &copy; 2026 Funeral Match.
+                <p class="text-slate-400 text-[10px] leading-relaxed max-w-xs md:max-w-xl mx-auto">
+                    &copy; 2026 Funeral Match Ltd. <br class="md:hidden"> Regulated by CMA guidelines.
                 </p>
             </div>
         </footer>
     </div>
 
-    <div id="filter-backdrop" onclick="toggleFilters()" class="fixed inset-0 z-50 bg-slate-900/10 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500">
-        <div id="filter-drawer" onclick="event.stopPropagation()" class="absolute right-3 top-3 bottom-3 w-full max-w-sm bg-white shadow-2xl rounded-card translate-x-[110%] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] p-6 overflow-y-auto no-scrollbar flex flex-col border border-slate-100">
+    <div id="filter-backdrop" onclick="toggleFilters()" class="fixed inset-0 z-50 bg-slate-900/20 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+        
+        <div id="filter-drawer" onclick="event.stopPropagation()" class="absolute right-0 top-0 bottom-0 h-full w-[85vw] max-w-[380px] bg-white shadow-2xl transform translate-x-full transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col z-50">
             
-            <div class="flex justify-between items-center mb-8 shrink-0">
-                <h2 class="text-xl font-semibold text-slate-900">Filter Results</h2>
-                <button onclick="toggleFilters()" class="p-2 hover:bg-slate-50 rounded-full transition-colors">
-                    <i data-lucide="x" class="w-5 h-5 text-slate-400"></i>
+            <div class="flex justify-between items-center p-5 border-b border-slate-100 bg-white">
+                <h2 class="text-lg font-semibold text-slate-900">Filter Results</h2>
+                <button onclick="toggleFilters()" class="p-2 hover:bg-slate-50 rounded-full transition-colors active:bg-slate-100">
+                    <i data-lucide="x" class="w-5 h-5 text-slate-500"></i>
                 </button>
             </div>
 
-            <div class="space-y-8 flex-1">
+            <div class="flex-1 overflow-y-auto p-5 space-y-8">
+                
                 <div>
-                    <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">Service Type</h3>
-                    <div class="space-y-3">
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" class="accent-slate-900 w-4 h-4" checked>
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Service Type</h3>
+                    <div class="space-y-4">
+                        <label class="flex items-center gap-3 cursor-pointer group select-none">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-slate-300 transition-all checked:border-slate-900 checked:bg-slate-900">
+                                <i data-lucide="check" class="pointer-events-none absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100"></i>
+                            </div>
                             <span class="text-sm font-medium text-slate-700">Attended Cremation</span>
                         </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" class="accent-slate-900 w-4 h-4" checked>
-                            <span class="text-sm font-medium text-slate-700">Direct Cremation</span>
+
+                        <label class="flex items-center gap-3 cursor-pointer group select-none">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-slate-300 transition-all checked:border-slate-900 checked:bg-slate-900">
+                                <i data-lucide="check" class="pointer-events-none absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100"></i>
+                            </div>
+                            <span class="text-sm font-medium text-slate-700">Traditional Burial</span>
                         </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" class="accent-slate-900 w-4 h-4" checked>
-                            <span class="text-sm font-medium text-slate-700">Traditional Interment</span>
-                        </label>
-                        
+
                         <div class="h-px bg-slate-100 my-2"></div>
                         
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" class="accent-slate-900 w-4 h-4">
-                            <span class="text-sm font-medium text-slate-700">Natural/Woodland Burial</span>
+                        <label class="flex items-center gap-3 cursor-pointer group select-none">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-slate-300 transition-all checked:border-slate-900 checked:bg-slate-900">
+                                <i data-lucide="check" class="pointer-events-none absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100"></i>
+                            </div>
+                            <span class="text-sm font-medium text-slate-700">Natural/Green Burial</span>
                         </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" class="accent-slate-900 w-4 h-4">
-                            <span class="text-sm font-medium text-slate-700">Water Cremation (Resomation)</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" class="accent-slate-900 w-4 h-4">
-                            <span class="text-sm font-medium text-slate-700">Burial at Sea</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" class="accent-slate-900 w-4 h-4">
-                            <span class="text-sm font-medium text-slate-700">Home Burial Guidance</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" class="accent-slate-900 w-4 h-4">
-                            <span class="text-sm font-medium text-slate-700">Anatomical Donation</span>
+
+                        <label class="flex items-center gap-3 cursor-pointer group select-none">
+                            <div class="relative flex items-center">
+                                <input type="checkbox" class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-slate-300 transition-all checked:border-slate-900 checked:bg-slate-900">
+                                <i data-lucide="check" class="pointer-events-none absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 text-white opacity-0 peer-checked:opacity-100"></i>
+                            </div>
+                            <span class="text-sm font-medium text-slate-700">Water Cremation</span>
                         </label>
                     </div>
                 </div>
 
                 <div>
-                    <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">Max Budget</h3>
-                    <input type="range" min="1000" max="10000" class="w-full accent-slate-900 h-1.5 bg-slate-100 rounded-lg cursor-pointer">
-                    <div class="flex justify-between text-xs text-slate-400 mt-2 font-medium">
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Max Budget</h3>
+                    <div class="px-1">
+                        <input type="range" min="1000" max="10000" class="w-full accent-slate-900 h-2 bg-slate-100 rounded-lg cursor-pointer">
+                    </div>
+                    <div class="flex justify-between text-xs text-slate-500 mt-2 font-medium">
                         <span>£800</span>
                         <span>£10,000+</span>
                     </div>
                 </div>
             </div>
 
-            <div class="pt-6 border-t border-slate-50 mt-4">
-                <button onclick="toggleFilters()" class="w-full py-3.5 bg-slate-900 text-white rounded-pill font-medium hover:bg-slate-800 transition-all active:scale-95 shadow-lg shadow-slate-200">
+            <div class="p-5 border-t border-slate-100 bg-slate-50/50">
+                <button onclick="toggleFilters()" class="w-full py-4 bg-slate-900 text-white rounded-xl font-medium hover:bg-slate-800 transition-all active:scale-95 shadow-lg shadow-slate-200">
                     Show Results
                 </button>
             </div>
@@ -259,155 +266,76 @@
                 app.classList.remove('opacity-0');
                 body.style.overflow = ''; // Unlock scroll
                 
-                // Wait for animation to finish then hide overlay completely
+                // Cleanup
                 setTimeout(() => {
                     overlay.style.display = 'none';
                 }, 1500);
             }, 2500);
 
-            // Populate Grid
             generateResults();
         });
 
-        // --- 2. DATA GENERATION ---
+        // --- 2. DATA GENERATION (Mobile Optimized) ---
         function generateResults() {
             const grid = document.getElementById('results-grid');
             const countLabel = document.getElementById('result-count');
             
-            // The 8 Core Disposal Methods (Hardcoded for accuracy)
+            // Core Data
             const coreServices = [
-                {
-                    name: "St. Peter's Services",
-                    price: "£3,200",
-                    type: "Traditional Interment",
-                    desc: "Traditional interment in consecrated churchyard or municipal cemetery with full service.",
-                    image: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?q=80&w=800&auto=format&fit=crop",
-                    icon: "church",
-                    color: "slate"
-                },
-                {
-                    name: "Manchester Crematorium",
-                    price: "£2,850",
-                    type: "Attended Cremation",
-                    desc: "Full chapel service followed by cremation. Includes officiant and music options.",
-                    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop",
-                    icon: "flame",
-                    color: "orange"
-                },
-                {
-                    name: "Simplicity Direct",
-                    price: "£995",
-                    type: "Direct Cremation",
-                    desc: "A dignified cremation without attendees. Ashes returned or scattered in Garden of Remembrance.",
-                    image: "https://images.unsplash.com/photo-1596522354195-e8448ea16397?q=80&w=800&auto=format&fit=crop",
-                    icon: "minus-circle",
-                    color: "slate"
-                },
-                {
-                    name: "Willow & Earth",
-                    price: "£2,100",
-                    type: "Natural Burial",
-                    desc: "Interment in protected woodland using biodegradable materials. A return to nature.",
-                    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800&auto=format&fit=crop",
-                    icon: "leaf",
-                    color: "emerald"
-                },
-                {
-                    name: "AquaPeace UK",
-                    price: "£1,850",
-                    type: "Water Cremation",
-                    desc: "Alkaline Hydrolysis (Resomation). A gentle, eco-friendly alternative to flame cremation.",
-                    image: "https://images.unsplash.com/photo-1541662916428-c11956102798?q=80&w=800&auto=format&fit=crop",
-                    icon: "droplets",
-                    color: "cyan"
-                },
-                {
-                    name: "Maritime Farewells",
-                    price: "£3,400",
-                    type: "Burial at Sea",
-                    desc: "Fully licensed MMO burials at designated coastal sites off the UK coast.",
-                    image: "https://images.unsplash.com/photo-1468581264429-2548ef9eb732?q=80&w=800&auto=format&fit=crop",
-                    icon: "anchor",
-                    color: "blue"
-                },
-                {
-                    name: "Home Burial Assist",
-                    price: "£450",
-                    type: "Private Land Guidance",
-                    desc: "Legal consultancy and surveying for burying a loved one on private property.",
-                    image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&auto=format&fit=crop",
-                    icon: "map",
-                    color: "stone"
-                },
-                {
-                    name: "Anatomy Services",
-                    price: "Free",
-                    type: "Science Donation",
-                    desc: "Complete liaison services for university anatomical donation acceptance and transport.",
-                    image: "https://images.unsplash.com/photo-1635326444826-06c8f8b9e6d5?q=80&w=800&auto=format&fit=crop",
-                    icon: "graduation-cap",
-                    color: "purple"
-                }
+                { name: "St. Peter's Services", price: "£3,200", type: "Traditional Interment", desc: "Traditional interment in consecrated churchyard.", image: "https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?q=80&w=800&auto=format&fit=crop", icon: "church", color: "slate" },
+                { name: "Manchester Crematorium", price: "£2,850", type: "Attended Cremation", desc: "Full chapel service followed by cremation.", image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop", icon: "flame", color: "orange" },
+                { name: "Simplicity Direct", price: "£995", type: "Direct Cremation", desc: "Dignified cremation without attendees.", image: "https://images.unsplash.com/photo-1596522354195-e8448ea16397?q=80&w=800&auto=format&fit=crop", icon: "minus-circle", color: "slate" },
+                { name: "Willow & Earth", price: "£2,100", type: "Natural Burial", desc: "Protected woodland using biodegradable materials.", image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=800&auto=format&fit=crop", icon: "leaf", color: "emerald" },
+                { name: "AquaPeace UK", price: "£1,850", type: "Water Cremation", desc: "Alkaline Hydrolysis (Resomation). Eco-friendly.", image: "https://images.unsplash.com/photo-1541662916428-c11956102798?q=80&w=800&auto=format&fit=crop", icon: "droplets", color: "cyan" },
+                { name: "Maritime Farewells", price: "£3,400", type: "Burial at Sea", desc: "Licensed MMO burials at designated coastal sites.", image: "https://images.unsplash.com/photo-1468581264429-2548ef9eb732?q=80&w=800&auto=format&fit=crop", icon: "anchor", color: "blue" },
+                { name: "Home Burial Assist", price: "£450", type: "Private Land Guidance", desc: "Legal consultancy for private property burial.", image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=800&auto=format&fit=crop", icon: "map", color: "stone" },
+                { name: "Anatomy Services", price: "Free", type: "Science Donation", desc: "Liaison services for university donation.", image: "https://images.unsplash.com/photo-1635326444826-06c8f8b9e6d5?q=80&w=800&auto=format&fit=crop", icon: "graduation-cap", color: "purple" }
             ];
 
-            // Generate additional realistic entries to reach 32 results
+            // Generate 32 items
             let allResults = [...coreServices];
-            
-            const suffixes = ["Funeral Care", "Directors", "Family Services", "Memorials", "Partners"];
-            const prefixes = ["Oakwood", "Kings", "Northern", "City", "West", "Tranquil", "Dignity", "Co-op", "Independent"];
+            const suffixes = ["Funeral Care", "Family Services", "Memorials", "Partners"];
+            const prefixes = ["Oakwood", "Kings", "Northern", "City", "West", "Tranquil", "Dignity"];
             
             for(let i=0; i<24; i++) {
-                const template = coreServices[Math.floor(Math.random() * 3)]; // Bias towards standard services
+                const template = coreServices[Math.floor(Math.random() * 3)];
                 const newName = `${prefixes[Math.floor(Math.random() * prefixes.length)]} ${suffixes[Math.floor(Math.random() * suffixes.length)]}`;
                 const basePrice = parseInt(template.price.replace(/[£,]/g, ''));
                 const newPrice = `£${(basePrice + Math.floor(Math.random() * 500) - 250).toLocaleString()}`;
                 
-                allResults.push({
-                    ...template,
-                    name: newName,
-                    price: newPrice,
-                    desc: template.desc // Keep standard descriptions
-                });
+                allResults.push({ ...template, name: newName, price: newPrice, desc: template.desc });
             }
 
             countLabel.innerText = allResults.length;
 
-            // Render Logic
+            // Render
             let html = '';
-            allResults.forEach((item, index) => {
-                // Color logic
-                const bgColors = {
-                    slate: 'bg-slate-50', orange: 'bg-orange-50', emerald: 'bg-emerald-50', cyan: 'bg-cyan-50', blue: 'bg-blue-50', stone: 'bg-stone-50', purple: 'bg-purple-50'
-                };
-                const textColors = {
-                    slate: 'text-slate-600', orange: 'text-orange-600', emerald: 'text-emerald-600', cyan: 'text-cyan-600', blue: 'text-blue-600', stone: 'text-stone-600', purple: 'text-purple-600'
-                };
-                const borderColors = {
-                    slate: 'border-slate-200', orange: 'border-orange-100', emerald: 'border-emerald-100', cyan: 'border-cyan-100', blue: 'border-blue-100', stone: 'border-stone-200', purple: 'border-purple-100'
-                };
+            const bgColors = { slate: 'bg-slate-50', orange: 'bg-orange-50', emerald: 'bg-emerald-50', cyan: 'bg-cyan-50', blue: 'bg-blue-50', stone: 'bg-stone-50', purple: 'bg-purple-50' };
+            const textColors = { slate: 'text-slate-600', orange: 'text-orange-600', emerald: 'text-emerald-600', cyan: 'text-cyan-600', blue: 'text-blue-600', stone: 'text-stone-600', purple: 'text-purple-600' };
 
+            allResults.forEach((item, index) => {
                 html += `
-                <article class="bg-white rounded-card p-3 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 smooth-transition cursor-pointer group animate-slide-up" style="animation-delay: ${index * 50}ms">
-                    <div class="relative h-56 w-full overflow-hidden rounded-[1.2rem] bg-slate-100">
-                        <img src="${item.image}" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" alt="${item.type}">
-                        <div class="absolute bottom-3 left-3 ${bgColors[item.color] || 'bg-slate-50'}/95 backdrop-blur px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border ${borderColors[item.color]}">
+                <article class="bg-white rounded-card p-3 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 smooth-transition cursor-pointer group animate-slide-up flex flex-col h-full" style="animation-delay: ${index * 30}ms">
+                    <div class="relative h-48 md:h-56 w-full overflow-hidden rounded-xl bg-slate-100 shrink-0">
+                        <img src="${item.image}" loading="lazy" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700" alt="${item.type}">
+                        <div class="absolute bottom-3 left-3 ${bgColors[item.color] || 'bg-slate-50'}/95 backdrop-blur px-2.5 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm border border-white/20">
                             <i data-lucide="${item.icon}" class="w-3 h-3 ${textColors[item.color]}"></i>
-                            <span class="text-[10px] font-bold ${textColors[item.color].replace('600','800')} uppercase tracking-wide">${item.type}</span>
+                            <span class="text-[9px] font-bold ${textColors[item.color].replace('600','800')} uppercase tracking-wide truncate max-w-[120px]">${item.type}</span>
                         </div>
-                        ${index < 3 ? '<div class="absolute top-3 right-3 bg-white/90 backdrop-blur px-2 py-1 rounded-md text-[10px] font-bold text-slate-900 border border-slate-200 shadow-sm">FEATURED</div>' : ''}
                     </div>
-                    <div class="p-4">
+                    <div class="p-3 md:p-4 flex flex-col flex-1">
                         <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-semibold text-lg text-slate-900 leading-tight w-2/3">${item.name}</h3>
-                            <div class="text-right">
-                                <p class="text-[10px] text-slate-400 uppercase tracking-wider font-bold">From</p>
-                                <p class="font-bold text-slate-900">${item.price}</p>
+                            <h3 class="font-semibold text-base md:text-lg text-slate-900 leading-tight w-2/3">${item.name}</h3>
+                            <div class="text-right shrink-0">
+                                <p class="text-[9px] text-slate-400 uppercase tracking-wider font-bold">From</p>
+                                <p class="font-bold text-slate-900 text-sm md:text-base">${item.price}</p>
                             </div>
                         </div>
-                        <p class="text-sm text-slate-600 mb-4 line-clamp-2 leading-relaxed">${item.desc}</p>
-                        <div class="flex gap-2 text-xs font-medium text-slate-500">
-                             <span class="bg-slate-50 px-2 py-1 rounded border border-slate-100">Verified</span>
-                             ${Math.random() > 0.5 ? '<span class="bg-slate-50 px-2 py-1 rounded border border-slate-100">Video Call</span>' : ''}
+                        <p class="text-xs md:text-sm text-slate-500 mb-4 line-clamp-2 leading-relaxed flex-1">${item.desc}</p>
+                        <div class="flex gap-2 text-[10px] md:text-xs font-medium text-slate-500 mt-auto pt-3 border-t border-slate-50">
+                             <span class="bg-slate-50 px-2 py-1 rounded border border-slate-100 flex items-center gap-1">
+                                <i data-lucide="shield-check" class="w-3 h-3 text-emerald-500"></i> Verified
+                             </span>
                         </div>
                     </div>
                 </article>
@@ -418,19 +346,21 @@
             lucide.createIcons();
         }
 
-        // --- 3. FILTER DRAWER LOGIC ---
+        // --- 3. MOBILE FILTER LOGIC ---
         function toggleFilters() {
             const backdrop = document.getElementById('filter-backdrop');
             const drawer = document.getElementById('filter-drawer');
             const body = document.body;
             
             if (backdrop.classList.contains('pointer-events-none')) {
+                // Open
                 backdrop.classList.remove('opacity-0', 'pointer-events-none');
-                drawer.classList.remove('translate-x-[110%]');
+                drawer.classList.remove('translate-x-full');
                 body.style.overflow = 'hidden'; 
             } else {
+                // Close
                 backdrop.classList.add('opacity-0', 'pointer-events-none');
-                drawer.classList.add('translate-x-[110%]');
+                drawer.classList.add('translate-x-full');
                 body.style.overflow = '';
             }
         }
