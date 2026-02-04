@@ -2,385 +2,337 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Funeral Match - The new standard of care. Verified reviews, transparent pricing, and dignified comparisons.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Funeral Match. The new standard of care. Verified reviews, transparent pricing.">
     <title>Funeral Match | The New Standard of Care</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital@0;1&family=Manrope:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;900&display=swap" rel="stylesheet">
 
     <style>
         /* =========================================
-         * 1. PREMIERE DESIGN TOKENS
+         * 1. THE "CLEAN SHEET" SYSTEM
          * ========================================= */
         :root {
-            /* Palette: Dark Slate & Matte Gold (Modern Luxury) */
-            --col-bg: #F8F9FA;
-            --col-surface: #FFFFFF;
+            /* Palette: Stark White, Deep Charcoal, Muted Bronze */
+            --bg-body: #FFFFFF;
+            --bg-offset: #F9FAFB;
             
-            --col-ink-900: #0F172A; /* Deepest Navy/Black */
-            --col-ink-500: #64748B; /* Secondary Text */
-            --col-ink-300: #CBD5E1; /* Borders */
+            --text-main: #111827; /* Near Black */
+            --text-muted: #6B7280; /* Neutral Grey */
+            --text-light: #9CA3AF;
             
-            --col-accent: #B49B68; /* Matte Gold - Sophisticated, not yellow */
-            --col-accent-hover: #9A8455;
+            --accent: #927044; /* Bronze/Gold - Premium, not yellow */
+            --accent-dark: #785C37;
             
-            /* Elevation (Shadows) - Smooth & Diffused */
-            --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.1), 0 2px 4px -1px rgba(15, 23, 42, 0.06);
-            --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 10px 10px -5px rgba(15, 23, 42, 0.04);
-            --shadow-float: 0 25px 50px -12px rgba(15, 23, 42, 0.15);
-
-            /* Spacing */
-            --radius-sm: 8px;
-            --radius-md: 16px;
-            --radius-lg: 24px;
-            --container: 1240px;
-
+            --border: #E5E7EB;
+            
+            /* Spacing - Responsive Variables */
+            --pad-container: 20px;
+            --header-height: 70px;
+            
             /* Animation */
-            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease: cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         /* =========================================
-         * 2. GLOBAL RESET & TYPE
+         * 2. RESET & BASE
          * ========================================= */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         
         body {
-            font-family: 'Manrope', sans-serif; /* The new clean standard */
-            background-color: var(--col-bg);
-            color: var(--col-ink-900);
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Prevent horizontal scroll on mobile */
         }
 
-        h1, h2, h3 {
-            font-weight: 800; /* Bold, confident headers */
-            letter-spacing: -0.025em; /* Tight tracking for modern feel */
-            color: var(--col-ink-900);
-        }
-
-        .serif-italic {
-            font-family: 'Libre Baskerville', serif;
-            font-style: italic;
-            font-weight: 400;
-        }
-
-        a { text-decoration: none; color: inherit; transition: color 0.2s; }
-        ul { list-style: none; }
-        button { border: none; background: none; cursor: pointer; font-family: inherit; }
-
+        a { text-decoration: none; color: inherit; }
+        h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.02em; }
+        p { margin: 0; }
+        
+        /* Container: Fluid but constrained */
         .container {
             width: 100%;
-            max-width: var(--container);
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 var(--pad-container);
         }
 
         /* =========================================
-         * 3. COMPONENT: LOGO DEFINITION
-         * ========================================= */
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 800;
-            font-size: 1.25rem;
-            letter-spacing: -0.03em;
-            color: var(--col-ink-900);
-            text-transform: uppercase;
-        }
-        .brand-icon {
-            width: 32px;
-            height: 32px;
-            color: var(--col-accent);
-        }
-
-        /* =========================================
-         * 4. COMPONENT: BUTTONS
+         * 3. COMPONENT: BUTTONS (Touch Friendly)
          * ========================================= */
         .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 16px 32px;
-            border-radius: var(--radius-sm);
-            font-weight: 700;
-            font-size: 0.95rem;
-            transition: all 0.3s var(--ease-out);
+            height: 52px; /* Large touch target for mobile */
+            padding: 0 32px;
+            border-radius: 6px; /* Slightly rounded, modern */
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s var(--ease), background 0.2s;
+            width: 100%; /* Default to full width on mobile */
+        }
+
+        @media(min-width: 768px) {
+            .btn { width: auto; } /* Natural width on desktop */
         }
 
         .btn-primary {
-            background-color: var(--col-ink-900);
-            color: white;
+            background-color: var(--text-main);
+            color: #FFF;
         }
-        .btn-primary:hover {
-            background-color: #2D3748;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
+        .btn-primary:active { transform: scale(0.98); }
 
         .btn-accent {
-            background-color: var(--col-accent);
-            color: white;
+            background-color: var(--accent);
+            color: #FFF;
         }
-        .btn-accent:hover {
-            background-color: var(--col-accent-hover);
-        }
-
-        .btn-ghost {
-            color: var(--col-ink-500);
-        }
-        .btn-ghost:hover {
-            color: var(--col-ink-900);
-            background: rgba(0,0,0,0.03);
+        
+        .btn-text {
+            background: transparent;
+            color: var(--text-main);
+            height: auto;
+            padding: 0;
+            text-decoration: underline;
+            text-underline-offset: 4px;
         }
 
         /* =========================================
-         * 5. ANIMATED INTRO OVERLAY
+         * 4. INTRO LOADER (Text Only)
          * ========================================= */
-        #splash-screen {
+        #loader {
             position: fixed;
             inset: 0;
-            background: var(--col-surface);
+            background: #FFF;
             z-index: 9999;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            animation: slideUpReveal 0.8s cubic-bezier(0.7, 0, 0.3, 1) forwards 2.2s;
+            /* Fade out animation logic is handled in JS or CSS keyframes */
+            animation: fadeOut 0.8s forwards 2.5s var(--ease);
+            pointer-events: none; /* Allows click-through after animation */
         }
 
-        .splash-content {
+        .loader-text {
+            font-family: 'Inter', sans-serif;
+            font-weight: 900; /* Extra bold */
+            font-size: 2rem;
+            letter-spacing: -0.04em;
+            color: var(--text-main);
+            opacity: 0;
+            animation: textIn 1s forwards 0.3s var(--ease);
             text-align: center;
-            opacity: 0;
-            animation: fadeInScale 0.8s var(--ease-out) forwards 0.2s;
         }
 
-        .splash-tagline {
-            margin-top: 16px;
-            font-family: 'Libre Baskerville', serif;
-            font-style: italic;
-            color: var(--col-ink-500);
+        .loader-slogan {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent);
+            margin-top: 12px;
             opacity: 0;
-            animation: fadeInUp 0.8s var(--ease-out) forwards 0.6s;
+            animation: textIn 1s forwards 0.8s var(--ease);
         }
 
-        @keyframes slideUpReveal { to { transform: translateY(-100%); visibility: hidden; } }
-        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes textIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
 
         /* =========================================
-         * 6. HERO SECTION STYLES
+         * 5. HEADER (Sticky & Minimal)
          * ========================================= */
-        .hero-wrapper {
-            position: relative;
-            padding-top: 140px; /* Space for fixed header */
-            padding-bottom: 100px;
-            background: radial-gradient(circle at 50% 0%, #F1F5F9 0%, var(--col-bg) 70%);
+        header {
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(8px);
+            z-index: 100;
         }
 
-        .hero-content {
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.03em;
+            color: var(--text-main);
+        }
+
+        /* =========================================
+         * 6. HERO & SEARCH (Responsive Stack)
+         * ========================================= */
+        .hero {
+            padding: 60px 0;
             text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem; /* Large but fits mobile */
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Search Card: A clean box */
+        .search-container {
+            background: var(--bg-offset);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* Stack vertically on mobile */
+            gap: 16px;
             max-width: 800px;
             margin: 0 auto;
         }
 
-        h1.display-title {
-            font-size: 3.5rem;
-            line-height: 1.1;
-            margin-bottom: 24px;
-        }
-        h1 span { color: var(--col-accent); }
-
-        p.display-sub {
-            font-size: 1.25rem;
-            color: var(--col-ink-500);
-            line-height: 1.6;
-            margin-bottom: 48px;
-        }
-
-        /* Search Interface - Floating Card */
-        .search-card {
-            background: var(--col-surface);
-            padding: 12px;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-float);
+        .input-group {
             display: flex;
-            gap: 12px;
-            max-width: 900px;
-            margin: 0 auto;
-            border: 1px solid rgba(15,23,42,0.03);
-            flex-wrap: wrap;
-        }
-
-        .input-wrap {
+            flex-direction: column;
+            text-align: left;
             flex: 1;
-            position: relative;
-            min-width: 200px;
         }
 
-        .input-field {
-            width: 100%;
-            height: 60px;
-            padding: 0 20px;
-            padding-top: 20px; /* Space for label */
-            border: 1px solid transparent;
-            background: #F8FAFC;
-            border-radius: var(--radius-sm);
-            font-size: 1rem;
-            font-weight: 500;
-            color: var(--col-ink-900);
-            transition: all 0.2s;
-        }
-        .input-field:focus {
-            background: white;
-            outline: none;
-            box-shadow: 0 0 0 2px var(--col-accent);
-        }
-
-        .floating-label {
-            position: absolute;
-            left: 20px;
-            top: 10px;
-            font-size: 0.7rem;
-            font-weight: 700;
+        .input-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--col-ink-500);
-            pointer-events: none;
+            margin-bottom: 8px;
+            color: var(--text-muted);
         }
 
-        /* Mobile Adjustments */
-        @media (max-width: 768px) {
-            h1.display-title { font-size: 2.25rem; }
-            .search-card { flex-direction: column; padding: 16px; background: transparent; box-shadow: none; border: none; }
-            .input-field { background: white; border: 1px solid var(--col-ink-300); margin-bottom: 12px; }
-            .brand-logo span { font-size: 1rem; }
+        .input-field, select.input-field {
+            height: 52px; /* Matches button height */
+            padding: 0 16px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: #FFF;
+            font-size: 1rem;
+            width: 100%;
+            -webkit-appearance: none; /* Removes default iOS styling */
         }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--text-main);
+        }
+
+        /* Desktop Layout Overrides */
+        @media (min-width: 768px) {
+            .hero { padding: 100px 0; }
+            .hero h1 { font-size: 3.5rem; }
+            .search-container { flex-direction: row; align-items: flex-end; padding: 24px; }
+            .btn { width: auto; padding: 0 40px; }
+        }
+
     </style>
 </head>
 <body>
 
-    <svg style="display: none;">
-        <symbol id="logo-icon" viewBox="0 0 40 40">
-            <path fill="currentColor" d="M20 0C20 0 24 10 24 16C24 22 20 26 20 26C20 26 16 22 16 16C16 10 20 0 20 0Z" opacity="0.6"/>
-            <path fill="currentColor" d="M20 40C20 40 13 30 13 22C13 14 20 10 20 10C20 10 27 14 27 22C27 30 20 40 20 40Z"/>
-            <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="2" fill="none"/>
-        </symbol>
-    </svg>
-
-    <div id="splash-screen" aria-hidden="true">
-        <div class="splash-content">
-            <div class="brand-logo" style="font-size: 2.5rem; flex-direction: column; gap: 24px;">
-                <svg class="brand-icon" style="width: 64px; height: 64px;">
-                    <use href="#logo-icon"></use>
-                </svg>
-                <span>Funeral Match</span>
-            </div>
-            <div class="splash-tagline">The new standard of care</div>
-        </div>
+    <div id="loader" aria-hidden="true">
+        <div class="loader-text">Funeral Match</div>
+        <div class="loader-slogan">The New Standard of Care</div>
     </div>
 
-    <header style="position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid var(--col-ink-300); z-index: 1000; transition: all 0.3s;">
-        <div class="container" style="height: 80px; display: flex; align-items: center; justify-content: space-between;">
-            <a href="/" class="brand-logo">
-                <svg class="brand-icon"><use href="#logo-icon"></use></svg>
-                <span>Funeral Match</span>
+    <header>
+        <div class="container header-inner">
+            <a href="/" class="logo">Funeral Match</a>
+            <a href="tel:0800000000" class="btn btn-text" style="font-size: 0.9rem;">
+                Help: 0800 123 456
             </a>
-            
-            <nav style="display: flex; gap: 32px; align-items: center;" class="desktop-nav">
-                <a href="#" style="font-weight: 600; font-size: 0.9rem; color: var(--col-ink-500);">How it Works</a>
-                <a href="#" style="font-weight: 600; font-size: 0.9rem; color: var(--col-ink-500);">Our Standards</a>
-                <a href="#" class="btn btn-ghost" style="padding: 8px 16px;">Log In</a>
-                <a href="tel:0800000000" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.85rem;">
-                    24/7 Helpline
-                </a>
-            </nav>
         </div>
     </header>
 
     <main>
-        <section class="hero-wrapper">
-            <div class="container hero-content">
-                <h1 class="display-title">
-                    Compassion met with <br/>
-                    <span class="serif-italic">clarity</span> and <span class="serif-italic">trust</span>.
-                </h1>
-                <p class="display-sub">
-                    The UK’s only verified marketplace for funeral services. <br>
-                    Compare prices, read genuine reviews, and arrange care without the pressure.
+        <section class="hero">
+            <div class="container">
+                <h1>Arrange with confidence.</h1>
+                <p>
+                    The transparent way to compare funeral directors, 
+                    check prices, and read verified reviews.
                 </p>
 
-                <form class="search-card" action="results.html" method="GET">
+                <form class="search-container" action="results.html" method="GET">
                     
-                    <div class="input-wrap">
-                        <label for="postcode" class="floating-label">Location</label>
-                        <input type="text" id="postcode" name="location" class="input-field" placeholder="e.g. SW1, Manchester" required>
+                    <div class="input-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" class="input-field" placeholder="Postcode or Town" required>
                     </div>
 
-                    <div class="input-wrap">
-                        <label for="service-type" class="floating-label">Service Type</label>
-                        <select id="service-type" name="type" class="input-field" style="appearance: none; cursor: pointer;">
-                            <option value="traditional">Traditional Service</option>
-                            <option value="simple">Simple / Direct Cremation</option>
-                            <option value="green">Eco-Friendly / Woodland</option>
-                            <option value="repatriation">Repatriation</option>
+                    <div class="input-group">
+                        <label for="type">Service</label>
+                        <select id="type" name="type" class="input-field">
+                            <option value="traditional">Traditional Funeral</option>
+                            <option value="simple">Direct Cremation</option>
+                            <option value="green">Woodland / Eco</option>
                         </select>
-                        <div style="position: absolute; right: 20px; top: 22px; pointer-events: none; color: var(--col-ink-500);">
-                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
-                        </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" style="padding: 0 48px;">
-                        Start Search
-                    </button>
-                </form>
+                    <div class="input-group" style="flex: 0 0 auto;">
+                        <label>&nbsp;</label> <button type="submit" class="btn btn-primary">Search</button>
+                    </div>
 
-                <div style="margin-top: 24px; font-size: 0.85rem; color: var(--col-ink-500);">
-                    <span style="color: var(--col-accent);">★ ★ ★ ★ ★</span> Trusted by 10,000+ families across the UK.
-                </div>
+                </form>
             </div>
         </section>
 
-        <section style="padding: 80px 0; background: var(--col-surface);">
+        <section style="padding-bottom: 80px;">
             <div class="container">
-                <div style="margin-bottom: 48px; text-align: center;">
-                    <h2 style="font-size: 2rem; margin-bottom: 16px;">How can we help you today?</h2>
-                    <p class="serif-italic" style="color: var(--col-ink-500); font-size: 1.1rem;">Select the option that best describes your needs.</p>
-                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
 
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;">
-                    
                     <a href="immediate-help.html" style="display: block;">
-                        <article style="background: white; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-xs); border: 1px solid var(--col-ink-300); height: 100%; transition: all 0.3s; position: relative; overflow: hidden;" onmouseover="this.style.borderColor='var(--col-accent)'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-xl)';" onmouseout="this.style.borderColor='var(--col-ink-300)'; this.style.transform='none'; this.style.boxShadow='var(--shadow-xs)';">
-                            <div style="width: 48px; height: 48px; background: #FEF2F2; color: #DC2626; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
-                                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                            </div>
-                            <h3 style="font-size: 1.25rem; margin-bottom: 12px;">I need help right now</h3>
-                            <p style="color: var(--col-ink-500); font-size: 0.95rem;">If a death has just occurred, click here for immediate guidance on first steps and body collection.</p>
+                        <article style="border: 1px solid #FECACA; background: #FEF2F2; padding: 32px; border-radius: 12px; height: 100%; display: flex; flex-direction: column; align-items: flex-start;">
+                            <h3 style="color: #991B1B; font-size: 1.25rem; margin-bottom: 12px;">Immediate Help</h3>
+                            <p style="color: #7F1D1D; margin-bottom: 24px; font-size: 0.95rem;">
+                                A death has just occurred. I need assistance with body collection and first steps.
+                            </p>
+                            <span style="margin-top: auto; font-weight: 600; color: #991B1B; text-decoration: underline;">Get support &rarr;</span>
                         </article>
                     </a>
 
-                    <a href="#" onclick="document.getElementById('postcode').focus(); return false;" style="display: block;">
-                        <article style="background: white; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-xs); border: 1px solid var(--col-ink-300); height: 100%; transition: all 0.3s;" onmouseover="this.style.borderColor='var(--col-accent)'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-xl)';" onmouseout="this.style.borderColor='var(--col-ink-300)'; this.style.transform='none'; this.style.boxShadow='var(--shadow-xs)';">
-                            <div style="width: 48px; height: 48px; background: #F0F9FF; color: #0284C7; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
-                                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            </div>
-                            <h3 style="font-size: 1.25rem; margin-bottom: 12px;">Compare Directors</h3>
-                            <p style="color: var(--col-ink-500); font-size: 0.95rem;">Browse vetted local funeral directors, view transparent price breakdowns, and read reviews.</p>
+                    <a href="#" onclick="document.getElementById('location').focus(); return false;" style="display: block;">
+                        <article style="border: 1px solid var(--border); background: #FFF; padding: 32px; border-radius: 12px; height: 100%; display: flex; flex-direction: column; align-items: flex-start; transition: box-shadow 0.2s;">
+                            <h3 style="color: var(--text-main); font-size: 1.25rem; margin-bottom: 12px;">Compare Directors</h3>
+                            <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem;">
+                                I want to view prices and reviews for funeral directors near me.
+                            </p>
+                            <span style="margin-top: auto; font-weight: 600; color: var(--text-main); text-decoration: underline;">Start search &rarr;</span>
                         </article>
                     </a>
 
                     <a href="#" style="display: block;">
-                        <article style="background: white; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-xs); border: 1px solid var(--col-ink-300); height: 100%; transition: all 0.3s;" onmouseover="this.style.borderColor='var(--col-accent)'; this.style.transform='translateY(-4px)'; this.style.boxShadow='var(--shadow-xl)';" onmouseout="this.style.borderColor='var(--col-ink-300)'; this.style.transform='none'; this.style.boxShadow='var(--shadow-xs)';">
-                            <div style="width: 48px; height: 48px; background: #F0FDF4; color: #16A34A; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px;">
-                                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </div>
-                            <h3 style="font-size: 1.25rem; margin-bottom: 12px;">Pre-Paid Plans</h3>
-                            <p style="color: var(--col-ink-500); font-size: 0.95rem;">Secure peace of mind for the future by freezing costs at today’s prices. Safe and regulated.</p>
+                        <article style="border: 1px solid var(--border); background: #FFF; padding: 32px; border-radius: 12px; height: 100%; display: flex; flex-direction: column; align-items: flex-start; transition: box-shadow 0.2s;">
+                            <h3 style="color: var(--text-main); font-size: 1.25rem; margin-bottom: 12px;">Pre-Paid Plans</h3>
+                            <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem;">
+                                I want to freeze costs and plan ahead for the future.
+                            </p>
+                            <span style="margin-top: auto; font-weight: 600; color: var(--text-main); text-decoration: underline;">View plans &rarr;</span>
                         </article>
                     </a>
 
@@ -388,84 +340,83 @@
             </div>
         </section>
 
-        <section style="background: var(--col-ink-900); color: white; padding: 80px 0;">
-            <div class="container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
-                <div>
-                    <h2 style="color: white; margin-bottom: 24px;">We demand better.</h2>
-                    <p class="serif-italic" style="color: var(--col-ink-300); font-size: 1.2rem; margin-bottom: 32px;">
-                        "The funeral industry has been opaque for too long. We built Funeral Match to give power back to families."
+        <section style="background: var(--bg-offset); padding: 80px 0; border-top: 1px solid var(--border);">
+            <div class="container">
+                <div style="max-width: 700px;">
+                    <h2 style="font-size: 1.75rem; margin-bottom: 24px;">Why we exist.</h2>
+                    <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px;">
+                        The funeral industry is unregulated. Prices for the same service can vary by thousands of pounds within the same town. 
+                        We exist to provide the transparency families deserve.
                     </p>
-                    <div style="display: flex; gap: 24px;">
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
                         <div>
-                            <h4 style="color: var(--col-accent);">100%</h4>
-                            <span style="font-size: 0.85rem; color: var(--col-ink-500);">Verified Reviews</span>
+                            <div style="font-weight: 900; font-size: 1.5rem; color: var(--accent);">0%</div>
+                            <div style="font-size: 0.9rem; font-weight: 600; margin-top: 4px;">Fees for families</div>
                         </div>
                         <div>
-                            <h4 style="color: var(--col-accent);">No Fees</h4>
-                            <span style="font-size: 0.85rem; color: var(--col-ink-500);">For Families</span>
+                            <div style="font-weight: 900; font-size: 1.5rem; color: var(--accent);">100%</div>
+                            <div style="font-size: 0.9rem; font-weight: 600; margin-top: 4px;">Verified reviews</div>
                         </div>
                     </div>
                 </div>
-                <div style="background: rgba(255,255,255,0.05); padding: 32px; border-radius: var(--radius-md);">
-                    <h3 style="color: white; font-size: 1.1rem; margin-bottom: 16px;">Speak to a human</h3>
-                    <p style="color: var(--col-ink-300); font-size: 0.9rem; margin-bottom: 24px;">
-                        Our care team is based in the UK and available 24/7 to answer questions about death registration, coroner procedures, and more.
-                    </p>
-                    <button class="btn btn-accent" style="width: 100%;">Call Care Team</button>
-                </div>
             </div>
         </section>
-
     </main>
+
+    <footer style="padding: 40px 0; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--text-muted);">
+        <div class="container" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+            <div>&copy; 2024 Funeral Match Ltd.</div>
+            <div style="display: flex; gap: 24px;">
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">Cookies</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             
-            // 1. Splash Screen Management
-            // The CSS animation hides it visually after 3s (2.2 delay + 0.8 slide)
-            // We remove it from the DOM to prevent it blocking clicks.
-            const splash = document.getElementById('splash-screen');
+            // Logic: Handle the fade-in intro
+            const loader = document.getElementById('loader');
+            // Allow the CSS animation (2.5s wait + 0.8s fade) to play out naturally.
+            // We set a timeout to remove it from the DOM completely so it doesn't block clicks.
             setTimeout(() => {
-                splash.style.display = 'none';
-            }, 3200);
+                loader.style.display = 'none';
+            }, 3400);
 
-            // 2. Search Form Logic
-            const form = document.querySelector('form.search-card');
-            form.addEventListener('submit', function(e) {
+            // Logic: Search Form Handling
+            const form = document.querySelector('.search-container');
+            form.addEventListener('submit', (e) => {
                 e.preventDefault();
-                
-                const location = document.getElementById('postcode').value.trim();
-                const type = document.getElementById('service-type').value;
+
+                const location = document.getElementById('location').value.trim();
+                const type = document.getElementById('type').value;
 
                 if(location.length < 2) {
-                    // Simple validation feedback
-                    const input = document.getElementById('postcode');
-                    input.style.borderColor = '#DC2626';
-                    input.placeholder = "Please enter a location";
-                    input.focus();
+                    alert('Please enter a valid Postcode or Town.');
                     return;
                 }
 
-                // Simulate processing/loading state
+                // UI Feedback: Change button text to indicate activity
                 const btn = form.querySelector('button');
                 const originalText = btn.innerText;
-                
-                btn.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/></svg>`;
-                
-                // Add spin animation dynamically if not in CSS
-                if (!document.getElementById('spin-style')) {
-                    const style = document.createElement('style');
-                    style.id = 'spin-style';
-                    style.innerHTML = `@keyframes spin { 100% { transform: rotate(360deg); } }`;
-                    document.head.appendChild(style);
-                }
+                btn.innerText = "Searching...";
+                btn.style.opacity = "0.7";
 
-                // Redirect after brief delay
+                // Construct URL and Redirect
+                // Using URLSearchParams ensures special characters in town names are encoded correctly
+                const params = new URLSearchParams({
+                    location: location,
+                    service_type: type
+                });
+
                 setTimeout(() => {
-                    const params = new URLSearchParams({ location, type });
                     window.location.href = `results.html?${params.toString()}`;
-                }, 800);
+                }, 500); // Slight delay for UX perception
             });
+
         });
     </script>
 </body>
