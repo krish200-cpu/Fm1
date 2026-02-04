@@ -3,129 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Independent, vetted funeral care comparison. A dignified guide for difficult times.">
-    <title>FuneralMatch | Vetted Independent Care</title>
+    <title>FuneralMatch | The New Standard</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* * DESIGN SYSTEM: THE "SANCTUARY" PALETTE
-         * --------------------------------------
-         * Philosophy: Warm neutrality. No harsh blacks (#000). 
-         * No stark whites (#FFF) on large surfaces.
-         */
+        /* * SYSTEM: SANCTUARY PHYSICS * */
         :root {
-            /* Brand Colors */
             --gold: #C5A059;
-            --gold-muted: #D4B982;
-            --charcoal: #1F1F1F;  /* Softer than #000 */
-            --stone: #595959;     /* Body text */
+            --charcoal: #1F1F1F;
+            --stone: #595959;
+            --canvas: #F9F8F6;
             
-            /* Surfaces */
-            --bg-canvas: #F9F8F6; /* Warm off-white */
-            --glass-surface: rgba(255, 255, 255, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.9);
+            /* The "Soft" Geometry */
+            --radius-card: 2rem;
+            --radius-pill: 999px;
             
-            /* Geometry (The "Soft Curve" mandate) */
-            --radius-soft: 1.5rem;   /* Standard card curve */
-            --radius-pill: 3rem;     /* Buttons */
-            
-            /* Animation Physics */
-            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-            --transition-slow: all 0.6s var(--ease-out-expo);
+            /* Physics */
+            --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+            --anim-hover: all 0.5s var(--ease-smooth);
         }
 
-        /* RESET & BASE */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-canvas);
+            background-color: var(--canvas);
             color: var(--charcoal);
             overflow-x: hidden;
-            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* * COMPONENT: THE LIVING BACKGROUND
-         * --------------------------------
-         * Flows with the page. Uses a soft gradient overlay on the image
-         * to ensure text readability without harsh shadows.
-         */
-        .sanctuary-bg {
+        /* 1. CINEMATIC INTRO (The "Soft Introduction") */
+        #cinematic-intro {
             position: fixed;
             inset: 0;
-            z-index: -1;
-            /* Base Image */
-            background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .sanctuary-overlay {
-            position: absolute;
-            inset: 0;
-            /* A subtle gradient mask to soften the image */
-            background: linear-gradient(
-                to bottom, 
-                rgba(249, 248, 246, 0.85) 0%, 
-                rgba(249, 248, 246, 0.5) 40%, 
-                rgba(249, 248, 246, 0.95) 100%
-            );
-            backdrop-filter: blur(2px);
-        }
-
-        /* * COMPONENT: HEADER & IMMUTABLE LOGO
-         * ----------------------------------
-         * Constraint Checklist:
-         * 1. Exact same logo component? YES.
-         * 2. Zero changes to typography/size? YES.
-         */
-        header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: clamp(2rem, 5vw, 3rem) 8%;
-            z-index: 100;
-            display: flex;
-            justify-content: flex-start; /* Aligns logo to left */
-        }
-
-        /* IMMUTABLE LOGO CSS START */
-        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
-        .brand-text { font-family: 'Bodoni Moda', serif; font-size: clamp(0.7rem, 2vw, 0.9rem); text-transform: uppercase; }
-        .brand-funeral { color: var(--charcoal); letter-spacing: 0.5em; animation: logoFade 2s forwards; }
-        /* Note: Replaced var(--black) with var(--charcoal) for consistency, layout remains identical */
-        .logo-divider { width: 40px; height: 1px; background-color: var(--gold); margin: 8px 0; animation: logoFade 2s forwards 0.8s; opacity: 0; }
-        .brand-match { color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; animation: logoFade 2.5s forwards 0.4s; opacity: 0; }
-
-        @keyframes logoFade {
-            from { opacity: 0; filter: blur(4px); transform: translateY(5px); }
-            to { opacity: 1; filter: blur(0); transform: translateY(0); }
-        }
-        /* IMMUTABLE LOGO CSS END */
-
-        /* LAYOUT CONTAINER */
-        main {
-            padding: 22vh 8% 8rem 8%;
+            background: var(--canvas);
+            z-index: 9999;
             display: flex;
             flex-direction: column;
             align-items: center;
-            max-width: 1600px;
-            margin: 0 auto;
+            justify-content: center;
+            animation: curtainRaise 1.2s forwards 3s var(--ease-smooth);
+            pointer-events: none; /* Ensures click-through after fade */
         }
+
+        .intro-text {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 2.5rem;
+            color: var(--charcoal);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: textRise 1s forwards 0.5s var(--ease-smooth);
+        }
+
+        .intro-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-top: 1rem;
+            opacity: 0;
+            animation: textRise 1s forwards 1s var(--ease-smooth);
+        }
+
+        @keyframes textRise { to { opacity: 1; transform: translateY(0); } }
+        @keyframes curtainRaise { to { opacity: 0; visibility: hidden; } }
+
+        /* 2. LIVING BACKGROUND */
+        .ambient-bg {
+            position: fixed; inset: 0; z-index: -1;
+            background: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+        }
+        .ambient-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(249,248,246,0.9) 0%, rgba(249,248,246,0.6) 50%, rgba(249,248,246,0.95) 100%);
+            backdrop-filter: blur(5px);
+        }
+
+        /* 3. IMMUTABLE LOGO (Exact Preserved Component) */
+        header { position: absolute; top: 0; left: 0; width: 100%; padding: clamp(2rem, 5vw, 3rem) 8%; z-index: 100; }
+        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+        .brand-text { font-family: 'Bodoni Moda', serif; font-size: clamp(0.7rem, 2vw, 0.9rem); text-transform: uppercase; }
+        .brand-funeral { color: var(--charcoal); letter-spacing: 0.5em; animation: logoFade 2s forwards; }
+        .logo-divider { width: 40px; height: 1px; background-color: var(--gold); margin: 8px 0; animation: logoFade 2s forwards 0.8s; opacity: 0; }
+        .brand-match { color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; animation: logoFade 2.5s forwards 0.4s; opacity: 0; }
+        @keyframes logoFade { from { opacity: 0; filter: blur(4px); transform: translateY(5px); } to { opacity: 1; filter: blur(0); transform: translateY(0); } }
+
+        /* 4. THE INTERACTIVE JOURNEY GRID (The "Options" Logic) */
+        /* This replaces the search bar as the primary hero element */
+        
+        .journey-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 4rem;
+        }
+
+        .journey-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-card);
+            padding: 3rem 2rem;
+            cursor: pointer;
+            transition: var(--anim-hover);
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 320px;
+        }
+
+        /* THE INTERACTIVES: Deep Hover States */
+        .journey-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 30px 60px -10px rgba(197, 160, 89, 0.15);
+            border-color: var(--gold);
+        }
+
+        /* The "Glow" Effect on Hover */
+        .journey-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at top right, rgba(197, 160, 89, 0.1), transparent 60%);
+            opacity: 0;
+            transition: var(--anim-hover);
+        }
+        .journey-card:hover::after { opacity: 1; }
+
+        .card-num { font-family: 'Bodoni Moda', serif; font-size: 1.5rem; color: #DDD; margin-bottom: 1rem; transition: var(--anim-hover); }
+        .journey-card:hover .card-num { color: var(--gold); transform: translateX(5px); }
+
+        .card-title { font-family: 'Bodoni Moda', serif; font-size: 1.8rem; color: var(--charcoal); margin-bottom: 0.5rem; line-height: 1.1; }
+        .card-desc { font-family: 'Inter', sans-serif; font-size: 0.95rem; color: var(--stone); line-height: 1.6; }
+        
+        .card-action {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.8;
+            transition: var(--anim-hover);
+        }
+        .journey-card:hover .card-action { opacity: 1; gap: 15px; } /* Arrow slides out */
 
     </style>
 </head>
 <body>
 
-    <div class="sanctuary-bg">
-        <div class="sanctuary-overlay"></div>
+    <div id="cinematic-intro" aria-hidden="true">
+        <div class="intro-text">FuneralMatch</div>
+        <div class="intro-sub">The New Standard of Care</div>
+    </div>
+
+    <div class="ambient-bg">
+        <div class="ambient-overlay"></div>
     </div>
 
     <header>
@@ -135,510 +183,197 @@
             <span class="brand-text brand-match">Match</span>
         </div>
     </header>
-    <style>
-        /* 1. THE SOFT WELCOME (Typography) */
-        .welcome-wrap {
-            text-align: center;
-            max-width: 700px;
-            margin-bottom: 3.5rem;
-        }
-        .welcome-title {
-            font-family: 'Bodoni Moda', serif;
-            font-size: clamp(2rem, 5vw, 3.2rem); /* Reduced from 4.5rem for gentleness */
-            font-weight: 400;
-            color: var(--charcoal);
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-        }
-        .welcome-sub {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
-            color: var(--stone);
-            font-weight: 300;
-        }
+
+    <main style="padding: 22vh 8% 8rem 8%; display: flex; flex-direction: column; align-items: center; max-width: 1400px; margin: 0 auto;">
         
-        /* 2. SEARCH CAPSULE (Soft Rect System) */
-        .search-capsule {
-            width: 100%;
-            max-width: 840px;
-            background: var(--glass-surface);
-            backdrop-filter: blur(12px);
-            border: 1px solid white;
-            padding: 0.75rem;
-            border-radius: var(--radius-pill); /* 3rem curves */
-            display: flex;
-            align-items: center;
-            box-shadow: 
-                0 10px 40px -10px rgba(197, 160, 89, 0.1),
-                0 4px 12px -2px rgba(0, 0, 0, 0.05);
-            transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
-            margin-bottom: 3rem;
-        }
-
-        .search-capsule:focus-within {
-            transform: translateY(-2px);
-            box-shadow: 
-                0 20px 40px -10px rgba(197, 160, 89, 0.15),
-                0 8px 24px -4px rgba(0, 0, 0, 0.08);
-            background: rgba(255, 255, 255, 0.9);
-        }
-
-        .search-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 0 2rem;
-            font-size: 1.05rem;
-            color: var(--charcoal);
-            outline: none;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        .search-input::placeholder { color: #888; font-weight: 300; }
-
-        .search-btn {
-            background-color: var(--charcoal);
-            color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 2.5rem; /* Pill shape */
-            font-weight: 500;
-            letter-spacing: 0.05em;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        .search-btn:hover { background-color: #000; }
-
-        /* Mobile adaptation for Search */
-        @media (max-width: 768px) {
-            .search-capsule {
-                flex-direction: column;
-                border-radius: 2rem;
-                padding: 1.5rem;
-                gap: 1rem;
-            }
-            .search-input { width: 100%; text-align: center; padding: 0; }
-            .search-btn { width: 100%; padding: 1.2rem; }
-        }
-
-        /* 3. REVENUE HINT (Glassmorphism) */
-        .revenue-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.75rem 1.5rem;
-            background: rgba(255, 255, 255, 0.4);
-            border: 1px solid rgba(197, 160, 89, 0.3);
-            border-radius: 2rem;
-            font-size: 0.85rem;
-            color: var(--stone);
-            margin-bottom: 6rem;
-            transition: var(--transition-slow);
-        }
-        .revenue-pill:hover {
-            background: rgba(255, 255, 255, 0.8);
-            border-color: var(--gold);
-            transform: translateY(-1px);
-        }
-        .action-link {
-            color: var(--gold);
-            font-weight: 600;
-            text-decoration: none;
-            padding-bottom: 1px;
-            border-bottom: 1px solid transparent;
-            transition: 0.3s;
-        }
-        .action-link:hover { border-bottom-color: var(--gold); }
-
-        /* 4. INFO GRID (The "Gentle Lift") */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            width: 100%;
-            max-width: 1400px;
-        }
-
-        .info-card {
-            background: var(--glass-surface);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-soft); /* 1.5rem */
-            padding: 3rem 2rem;
-            text-align: center;
-            transition: var(--transition-slow);
-            cursor: default;
-        }
-
-        /* Interaction: Gentle Lift */
-        .info-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
-            background: rgba(255, 255, 255, 0.95);
-            border-color: white;
-        }
-
-        .card-icon {
-            font-family: 'Bodoni Moda', serif;
-            font-size: 2rem;
-            font-style: italic;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .card-h3 {
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            font-size: 1.25rem;
-            color: var(--charcoal);
-            margin-bottom: 1rem;
-        }
-
-        .card-p {
-            font-size: 0.95rem;
-            color: var(--stone);
-            line-height: 1.7;
-        }
-
-    </style>
-
-    <main>
-        <div class="welcome-wrap" data-aos="fade-up" data-aos-duration="1200">
-            <h1 class="welcome-title">
-                <span style="font-style: italic; display: block; margin-bottom: 0.5rem;">Compassion</span> 
-                meets clarity.
+        <div style="text-align: center; max-width: 700px; margin-bottom: 4rem;" data-aos="fade-up" data-aos-duration="1500">
+            <h1 style="font-family: 'Bodoni Moda', serif; font-size: clamp(2rem, 5vw, 3rem); color: var(--charcoal); margin-bottom: 1.5rem; line-height: 1.2;">
+                Dignity in every detail.
             </h1>
-            <p class="welcome-sub">
-                A calm, vetted marketplace to help you arrange care with confidence.
+            <p style="font-family: 'Inter', sans-serif; font-size: 1.1rem; color: var(--stone); font-weight: 300; line-height: 1.6;">
+                We are here to help you navigate this moment with clarity. <br class="hidden md:block">
+                Please select how we can support you today.
             </p>
         </div>
 
-        <div class="search-capsule" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1200">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" style="margin-left: 1.5rem;">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-            <input type="text" class="search-input" placeholder="Enter postcode or town (e.g. Manchester)..." aria-label="Search location">
-            <button class="search-btn">Find Directors</button>
-        </div>
-
-        <div class="revenue-pill" data-aos="fade-in" data-aos-delay="400">
-            <span>Thinking about the future?</span>
-            <span class="action-link" onclick="toggleModal(true)" role="button" tabindex="0">Explore Dignity Plans &rarr;</span>
-        </div>
-
-        <div class="info-grid">
+        <div class="journey-grid">
             
-            <article class="info-card" data-aos="fade-up" data-aos-delay="100">
-                <span class="card-icon">i.</span>
-                <h3 class="card-h3">Independent Advocacy</h3>
-                <p class="card-p">We represent the family, not the director. Our comparisons are based purely on merit, service quality, and verified feedback.</p>
+            <article class="journey-card" onclick="triggerUrgentModal()" data-aos="fade-up" data-aos-delay="200">
+                <div>
+                    <div class="card-num">01</div>
+                    <h2 class="card-title">Immediate<br>Assistance</h2>
+                    <p class="card-desc" style="margin-top: 1.5rem;">
+                        A death has just occurred. I need help with body collection and first steps.
+                    </p>
+                </div>
+                <div class="card-action">
+                    Get Support <span>&rarr;</span>
+                </div>
             </article>
 
-            <article class="info-card" data-aos="fade-up" data-aos-delay="200">
-                <span class="card-icon">ii.</span>
-                <h3 class="card-h3">Vetted Standards</h3>
-                <p class="card-p">Every director on our platform is audited for facility standards and professional conduct, ensuring your safety.</p>
+            <article class="journey-card" onclick="toggleSearchOverlay(true)" data-aos="fade-up" data-aos-delay="400">
+                <div>
+                    <div class="card-num">02</div>
+                    <h2 class="card-title">Find a<br>Director</h2>
+                    <p class="card-desc" style="margin-top: 1.5rem;">
+                        I want to view vetted funeral directors, compare prices, and read verified reviews.
+                    </p>
+                </div>
+                <div class="card-action">
+                    Start Search <span>&rarr;</span>
+                </div>
             </article>
 
-            <article class="info-card" data-aos="fade-up" data-aos-delay="300">
-                <span class="card-icon">iii.</span>
-                <h3 class="card-h3">Transparent Costs</h3>
-                <p class="card-p">No hidden fees. We enforce a fixed-cost framework that allows you to see the true price of care upfront.</p>
-            </article>
-            
-            <article class="info-card" data-aos="fade-up" data-aos-delay="400">
-                <span class="card-icon">iv.</span>
-                <h3 class="card-h3">Digital Ease</h3>
-                <p class="card-p">Manage tributes, documents, and communications securely through our modern family portal.</p>
+            <article class="journey-card" onclick="window.location.href='#plans'" data-aos="fade-up" data-aos-delay="600">
+                <div>
+                    <div class="card-num">03</div>
+                    <h2 class="card-title">Plan<br>Ahead</h2>
+                    <p class="card-desc" style="margin-top: 1.5rem;">
+                        I want to freeze costs and secure peace of mind for the future with a prepaid plan.
+                    </p>
+                </div>
+                <div class="card-action">
+                    View Plans <span>&rarr;</span>
+                </div>
             </article>
 
         </div>
+
     </main>
-    <style>
-        /* 5. EMERGENCY SYSTEM (Floating Pill) */
-        #emergency-system {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 3000;
-            transform: translateY(150%);
-            transition: transform 0.8s var(--ease-out-expo);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        #emergency-system.active { transform: translateY(0); }
 
-        .emergency-btn {
-            background: white;
-            padding: 0.8rem 1.6rem;
-            border-radius: var(--radius-pill);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            border: 1px solid rgba(197, 160, 89, 0.4);
-            transition: var(--transition-slow);
-        }
-        .emergency-btn:hover {
-            border-color: var(--gold);
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(197, 160, 89, 0.15);
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background: #D97706; /* Amber/Gold Warning */
-            border-radius: 50%;
-            box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7);
-            animation: pulse-gold 2s infinite;
-        }
-
-        @keyframes pulse-gold {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(217, 119, 6, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
-        }
-
-        /* 6. MODAL ARCHITECTURE (Soft Curve) */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(249, 248, 246, 0.8); /* Canvas color but transparent */
-            backdrop-filter: blur(8px);
-            z-index: 4000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .modal-overlay.active { display: flex; opacity: 1; }
-
-        .lead-card {
-            background: white;
-            width: 100%;
-            max-width: 500px;
-            padding: 3rem 2.5rem;
-            border-radius: 2rem; /* Soft container */
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
-            position: relative;
-            border: 1px solid white;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: #F3F4F6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.2rem;
-            color: var(--stone);
-            transition: 0.2s;
-        }
-        .modal-close:hover { background: #E5E7EB; color: var(--charcoal); }
-
-        /* Form Aesthetics */
-        .form-label {
-            display: block;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--gold);
-            font-weight: 600;
-            margin-bottom: 0.6rem;
-            margin-top: 1.2rem;
-        }
+    <div id="search-overlay" style="position: fixed; inset: 0; background: rgba(249, 248, 246, 0.95); backdrop-filter: blur(10px); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.5s ease;">
         
-        .form-input {
-            width: 100%;
-            padding: 1rem 1.2rem;
-            border-radius: 1rem; /* Soft input corners */
-            border: 1px solid #E5E7EB;
-            background: #F9FAFB;
-            font-size: 1rem;
-            color: var(--charcoal);
-            outline: none;
-            transition: 0.2s;
-        }
-        .form-input:focus {
-            background: white;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.1);
-        }
-
-        .submit-btn {
-            width: 100%;
-            margin-top: 2rem;
-            background: var(--charcoal);
-            color: white;
-            padding: 1rem;
-            border-radius: var(--radius-pill);
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            cursor: pointer;
-            border: none;
-            transition: background 0.2s;
-        }
-        .submit-btn:hover { background: #000; }
-
-        /* 7. FOOTER */
-        footer {
-            margin-top: 4rem;
-            padding: 5rem 8% 3rem 8%;
-            background: white;
-            border-top: 1px solid #E5E7EB;
-            font-family: 'Inter', sans-serif;
-        }
-        .footer-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
-        }
-        .footer-head {
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            color: var(--charcoal);
-            margin-bottom: 1.5rem;
-        }
-        .footer-link {
-            display: block;
-            color: var(--stone);
-            margin-bottom: 0.8rem;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .footer-link:hover { color: var(--gold); }
-        .copyright {
-            margin-top: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid #F3F4F6;
-            color: #9CA3AF;
-            font-size: 0.8rem;
-            text-align: center;
-        }
-    </style>
-
-    <div id="emergency-system">
-        <div class="emergency-btn" onclick="toggleModal(true)">
-            <div class="pulse-dot"></div>
-            <span style="font-size: 0.85rem; font-weight: 600; color: var(--charcoal);">Urgent Assistance</span>
+        <div style="width: 100%; max-width: 800px; padding: 2rem; position: relative;">
+            <button onclick="toggleSearchOverlay(false)" style="position: absolute; top: -60px; right: 0; font-size: 2rem; color: var(--charcoal); background: none; border: none; cursor: pointer;">&times;</button>
+            
+            <h3 style="font-family: 'Bodoni Moda', serif; font-size: 2.5rem; text-align: center; margin-bottom: 2rem; color: var(--charcoal);">Where are you looking?</h3>
+            
+            <form action="results.html" style="background: white; padding: 1rem; border-radius: 4rem; display: flex; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border: 1px solid #EEE;">
+                <input type="text" placeholder="Enter Postcode or Town..." style="flex: 1; border: none; padding: 0 2rem; font-size: 1.1rem; outline: none; background: transparent; font-family: 'Inter', sans-serif;" autofocus>
+                <button type="submit" style="background: var(--charcoal); color: white; padding: 1.2rem 3rem; border-radius: 3rem; border: none; font-weight: 600; cursor: pointer; transition: 0.3s;">SEARCH</button>
+            </form>
         </div>
-        <div style="background: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid #E5E7EB; color: #999;" onclick="document.getElementById('emergency-system').style.display='none'">&times;</div>
+
+    </div>
+    <div id="emergency-pill" style="position: fixed; bottom: 2rem; right: 2rem; z-index: 3000; transform: translateY(150%); transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); display: flex; align-items: center; gap: 12px;">
+        
+        <button onclick="triggerUrgentModal()" style="background: white; padding: 0.8rem 1.6rem; border-radius: 999px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); display: flex; align-items: center; gap: 12px; border: 1px solid rgba(197, 160, 89, 0.4); cursor: pointer; transition: 0.3s;">
+            <span style="width: 8px; height: 8px; background: #D97706; border-radius: 50%; animation: pulse 2s infinite;"></span>
+            <span style="font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600; color: var(--charcoal);">24/7 Helpline</span>
+        </button>
+
+        <button onclick="document.getElementById('emergency-pill').style.display='none'" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #EEE; background: white; color: #999; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
     </div>
 
-    <div id="lead-modal" class="modal-overlay" onclick="toggleModal(false)">
-        <div class="lead-card" onclick="event.stopPropagation()">
-            <div class="modal-close" onclick="toggleModal(false)">&times;</div>
+    <div id="urgent-modal" style="position: fixed; inset: 0; background: rgba(249, 248, 246, 0.85); backdrop-filter: blur(12px); z-index: 4000; display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease;">
+        
+        <div style="background: white; width: 100%; max-width: 500px; padding: 3rem; border-radius: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1); position: relative; border: 1px solid white;">
             
-            <h3 style="font-family: 'Bodoni Moda', serif; font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--charcoal);">How can we help?</h3>
-            <p style="font-size: 0.9rem; color: var(--stone); margin-bottom: 1.5rem;">Our team is available to guide you through next steps.</p>
+            <button onclick="closeUrgentModal()" style="position: absolute; top: 1.5rem; right: 1.5rem; width: 32px; height: 32px; border-radius: 50%; background: #F3F4F6; border: none; cursor: pointer; color: var(--stone);">&times;</button>
+            
+            <h3 style="font-family: 'Bodoni Moda', serif; font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--charcoal);">We are here to help.</h3>
+            <p style="font-family: 'Inter', sans-serif; font-size: 0.95rem; color: var(--stone); margin-bottom: 2rem;">
+                Please provide your details. Our bereavement team will contact you immediately to arrange collection.
+            </p>
 
-            <form action="https://formspree.io/f/mvzzkjeq" method="POST">
+            <form action="#" method="POST"> <div style="margin-bottom: 1.2rem;">
+                    <label style="display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); font-weight: 700; margin-bottom: 0.5rem;">Your Name</label>
+                    <input type="text" required style="width: 100%; padding: 1rem; border-radius: 1rem; border: 1px solid #E5E7EB; background: #F9FAFB; font-family: 'Inter', sans-serif;">
+                </div>
                 
-                <label class="form-label">Situation</label>
-                <select name="lead_type" class="form-input" onchange="toggleDeceasedFields(this.value)">
-                    <option value="inquiry">General Inquiry / Planning</option>
-                    <option value="immediate">A death has occurred (Urgent)</option>
-                </select>
-
-                <div id="deceased-fields" style="display: none;">
-                    <label class="form-label">Deceased Name</label>
-                    <input type="text" name="deceased_name" class="form-input">
+                <div style="margin-bottom: 1.2rem;">
+                    <label style="display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); font-weight: 700; margin-bottom: 0.5rem;">Contact Number</label>
+                    <input type="tel" required style="width: 100%; padding: 1rem; border-radius: 1rem; border: 1px solid #E5E7EB; background: #F9FAFB; font-family: 'Inter', sans-serif;">
                 </div>
 
-                <label class="form-label">Your Name</label>
-                <input type="text" name="reporter_name" class="form-input" required>
+                <div style="margin-bottom: 2rem;">
+                    <label style="display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); font-weight: 700; margin-bottom: 0.5rem;">Deceased Name (Optional)</label>
+                    <input type="text" style="width: 100%; padding: 1rem; border-radius: 1rem; border: 1px solid #E5E7EB; background: #F9FAFB; font-family: 'Inter', sans-serif;">
+                </div>
 
-                <label class="form-label">Contact Number</label>
-                <input type="tel" name="phone_number" class="form-input" required>
-
-                <button type="submit" class="submit-btn">Request Callback</button>
+                <button type="submit" style="width: 100%; background: var(--charcoal); color: white; padding: 1.2rem; border-radius: 999px; font-weight: 600; letter-spacing: 0.05em; border: none; cursor: pointer; transition: 0.3s;">Request Immediate Call</button>
             </form>
         </div>
     </div>
 
-    <footer>
-        <div class="footer-grid">
+    <footer style="margin-top: 6rem; padding: 5rem 8% 3rem 8%; background: white; border-top: 1px solid #E5E7EB;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; max-width: 1400px; margin: 0 auto;">
+            
             <div>
-                <div class="footer-head">Platform</div>
-                <a href="#" class="footer-link">How it Works</a>
-                <a href="#" class="footer-link">Vetting Standards</a>
-                <a href="#" class="footer-link">Dignity Plans</a>
+                <span style="font-family: 'Bodoni Moda', serif; font-weight: 700; font-size: 1.2rem; color: var(--charcoal);">FuneralMatch</span>
+                <p style="font-size: 0.85rem; color: var(--stone); margin-top: 1rem; line-height: 1.6;">
+                    The independent standard for funeral comparison. Vetted, transparent, and dignified.
+                </p>
             </div>
+
             <div>
-                <div class="footer-head">Support</div>
-                <a href="#" class="footer-link">Bereavement Advice</a>
-                <a href="#" class="footer-link">Contact Team</a>
-                <a href="#" class="footer-link">Report an Issue</a>
+                <h4 style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 1.5rem;">Platform</h4>
+                <a href="#" style="display: block; color: var(--stone); margin-bottom: 0.8rem; font-size: 0.9rem; text-decoration: none;">How it Works</a>
+                <a href="#" style="display: block; color: var(--stone); margin-bottom: 0.8rem; font-size: 0.9rem; text-decoration: none;">Vetting Standards</a>
+                <a href="#" style="display: block; color: var(--stone); margin-bottom: 0.8rem; font-size: 0.9rem; text-decoration: none;">Reviews</a>
             </div>
+
             <div>
-                <div class="footer-head">Legal</div>
-                <a href="#" class="footer-link">Privacy Policy</a>
-                <a href="#" class="footer-link">Terms of Service</a>
-                <a href="#" class="footer-link">Cookie Preferences</a>
+                <h4 style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 1.5rem;">Support</h4>
+                <a href="#" style="display: block; color: var(--stone); margin-bottom: 0.8rem; font-size: 0.9rem; text-decoration: none;">Bereavement Advice</a>
+                <a href="#" style="display: block; color: var(--stone); margin-bottom: 0.8rem; font-size: 0.9rem; text-decoration: none;">Contact Team</a>
+                <a href="#" style="display: block; color: var(--stone); margin-bottom: 0.8rem; font-size: 0.9rem; text-decoration: none;">For Directors</a>
             </div>
-            <div>
-                <div class="footer-head">Partners</div>
-                <a href="#" class="footer-link">Director Portal</a>
-                <a href="#" class="footer-link">Supplier Login</a>
-            </div>
+
         </div>
-        <div class="copyright">
-            &copy; 2026 FuneralMatch Ltd. Registered in England & Wales. Regulated standards apply.
+        <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #F3F4F6; text-align: center; color: #9CA3AF; font-size: 0.8rem;">
+            &copy; 2026 FuneralMatch Ltd. All rights reserved. Registered in England & Wales.
         </div>
     </footer>
 
+    <style>
+        @keyframes pulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(217, 119, 6, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
+        }
+    </style>
+
     <script>
-        // 1. Initialize Animations
-        AOS.init({
-            offset: 40,
-            duration: 1000,
-            easing: 'ease-out-cubic',
-            once: true
-        });
+        // A. Initialize AOS (Scroll Animations)
+        AOS.init({ duration: 1200, once: true, offset: 50 });
 
-        // 2. Delayed Appearance of Emergency System (Non-intrusive)
+        // B. Cinematic Intro Handling
         window.addEventListener('load', () => {
+            // The CSS animation handles the visuals. 
+            // We remove the element from DOM after 4s to ensure clicks pass through.
             setTimeout(() => {
-                document.getElementById('emergency-system').classList.add('active');
-            }, 3500); // 3.5s delay allows user to read the hero first
+                const intro = document.getElementById('cinematic-intro');
+                intro.style.display = 'none';
+                
+                // Trigger the emergency pill appearance slightly after intro is done
+                document.getElementById('emergency-pill').style.transform = 'translateY(0)';
+            }, 4000);
         });
 
-        // 3. Modal Logic
-        function toggleModal(show) {
-            const overlay = document.getElementById('lead-modal');
-            if (show) {
-                overlay.style.display = 'flex';
-                // Small timeout to allow display:flex to apply before adding opacity class
-                setTimeout(() => overlay.classList.add('active'), 10);
-            } else {
-                overlay.classList.remove('active');
-                setTimeout(() => overlay.style.display = 'none', 400);
-            }
+        // C. Urgent Modal Logic
+        function triggerUrgentModal() {
+            const modal = document.getElementById('urgent-modal');
+            modal.style.display = 'flex';
+            // Slight delay to allow display:flex to apply before opacity transition
+            setTimeout(() => { modal.style.opacity = '1'; }, 10);
         }
 
-        // 4. Dynamic Form Logic
-        function toggleDeceasedFields(val) {
-            const fields = document.getElementById('deceased-fields');
-            if (val === 'immediate') {
-                fields.style.display = 'block';
+        function closeUrgentModal() {
+            const modal = document.getElementById('urgent-modal');
+            modal.style.opacity = '0';
+            setTimeout(() => { modal.style.display = 'none'; }, 400);
+        }
+
+        // D. Search Overlay Logic
+        function toggleSearchOverlay(show) {
+            const overlay = document.getElementById('search-overlay');
+            if (show) {
+                overlay.style.display = 'flex';
+                setTimeout(() => { overlay.style.opacity = '1'; }, 10);
             } else {
-                fields.style.display = 'none';
+                overlay.style.opacity = '0';
+                setTimeout(() => { overlay.style.display = 'none'; }, 500);
             }
         }
     </script>
