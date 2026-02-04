@@ -3,394 +3,489 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Compassionate, transparent funeral comparison. Find the right director for your needs without pressure.">
-    <title>Compassionate Care | UK Funeral Guide</title>
+    <meta name="description" content="Funeral Match - The new standard of care. Compare funeral directors, plans, and services across the UK with dignity and transparency.">
+    <title>Funeral Match | The New Standard of Care</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
     <style>
         /* =========================================
-         * 1. DESIGN SYSTEM (The "Sage & Slate" Palette)
+         * 1. BRAND & DESIGN SYSTEM
          * ========================================= */
         :root {
-            /* Backgrounds */
-            --bg-cream: #FAF9F6;
-            --bg-white: #FFFFFF;
-            --bg-soft-green: #F2F6F4;
-
-            /* Primary Colors (Sage) - Reassuring, Growth */
-            --col-primary: #6B8E78; 
-            --col-primary-dark: #4A6354;
-            --col-primary-light: #E6EBE7;
-
-            /* Text Colors (Slate) - Solid, Reliable */
+            /* Brand Colors */
+            --col-brand-dark: #1C2436; /* Deep Navy - Trust/Authority */
+            --col-brand-gold: #C6A87C; /* Muted Gold - Premium/Care */
+            --col-brand-soft: #F4F6F8; /* Slate White - Modern Background */
+            
+            /* Functional Colors */
             --col-text-main: #2D3748;
-            --col-text-muted: #718096;
-            --col-heading: #1A202C;
-
-            /* Action/Urgency (Muted Terracotta) - Noticeable but not alarming */
-            --col-urgent: #C0776D;
-            --col-urgent-bg: #FFF5F5;
+            --col-text-light: #718096;
+            --col-white: #FFFFFF;
+            --col-border: #E2E8F0;
 
             /* Spacing & Layout */
-            --radius-soft: 12px;
-            --radius-pill: 50px;
-            --container-max: 1100px;
-            --spacing-unit: 1rem;
-
-            /* Transitions */
-            --ease-gentle: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --container-width: 1200px;
+            --radius-card: 12px;
+            --radius-btn: 4px; /* More formal button shape */
+            
+            /* Animation */
+            --anim-fade: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         /* =========================================
-         * 2. RESET & BASE
+         * 2. GLOBAL STYLES
          * ========================================= */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body {
             font-family: 'Lato', sans-serif;
-            background-color: var(--bg-cream);
+            background-color: var(--col-brand-soft);
             color: var(--col-text-main);
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden; /* Prevent scroll during fade-in */
         }
 
-        h1, h2, h3 {
-            font-family: 'Playfair Display', serif;
-            color: var(--col-heading);
-            font-weight: 600;
-            line-height: 1.2;
+        h1, h2, h3, h4 {
+            font-family: 'Cinzel', serif; /* Premium headers */
+            color: var(--col-brand-dark);
+            font-weight: 700;
         }
 
-        a { text-decoration: none; color: inherit; transition: var(--ease-gentle); }
-        button { cursor: pointer; border: none; outline: none; font-family: inherit; }
-        
+        a { text-decoration: none; color: inherit; transition: var(--anim-fade); }
+        ul { list-style: none; }
+        button { cursor: pointer; border: none; font-family: inherit; }
+
         .container {
-            width: 90%;
-            max-width: var(--container-max);
+            max-width: var(--container-width);
             margin: 0 auto;
+            padding: 0 24px;
         }
 
         /* =========================================
-         * 3. COMPONENTS
+         * 3. INTRO OVERLAY (Cinematic Fade-In)
          * ========================================= */
-        
-        /* Header & Subtle Logo */
-        header {
-            padding: 1.5rem 0;
-            background: transparent;
-        }
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.25rem; /* Reduced size per request */
-            color: var(--col-primary-dark);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            opacity: 0.85; /* Subtle */
-        }
-        .logo-icon {
-            width: 24px;
-            height: 24px;
-            background: var(--col-primary);
-            border-radius: 50%;
-            display: inline-block;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.8rem 1.5rem;
-            border-radius: var(--radius-pill);
-            font-weight: 600;
-            transition: var(--ease-gentle);
-            font-size: 1rem;
-        }
-        .btn-primary {
-            background-color: var(--col-primary);
-            color: white;
-            box-shadow: 0 4px 6px rgba(107, 142, 120, 0.2);
-        }
-        .btn-primary:hover {
-            background-color: var(--col-primary-dark);
-            transform: translateY(-1px);
-        }
-        .btn-urgent {
-            background-color: transparent;
-            border: 1px solid var(--col-urgent);
-            color: var(--col-urgent);
-        }
-        .btn-urgent:hover {
-            background-color: var(--col-urgent-bg);
-        }
-
-        /* =========================================
-         * 4. HERO & TRIAGE SECTION
-         * ========================================= */
-        .hero {
-            padding: 4rem 0 6rem 0;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-        }
-        
-        .hero p.subtitle {
-            font-size: 1.2rem;
-            color: var(--col-text-muted);
-            max-width: 600px;
-            margin: 0 auto 3rem auto;
-        }
-
-        /* The Triage Cards: Immediate vs Planning */
-        .triage-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            text-align: left;
-            margin-top: 2rem;
-        }
-
-        .card {
-            background: var(--bg-white);
-            padding: 2.5rem;
-            border-radius: var(--radius-soft);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-            transition: var(--ease-gentle);
-            position: relative;
-            overflow: hidden;
+        #intro-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--col-brand-dark);
+            z-index: 9999;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 1.5rem;
-            display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
+            color: var(--col-brand-gold);
+            animation: curtainRaise 1s forwards 2.5s ease-in-out;
+            pointer-events: none; /* Allows clicking through after fade */
         }
 
-        .card h2 {
-            font-size: 1.75rem;
-            margin-bottom: 0.75rem;
+        .intro-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            letter-spacing: 0.05em;
+            opacity: 0;
+            animation: textFadeIn 1s forwards 0.2s;
         }
 
-        .card p {
-            color: var(--col-text-muted);
-            margin-bottom: 2rem;
+        .intro-slogan {
+            font-family: 'Lato', sans-serif;
             font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            margin-top: 1rem;
+            opacity: 0;
+            color: var(--col-white);
+            animation: textFadeIn 1s forwards 0.8s;
         }
 
-        /* Distinct Styles for the two paths */
-        
-        /* Path A: Planning (Primary) */
-        .card-plan .card-icon {
-            background-color: var(--col-primary-light);
-            color: var(--col-primary-dark);
-        }
-
-        /* Path B: Urgent (Secondary/Warning) */
-        .card-urgent {
-            border: 1px solid var(--col-urgent-bg);
-        }
-        .card-urgent .card-icon {
-            background-color: var(--col-urgent-bg);
-            color: var(--col-urgent);
-        }
-
-        /* =========================================
-         * 5. SEARCH FORM (Appears on click)
-         * ========================================= */
-        .search-interface {
-            display: none; /* Hidden initially to reduce cognitive load */
-            margin-top: 2rem;
-            background: var(--bg-white);
-            padding: 2rem;
-            border-radius: var(--radius-soft);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
+        @keyframes textFadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .search-form {
+        @keyframes curtainRaise {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        /* =========================================
+         * 4. UI COMPONENTS (Buttons & Cards)
+         * ========================================= */
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            border-radius: var(--radius-btn);
+            transition: var(--anim-fade);
+        }
+        
+        .btn-gold {
+            background-color: var(--col-brand-gold);
+            color: var(--col-brand-dark);
+        }
+        .btn-gold:hover {
+            background-color: #b59668;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(198, 168, 124, 0.4);
+        }
+
+        .btn-outline {
+            border: 1px solid var(--col-brand-dark);
+            color: var(--col-brand-dark);
+            background: transparent;
+        }
+        .btn-outline:hover {
+            background: var(--col-brand-dark);
+            color: var(--col-white);
+        }
+
+        /* Service Cards (Grid) */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: var(--col-white);
+            padding: 32px;
+            border-radius: var(--radius-card);
+            border: 1px solid var(--col-border);
+            transition: var(--anim-fade);
             display: flex;
-            gap: 1rem;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card:hover {
+            border-color: var(--col-brand-gold);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.05);
+        }
+
+        /* Subtle decorative accent on cards */
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--col-brand-gold);
+            opacity: 0;
+            transition: var(--anim-fade);
+        }
+        .service-card:hover::before { opacity: 1; }
+
+        .card-icon {
+            width: 48px; height: 48px;
+            margin-bottom: 20px;
+            color: var(--col-brand-dark);
+        }
+
+        /* =========================================
+         * 5. LAYOUT SECTIONS
+         * ========================================= */
+        header {
+            background: var(--col-white);
+            border-bottom: 1px solid var(--col-border);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-main {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--col-brand-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #FFF 0%, #F4F6F8 100%);
+            text-align: center;
+        }
+
+        .info-section {
+            padding: 60px 0;
+            background: var(--col-white);
+        }
+
+        /* Search Box Logic */
+        .search-box {
+            background: var(--col-white);
+            padding: 30px;
+            border-radius: var(--radius-card);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            max-width: 800px;
+            margin: -40px auto 40px auto; /* Overlap effect */
+            position: relative;
+            display: flex;
+            gap: 16px;
+            align-items: flex-end;
             flex-wrap: wrap;
         }
 
-        .input-group {
+        .form-group {
             flex: 1;
-            min-width: 250px;
-            display: flex;
-            flex-direction: column;
+            min-width: 200px;
         }
 
-        .input-group label {
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: var(--col-text-muted);
+        .form-label {
+            display: block;
+            font-size: 0.75rem;
             text-transform: uppercase;
+            font-weight: 700;
             letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            color: var(--col-text-light);
         }
 
-        .input-field {
-            padding: 1rem;
-            border: 1px solid #E2E8F0;
-            border-radius: 8px;
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--col-border);
+            border-radius: 4px;
             font-size: 1rem;
-            background: var(--bg-cream);
-            transition: var(--ease-gentle);
+            color: var(--col-brand-dark);
+            background: #FAFAFA;
         }
         
-        .input-field:focus {
-            background: #fff;
-            border-color: var(--col-primary);
+        .form-input:focus {
             outline: none;
-            box-shadow: 0 0 0 3px var(--col-primary-light);
+            border-color: var(--col-brand-gold);
+            background: #FFF;
         }
 
-        /* Mobile Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .triage-container { grid-template-columns: 1fr; }
-            .search-form { flex-direction: column; }
-            .btn { width: 100%; }
+            .search-box { flex-direction: column; align-items: stretch; margin-top: 20px; }
+            .hero-section { padding: 40px 0; }
+            #intro-overlay h1 { font-size: 2rem; }
+            .service-grid { grid-template-columns: 1fr; }
         }
-
     </style>
 </head>
 <body>
 
+    <div id="intro-overlay" aria-hidden="true">
+        <div class="intro-logo">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="currentColor" style="display:block; margin: 0 auto 1rem auto;">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-6h2v6zm4 0h-2v-6h2v6zM12 4c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
+            </svg>
+            Funeral Match
+        </div>
+        <div class="intro-slogan">The New Standard of Care</div>
+    </div>
+
     <header>
-        <div class="container header-inner">
-            <a href="/" class="logo" aria-label="Homepage">
-                <span class="logo-icon"></span>
-                <span>Farewell Guide</span>
+        <div class="container nav-inner">
+            <a href="/" class="logo-main">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="var(--col-brand-dark)">
+                    <path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z"/>
+                </svg>
+                <span>Funeral Match</span>
             </a>
-            <a href="tel:0800123456" style="font-size: 0.9rem; font-weight: 700; color: var(--col-primary-dark);">
-                Support: 0800 123 456
-            </a>
+            
+            <nav style="display: flex; gap: 32px; align-items: center;">
+                <a href="#" style="font-weight: 700; font-size: 0.9rem;">Services</a>
+                <a href="#" style="font-weight: 700; font-size: 0.9rem;">Plans</a>
+                <a href="#" style="font-weight: 700; font-size: 0.9rem;">Advice</a>
+                <a href="tel:0800000000" class="btn btn-outline" style="padding: 10px 20px;">
+                    24/7 Helpline
+                </a>
+            </nav>
         </div>
     </header>
 
-    <main class="container hero">
-        
-        <h1>Guidance when it matters most.</h1>
-        <p class="subtitle">
-            We are here to help you navigate this difficult time with clarity, dignity, and transparency. 
-            Please tell us how we can support you today.
-        </p>
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <h1 style="font-size: 3.5rem; margin-bottom: 1rem; line-height: 1.1;">
+                    Dignity in Every Detail.
+                </h1>
+                <p style="font-size: 1.25rem; color: var(--col-text-light); max-width: 600px; margin: 0 auto 3rem auto;">
+                    We provide a transparent, compassionate way to compare funeral directors and arrange the perfect farewell.
+                </p>
 
-        <div class="triage-container" id="triageSection">
-            
-            <div class="card card-plan">
-                <div>
-                    <div class="card-icon">
-                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg>
+                <form action="results.html" method="GET" class="search-box">
+                    <div class="form-group">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" id="location" name="location" class="form-input" placeholder="Postcode or Town" required>
                     </div>
-                    <h2>I am arranging a funeral</h2>
-                    <p>Compare funeral directors, view prices, and understand your options at your own pace.</p>
-                </div>
-                <button class="btn btn-primary" onclick="showSearch()">Find a Funeral Director</button>
-            </div>
-
-            <div class="card card-urgent">
-                <div>
-                    <div class="card-icon">
-                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"></path></svg>
+                    
+                    <div class="form-group">
+                        <label for="serviceType" class="form-label">Service Preference</label>
+                        <select id="serviceType" name="type" class="form-input">
+                            <option value="traditional">Traditional Funeral</option>
+                            <option value="simple">Simple / Direct Cremation</option>
+                            <option value="eco">Woodland / Eco-Friendly</option>
+                            <option value="repatriation">Repatriation</option>
+                        </select>
                     </div>
-                    <h2>A death has just occurred</h2>
-                    <p>If you are at a private residence and need immediate assistance with body removal.</p>
-                </div>
-                <button class="btn btn-urgent" onclick="triggerUrgentHelp()">Request Immediate Help</button>
+
+                    <div class="form-group" style="flex: 0 0 auto;">
+                        <button type="submit" class="btn btn-gold" style="height: 100%; width: 100%;">
+                            Find Directors
+                        </button>
+                    </div>
+                </form>
             </div>
+        </section>
 
-        </div>
+        <section class="info-section">
+            <div class="container">
+                <div style="text-align: left; margin-bottom: 2rem;">
+                    <h2 style="font-size: 2rem;">Explore your options</h2>
+                    <p style="color: var(--col-text-light);">Select a path to understand how we can support you.</p>
+                </div>
 
-        <div id="searchInterface" class="search-interface">
-            <h3 style="margin-bottom: 1.5rem; text-align: left;">Find trusted local directors</h3>
-            <form action="results.html" method="GET" class="search-form">
+                <div class="service-grid">
+                    
+                    <article class="service-card">
+                        <div class="card-icon">
+                            <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3>Immediate Assistance</h3>
+                        <p style="margin: 1rem 0; color: var(--col-text-light); font-size: 0.95rem;">
+                            If a death has just occurred, let us guide you through the first steps and body collection.
+                        </p>
+                        <a href="#" style="margin-top: auto; font-weight: 700; color: var(--col-brand-dark); border-bottom: 1px solid var(--col-brand-gold);">Read First Steps &rarr;</a>
+                    </article>
+
+                    <article class="service-card">
+                        <div class="card-icon">
+                            <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+                        </div>
+                        <h3>Compare Directors</h3>
+                        <p style="margin: 1rem 0; color: var(--col-text-light); font-size: 0.95rem;">
+                            View transparent pricing and verified reviews for funeral directors in your local area.
+                        </p>
+                        <a href="results.html" style="margin-top: auto; font-weight: 700; color: var(--col-brand-dark); border-bottom: 1px solid var(--col-brand-gold);">Start Search &rarr;</a>
+                    </article>
+
+                    <article class="service-card">
+                        <div class="card-icon">
+                            <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        </div>
+                        <h3>Direct Cremation</h3>
+                        <p style="margin: 1rem 0; color: var(--col-text-light); font-size: 0.95rem;">
+                            A simple, dignified unattended cremation without a ceremony. Often the most affordable option.
+                        </p>
+                        <a href="#" style="margin-top: auto; font-weight: 700; color: var(--col-brand-dark); border-bottom: 1px solid var(--col-brand-gold);">Learn More &rarr;</a>
+                    </article>
+
+                    <article class="service-card">
+                        <div class="card-icon">
+                            <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        </div>
+                        <h3>Pre-Paid Plans</h3>
+                        <p style="margin: 1rem 0; color: var(--col-text-light); font-size: 0.95rem;">
+                            Secure today's prices for the future. Peace of mind for you and your family.
+                        </p>
+                        <a href="#" style="margin-top: auto; font-weight: 700; color: var(--col-brand-dark); border-bottom: 1px solid var(--col-brand-gold);">View Plans &rarr;</a>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section style="background: var(--col-brand-dark); color: var(--col-white); padding: 60px 0;">
+            <div class="container" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 40px;">
                 
-                <div class="input-group">
-                    <label for="location">Postcode or Town</label>
-                    <input type="text" id="location" name="location" class="input-field" placeholder="e.g. SW1, Manchester" required>
+                <div style="flex: 1; min-width: 300px;">
+                    <h2 style="color: var(--col-brand-gold); margin-bottom: 1rem;">The New Standard of Care</h2>
+                    <p style="opacity: 0.8; margin-bottom: 1.5rem;">
+                        Funeral Match was founded to bring transparency to an industry that has operated in the shadows for too long. We vet every director, verify every review, and ensure you never pay more than you need to.
+                    </p>
+                    <ul style="opacity: 0.9; line-height: 2;">
+                        <li>✓ Independent & Unbiased</li>
+                        <li>✓ 24/7 Bereavement Support</li>
+                        <li>✓ Transparent Price Guarantees</li>
+                    </ul>
                 </div>
 
-                <div class="input-group">
-                    <label for="type">Service Type</label>
-                    <select id="type" name="type" class="input-field">
-                        <option value="simple">Simple / Direct Cremation</option>
-                        <option value="traditional" selected>Traditional Service</option>
-                        <option value="eco">Eco-Friendly / Woodland</option>
-                    </select>
+                <div style="flex: 1; min-width: 300px; background: rgba(255,255,255,0.05); padding: 30px; border-radius: var(--radius-card);">
+                    <h3 style="color: var(--col-white); font-size: 1.25rem;">Need help right now?</h3>
+                    <p style="margin: 1rem 0; font-size: 0.95rem; opacity: 0.8;">
+                        Our advisors are available 24 hours a day to assist with body collection or immediate arrangements.
+                    </p>
+                    <a href="tel:0800000000" class="btn btn-gold" style="width: 100%; text-align: center;">Call 0800 123 456</a>
                 </div>
 
-                <div class="input-group" style="flex: 0 0 auto; justify-content: flex-end;">
-                    <button type="submit" class="btn btn-primary" style="height: 52px; margin-top: auto;">
-                        Search Directors
-                    </button>
-                </div>
-            </form>
-            <div style="text-align: left; margin-top: 1rem;">
-                <button onclick="hideSearch()" style="background:none; text-decoration: underline; color: var(--col-text-muted); font-size: 0.9rem;">
-                    &larr; Back to options
-                </button>
             </div>
-        </div>
-
+        </section>
     </main>
 
+    <footer style="background: #111; color: #666; padding: 40px 0; font-size: 0.85rem;">
+        <div class="container" style="text-align: center;">
+            <p>&copy; 2024 Funeral Match Ltd. All rights reserved.</p>
+            <div style="margin-top: 10px; display: flex; justify-content: center; gap: 20px;">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+                <a href="#">Director Portal</a>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        // UX Strategy: Progressive Disclosure
-        // We do not show the search bar immediately to avoid overwhelming the user.
-        
-        function showSearch() {
-            // Hide the triage cards gently
-            document.getElementById('triageSection').style.display = 'none';
-            // Show the search form
-            document.getElementById('searchInterface').style.display = 'block';
-            // Focus on the input for accessibility
-            document.getElementById('location').focus();
-        }
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // Logic: Remove overlay from DOM after animation to ensure clicks work
+            // The CSS animation takes 3.5s total (2.5s delay + 1s fade)
+            const overlay = document.getElementById('intro-overlay');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 3600); // 3.6 seconds to be safe
 
-        function hideSearch() {
-            document.getElementById('searchInterface').style.display = 'none';
-            document.getElementById('triageSection').style.display = 'grid';
-        }
+            // Search Form Validation & Redirection
+            const form = document.querySelector('.search-box');
+            form.addEventListener('submit', (e) => {
+                e.preventDefault(); // Stop default to validate/animate if needed
+                
+                const location = document.getElementById('location').value;
+                const type = document.getElementById('serviceType').value;
 
-        function triggerUrgentHelp() {
-            // In a real production app, this might open a modal with a 24/7 hotline 
-            // or a specialized form for "First Call" logic.
-            // For now, we redirect to the urgent help controller/page.
-            // alert("Redirecting to immediate assistance protocol...");
-            window.location.href = 'immediate-help.html'; 
-        }
+                if(!location) {
+                    alert("Please enter a location to begin.");
+                    document.getElementById('location').focus();
+                    return;
+                }
+
+                // Construct URL parameters manually to ensure clean format
+                // In production, you would URL encode the input
+                const params = new URLSearchParams({
+                    location: location,
+                    service_type: type
+                });
+
+                // Simulate processing delay for "Searching..." feel
+                const btn = form.querySelector('button');
+                const originalText = btn.innerText;
+                btn.innerText = "Searching...";
+                btn.style.backgroundColor = "#b59668";
+                
+                setTimeout(() => {
+                    window.location.href = `results.html?${params.toString()}`;
+                }, 600);
+            });
+        });
     </script>
 </body>
 </html>
