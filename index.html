@@ -174,3 +174,424 @@
                 The vetted marketplace for funeral care. Compare prices, verify standards, and arrange with dignity—all in one place.
             </p>
         </section>
+    <style>
+        /* =========================================
+         * 6. THE SERVICE GRID (Soft & Interactive)
+         * ========================================= */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 5% 4rem 5%; /* Bottom padding reduced to allow blend */
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Base Card Physics */
+        .soft-card {
+            background: #FFFFFF;
+            border-radius: 1.5rem; /* Soft Curve */
+            padding: 3rem 2.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-smooth);
+            border: 1px solid rgba(0,0,0,0.03);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 420px;
+        }
+
+        /* Hover Lift */
+        .soft-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -10px rgba(197, 160, 89, 0.15);
+        }
+
+        /* Typography */
+        .card-eyebrow {
+            font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em;
+            margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; opacity: 0.9;
+        }
+        
+        .card-heading {
+            font-family: 'Bodoni Moda', serif; font-size: 2rem; line-height: 1.1;
+            color: var(--charcoal); margin-bottom: 1rem;
+        }
+        
+        .card-desc {
+            font-size: 1rem; line-height: 1.6; color: #666; margin-bottom: 2.5rem;
+        }
+
+        /* Pill Buttons */
+        .card-pill {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 12px 28px; border-radius: 999px;
+            font-size: 0.85rem; font-weight: 600; letter-spacing: 0.05em;
+            transition: all 0.3s; width: fit-content;
+        }
+
+        /* --- CARD 1: URGENT (Soft Rose) --- */
+        .card-urgent .card-eyebrow { color: #BE123C; }
+        .card-urgent .card-pill { background: #FFF0F2; color: #BE123C; }
+        .card-urgent:hover { background: #FFF0F2; border-color: #BE123C; }
+        .card-urgent:hover .card-pill { background: #BE123C; color: white; }
+
+        /* --- CARD 2: PRIMARY (Redesigned - Premium Gold/White) --- */
+        /* Replaces the black card with a cleaner, nicer aesthetic */
+        .card-primary { 
+            background: #FFFFFF;
+            border: 1px solid #E8D5B5; /* Soft Gold Border */
+        }
+        .card-primary .card-eyebrow { color: var(--gold); }
+        .card-primary .card-pill { background: var(--gold); color: white; }
+        
+        .card-primary:hover { 
+            border-color: var(--gold); 
+            box-shadow: 0 30px 60px -10px rgba(197, 160, 89, 0.25);
+        }
+        .card-primary:hover .card-pill { background: var(--charcoal); }
+
+        /* --- CARD 3: PLANS (Calm Slate) --- */
+        .card-plan .card-eyebrow { color: #64748B; }
+        .card-plan .card-pill { background: #F1F5F9; color: #475569; }
+        .card-plan:hover { background: #F8FAFC; border-color: #64748B; }
+        .card-plan:hover .card-pill { background: #64748B; color: white; }
+
+        /* =========================================
+         * 7. PAGE FADE BLEND (The Cutaway Fix)
+         * ========================================= */
+        .page-end-blend {
+            height: 150px;
+            width: 100%;
+            background: linear-gradient(to bottom, transparent 0%, var(--charcoal) 100%);
+            margin-top: -80px; /* Overlap slightly */
+            position: relative;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+    </style>
+
+    <section class="service-grid">
+
+        <article class="soft-card card-urgent" onclick="triggerUrgentModal()" data-aos="fade-up" data-aos-delay="100">
+            <div>
+                <div class="card-eyebrow">
+                    <span style="width: 8px; height: 8px; background: #BE123C; border-radius: 50%;"></span> 
+                    Immediate Help
+                </div>
+                <h2 class="card-heading">A death has<br>occurred.</h2>
+                <p class="card-desc">
+                    If you require body collection from a private residence, our team is available 24/7.
+                </p>
+            </div>
+            <div class="card-pill">
+                Request Support &rarr;
+            </div>
+        </article>
+
+        <article class="soft-card card-primary" onclick="openSearchOverlay()" data-aos="fade-up" data-aos-delay="200">
+            <div>
+                <div class="card-eyebrow">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z"/></svg>
+                    Primary Service
+                </div>
+                <h2 class="card-heading">Find a Funeral<br>Director.</h2>
+                <p class="card-desc">
+                    Compare verified independent directors. View transparent pricing, facility photos, and reviews.
+                </p>
+            </div>
+            <div class="card-pill">
+                Start Search &rarr;
+            </div>
+        </article>
+
+        <article class="soft-card card-plan" onclick="window.location.href='/plans'" data-aos="fade-up" data-aos-delay="300">
+            <div>
+                <div class="card-eyebrow">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    Future Planning
+                </div>
+                <h2 class="card-heading">Prepaid<br>Funeral Plans.</h2>
+                <p class="card-desc">
+                    Secure peace of mind for your family by freezing costs at today's prices. Safe and regulated.
+                </p>
+            </div>
+            <div class="card-pill">
+                Explore Plans &rarr;
+            </div>
+        </article>
+
+    </section>
+    
+    <div class="page-end-blend"></div>
+
+    </main>
+    <style>
+        /* =========================================
+         * 8. THE CATHEDRAL FOOTER
+         * ========================================= */
+        footer {
+            background-color: var(--charcoal);
+            color: #9CA3AF;
+            padding: 4rem 5% 3rem 5%; /* Top padding reduced as Blend Layer handles the transition */
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 4rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* Brand Column */
+        .footer-brand h3 {
+            font-family: 'Bodoni Moda', serif;
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .footer-brand p {
+            line-height: 1.8;
+            max-width: 320px;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+        
+        /* Soft Social Buttons */
+        .social-circle {
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; color: white; cursor: pointer;
+            font-size: 0.8rem; font-weight: 700;
+        }
+        .social-circle:hover { background: var(--gold); color: var(--charcoal); transform: scale(1.1); }
+
+        /* Navigation Links */
+        .footer-col h4 {
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-link {
+            display: block;
+            color: #9CA3AF;
+            margin-bottom: 1.2rem;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .footer-link:hover { color: var(--gold); transform: translateX(5px); }
+
+        /* Bottom Bar */
+        .footer-bottom {
+            max-width: 1280px;
+            margin: 2rem auto 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) { .footer-container { grid-template-columns: 1fr 1fr; gap: 3rem; } }
+        @media (max-width: 640px) { 
+            .footer-container { grid-template-columns: 1fr; } 
+            .footer-bottom { flex-direction: column; align-items: flex-start; gap: 1rem; }
+        }
+
+        /* =========================================
+         * 9. SOFT OVERLAYS (Modals)
+         * ========================================= */
+        .soft-overlay {
+            position: fixed; inset: 0;
+            background: rgba(31, 31, 31, 0.9); /* Dark Charcoal Blur */
+            backdrop-filter: blur(12px);
+            z-index: 5000;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.4s var(--ease-smooth);
+        }
+        .soft-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .soft-modal-box {
+            background: white;
+            padding: 3.5rem;
+            width: 100%; max-width: 550px;
+            border-radius: 2.5rem; /* ULTRA SOFT CORNERS */
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.3);
+            transform: scale(0.95);
+            transition: transform 0.4s var(--ease-smooth);
+            position: relative;
+        }
+        .soft-overlay.active .soft-modal-box { transform: scale(1); }
+
+        .close-circle {
+            position: absolute; top: 1.5rem; right: 1.5rem;
+            width: 40px; height: 40px;
+            background: #F3F4F6; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: #999; transition: 0.3s;
+        }
+        .close-circle:hover { background: #E5E7EB; color: var(--charcoal); }
+
+        /* Soft Input Fields */
+        .soft-input {
+            width: 100%; padding: 1.2rem 2rem;
+            border-radius: 99px; /* Pill Shape */
+            border: 1px solid #E5E5E5; background: #FAFAFA;
+            font-size: 1.1rem; outline: none; transition: 0.3s;
+        }
+        .soft-input:focus { background: white; border-color: var(--gold); box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1); }
+    </style>
+
+    <footer>
+        <div class="footer-container">
+            
+            <div class="footer-brand">
+                <h3>FuneralMatch</h3>
+                <p>
+                    The independent standard for funeral comparison. Verified, transparent, and dignified care for every family.
+                </p>
+                <div style="display: flex; gap: 12px;">
+                    <div class="social-circle">X</div>
+                    <div class="social-circle">In</div>
+                    <div class="social-circle">Fb</div>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Platform</h4>
+                <a href="#" class="footer-link">How it Works</a>
+                <a href="#" class="footer-link">Vetting Standards</a>
+                <a href="#" class="footer-link">Our Charter</a>
+                <a href="#" class="footer-link">Director Portal</a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Services</h4>
+                <a href="#" class="footer-link">Find a Director</a>
+                <a href="#" class="footer-link">Direct Cremation</a>
+                <a href="#" class="footer-link">Prepaid Plans</a>
+                <a href="#" class="footer-link">Eco Funerals</a>
+            </div>
+
+            <div class="footer-col">
+                <h4>Support</h4>
+                <a href="#" class="footer-link">Bereavement Advice</a>
+                <a href="#" class="footer-link">Registering a Death</a>
+                <a href="#" class="footer-link">Coroner Enquiries</a>
+                <a href="#" class="footer-link">Contact Us</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div>&copy; 2026 FuneralMatch Ltd. Registered in England & Wales.</div>
+            <div style="display: flex; gap: 2rem;">
+                <a href="#" style="color: #666; text-decoration: none;">Privacy</a>
+                <a href="#" style="color: #666; text-decoration: none;">Terms</a>
+                <a href="#" style="color: #666; text-decoration: none;">Cookies</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="search-overlay" class="soft-overlay">
+        <div class="soft-modal-box">
+            <div class="close-circle" onclick="toggleOverlay('search-overlay', false)">&times;</div>
+            <h3 style="font-family: 'Bodoni Moda', serif; font-size: 2rem; margin-bottom: 2rem; text-align: center; color: var(--charcoal);">
+                Begin Search
+            </h3>
+            <form action="results.html" style="position: relative;">
+                <input type="text" class="soft-input" placeholder="Enter Postcode or Town..." autofocus>
+                <button type="submit" style="
+                    position: absolute; right: 6px; top: 6px; bottom: 6px;
+                    background: var(--charcoal); color: white; border: none;
+                    padding: 0 2rem; border-radius: 99px; font-weight: 600;
+                    cursor: pointer; transition: 0.3s;
+                ">GO</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="urgent-modal" class="soft-overlay">
+        <div class="soft-modal-box" style="border: 2px solid #FFF0F2;">
+            <div class="close-circle" onclick="toggleOverlay('urgent-modal', false)">&times;</div>
+            <h3 style="font-family: 'Bodoni Moda', serif; font-size: 1.8rem; margin-bottom: 1rem; color: #BE123C;">
+                Immediate Assistance
+            </h3>
+            <p style="color: #666; margin-bottom: 2rem; line-height: 1.6;">
+                Our compassionate team is available 24/7. Provide your number for a priority callback.
+            </p>
+            <form>
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" class="soft-input" placeholder="Your Name">
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <input type="tel" class="soft-input" placeholder="Contact Number">
+                </div>
+                <button type="submit" style="
+                    width: 100%; padding: 1.2rem; background: #BE123C; color: white;
+                    border: none; border-radius: 99px; font-weight: 600; font-size: 1rem;
+                    cursor: pointer; box-shadow: 0 10px 30px rgba(190, 18, 60, 0.2);
+                ">Request Priority Call</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 1. Intro Animation Logic
+        window.addEventListener('load', () => {
+            const intro = document.getElementById('intro-overlay');
+            if(intro) {
+                // Intro is visible, let CSS animations run. 
+                // Total duration approx 5s (including slogan delay)
+                setTimeout(() => {
+                    intro.style.display = 'none';
+                }, 5200);
+            }
+            // Initialize Scroll Animations
+            AOS.init({ duration: 1000, once: true, offset: 50 });
+        });
+
+        // 2. Overlay Toggles
+        function toggleOverlay(id, show) {
+            const el = document.getElementById(id);
+            if(show) {
+                el.classList.add('active');
+                if(id === 'search-overlay') {
+                    setTimeout(() => el.querySelector('input').focus(), 100);
+                }
+            } else {
+                el.classList.remove('active');
+            }
+        }
+
+        // 3. Trigger Functions
+        function openSearchOverlay() { toggleOverlay('search-overlay', true); }
+        function triggerUrgentModal() { toggleOverlay('urgent-modal', true); }
+
+        // 4. Keyboard Support
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') {
+                toggleOverlay('search-overlay', false);
+                toggleOverlay('urgent-modal', false);
+            }
+        });
+    </script>
+</body>
+</html>
