@@ -3,346 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funeral Match | The New Standard of Care</title>
+    <meta name="description" content="Compassionate, transparent funeral comparison. Find the right director for your needs without pressure.">
+    <title>Compassionate Care | UK Funeral Guide</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
-    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;500;600&family=Inter:wght@300;400;500;600&display=swap');
-        
+        /* =========================================
+         * 1. DESIGN SYSTEM (The "Sage & Slate" Palette)
+         * ========================================= */
         :root {
-            --gold: #C5A059;
-            --black: #1a1a1a;
-            --charcoal: #2d2d2d;
-            --white: #ffffff;
-            --urgent-red: #a84444;
+            /* Backgrounds */
+            --bg-cream: #FAF9F6;
+            --bg-white: #FFFFFF;
+            --bg-soft-green: #F2F6F4;
+
+            /* Primary Colors (Sage) - Reassuring, Growth */
+            --col-primary: #6B8E78; 
+            --col-primary-dark: #4A6354;
+            --col-primary-light: #E6EBE7;
+
+            /* Text Colors (Slate) - Solid, Reliable */
+            --col-text-main: #2D3748;
+            --col-text-muted: #718096;
+            --col-heading: #1A202C;
+
+            /* Action/Urgency (Muted Terracotta) - Noticeable but not alarming */
+            --col-urgent: #C0776D;
+            --col-urgent-bg: #FFF5F5;
+
+            /* Spacing & Layout */
+            --radius-soft: 12px;
+            --radius-pill: 50px;
+            --container-max: 1100px;
+            --spacing-unit: 1rem;
+
+            /* Transitions */
+            --ease-gentle: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        body { 
-            margin: 0;
-            background-color: var(--white);
-            font-family: 'Inter', sans-serif;
+        /* =========================================
+         * 2. RESET & BASE
+         * ========================================= */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-cream);
+            color: var(--col-text-main);
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
         }
 
-        /* --- 1. INTRO ANIMATION --- */
-        #intro-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: var(--white);
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--col-heading);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--ease-gentle); }
+        button { cursor: pointer; border: none; outline: none; font-family: inherit; }
+        
+        .container {
+            width: 90%;
+            max-width: var(--container-max);
+            margin: 0 auto;
+        }
+
+        /* =========================================
+         * 3. COMPONENTS
+         * ========================================= */
+        
+        /* Header & Subtle Logo */
+        header {
+            padding: 1.5rem 0;
+            background: transparent;
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem; /* Reduced size per request */
+            color: var(--col-primary-dark);
             display: flex;
             align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 1.2s ease-in-out, visibility 1.2s;
-            cursor: default;
+            gap: 0.5rem;
+            opacity: 0.85; /* Subtle */
+        }
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background: var(--col-primary);
+            border-radius: 50%;
+            display: inline-block;
         }
 
-        .logo-wrap {
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            transition: var(--ease-gentle);
+            font-size: 1rem;
+        }
+        .btn-primary {
+            background-color: var(--col-primary);
+            color: white;
+            box-shadow: 0 4px 6px rgba(107, 142, 120, 0.2);
+        }
+        .btn-primary:hover {
+            background-color: var(--col-primary-dark);
+            transform: translateY(-1px);
+        }
+        .btn-urgent {
+            background-color: transparent;
+            border: 1px solid var(--col-urgent);
+            color: var(--col-urgent);
+        }
+        .btn-urgent:hover {
+            background-color: var(--col-urgent-bg);
+        }
+
+        /* =========================================
+         * 4. HERO & TRIAGE SECTION
+         * ========================================= */
+        .hero {
+            padding: 4rem 0 6rem 0;
             text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero p.subtitle {
+            font-size: 1.2rem;
+            color: var(--col-text-muted);
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+        }
+
+        /* The Triage Cards: Immediate vs Planning */
+        .triage-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            text-align: left;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--bg-white);
+            padding: 2.5rem;
+            border-radius: var(--radius-soft);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            transition: var(--ease-gentle);
+            position: relative;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1.5rem;
+            display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 12px;
         }
 
-        /* Unified Logo Font Style */
-        .brand-text {
-            font-family: 'Bodoni Moda', serif;
-            font-weight: 500; /* Regular weight */
-            font-size: 1.6rem; /* SAME SIZE FOR BOTH */
+        .card h2 {
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card p {
+            color: var(--col-text-muted);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        /* Distinct Styles for the two paths */
+        
+        /* Path A: Planning (Primary) */
+        .card-plan .card-icon {
+            background-color: var(--col-primary-light);
+            color: var(--col-primary-dark);
+        }
+
+        /* Path B: Urgent (Secondary/Warning) */
+        .card-urgent {
+            border: 1px solid var(--col-urgent-bg);
+        }
+        .card-urgent .card-icon {
+            background-color: var(--col-urgent-bg);
+            color: var(--col-urgent);
+        }
+
+        /* =========================================
+         * 5. SEARCH FORM (Appears on click)
+         * ========================================= */
+        .search-interface {
+            display: none; /* Hidden initially to reduce cognitive load */
+            margin-top: 2rem;
+            background: var(--bg-white);
+            padding: 2rem;
+            border-radius: var(--radius-soft);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .search-form {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            flex: 1;
+            min-width: 250px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--col-text-muted);
             text-transform: uppercase;
-            line-height: 1;
-            opacity: 0;
+            letter-spacing: 0.05em;
         }
 
-        .brand-funeral {
-            color: var(--black);
-            letter-spacing: 0.25em; /* Standard spacing */
-            margin-right: -0.25em; /* Optical alignment */
-            animation: softIn 2.5s ease-out forwards;
-        }
-
-        .logo-divider {
-            width: 40px;
-            height: 1px;
-            background-color: var(--gold);
-            margin: 12px 0;
-            opacity: 0;
-            transform: scaleX(0);
-            animation: expandLine 2s ease-out forwards;
-            animation-delay: 0.8s;
-        }
-
-        .brand-match {
-            color: var(--gold);
-            /* Increased spacing to match width of 'FUNERAL' visually */
-            letter-spacing: 0.65em; 
-            margin-right: -0.65em; 
-            animation: softIn 2.5s ease-out forwards;
-            animation-delay: 1.0s;
-        }
-
-        @keyframes softIn {
-            from { opacity: 0; transform: translateY(15px); filter: blur(8px); }
-            to { opacity: 1; transform: translateY(0); filter: blur(0); }
-        }
-
-        @keyframes expandLine {
-            to { opacity: 1; transform: scaleX(1); }
-        }
-
-        .exit-clean {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        /* --- 2. MAIN SITE --- */
-        .font-serif { font-family: 'Bodoni Moda', serif; }
-        
-        #main-content {
-            opacity: 0;
-            transition: opacity 2.0s ease-in-out;
+        .input-field {
+            padding: 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--bg-cream);
+            transition: var(--ease-gentle);
         }
         
-        #main-content.visible {
-            opacity: 1;
+        .input-field:focus {
+            background: #fff;
+            border-color: var(--col-primary);
+            outline: none;
+            box-shadow: 0 0 0 3px var(--col-primary-light);
         }
 
-        /* --- 3. SLOW SCROLL REVEAL --- */
-        .reveal-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1.5s cubic-bezier(0.2, 1, 0.3, 1); 
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .triage-container { grid-template-columns: 1fr; }
+            .search-form { flex-direction: column; }
+            .btn { width: 100%; }
         }
 
-        .reveal-on-scroll.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        input:focus, select:focus { outline: none; }
-        .soft-shadow { box-shadow: 0 20px 60px -20px rgba(0,0,0,0.05); }
-
-        #mobile-menu {
-            transform: translateX(100%);
-            transition: transform 0.6s cubic-bezier(0.6, 0.05, 0.01, 0.99);
-        }
-        #mobile-menu.open { transform: translateX(0); }
     </style>
 </head>
 <body>
 
-    <div id="intro-overlay">
-        <div class="logo-wrap">
-            <span class="brand-text brand-funeral">Funeral</span>
-            <div class="logo-divider"></div>
-            <span class="brand-text brand-match">Match</span>
+    <header>
+        <div class="container header-inner">
+            <a href="/" class="logo" aria-label="Homepage">
+                <span class="logo-icon"></span>
+                <span>Farewell Guide</span>
+            </a>
+            <a href="tel:0800123456" style="font-size: 0.9rem; font-weight: 700; color: var(--col-primary-dark);">
+                Support: 0800 123 456
+            </a>
         </div>
-    </div>
+    </header>
 
-    <div id="main-content">
+    <main class="container hero">
         
-        <nav class="fixed w-full z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-28">
-                    
-                    <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.location.reload()">
-                        <div class="flex flex-col items-center">
-                            <span class="font-serif font-medium text-xl tracking-[0.25em] uppercase text-[#1a1a1a] mr-[-0.25em] leading-none">Funeral</span>
-                            
-                            <div class="h-[1px] w-[40px] bg-[#C5A059] my-[8px]"></div>
-                            
-                            <span class="font-serif font-medium text-xl tracking-[0.65em] uppercase text-[#C5A059] mr-[-0.65em] leading-none">Match</span>
-                        </div>
-                    </div>
+        <h1>Guidance when it matters most.</h1>
+        <p class="subtitle">
+            We are here to help you navigate this difficult time with clarity, dignity, and transparency. 
+            Please tell us how we can support you today.
+        </p>
 
-                    <div class="hidden md:flex space-x-12 items-center">
-                        <a href="#" class="text-[11px] uppercase tracking-[0.15em] font-medium text-gray-500 hover:text-[#C5A059] transition-colors">Directors</a>
-                        <a href="#" class="text-[11px] uppercase tracking-[0.15em] font-medium text-gray-500 hover:text-[#C5A059] transition-colors">Planning</a>
-                        <a href="#" class="text-[11px] uppercase tracking-[0.15em] font-medium text-gray-500 hover:text-[#C5A059] transition-colors">Mission</a>
+        <div class="triage-container" id="triageSection">
+            
+            <div class="card card-plan">
+                <div>
+                    <div class="card-icon">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><path d="M14 2v6h6"></path><path d="M16 13H8"></path><path d="M16 17H8"></path><path d="M10 9H8"></path></svg>
                     </div>
-
-                    <div class="hidden md:flex items-center space-x-8">
-                        <button class="flex items-center gap-2 text-[#a84444] border border-[#a84444]/20 bg-[#a84444]/5 px-5 py-2.5 rounded-full hover:bg-[#a84444] hover:text-white transition-all duration-500 group">
-                            <div class="w-2 h-2 rounded-full bg-[#a84444] group-hover:bg-white animate-pulse"></div>
-                            <span class="text-[10px] uppercase tracking-widest font-bold">Urgent Help (24/7)</span>
-                        </button>
-                        
-                        <a href="/director/login" class="text-[10px] font-bold uppercase tracking-widest text-gray-400 hover:text-[#1a1a1a] transition-colors">
-                            Log In
-                        </a>
-                    </div>
-
-                    <div class="md:hidden flex items-center gap-4">
-                        <button class="text-[#a84444] text-xs font-bold uppercase tracking-wide border border-[#a84444]/20 px-3 py-1 rounded-full">Urgent</button>
-                        <button onclick="toggleMobileMenu()" class="text-[#1a1a1a] p-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/></svg>
-                        </button>
-                    </div>
+                    <h2>I am arranging a funeral</h2>
+                    <p>Compare funeral directors, view prices, and understand your options at your own pace.</p>
                 </div>
+                <button class="btn btn-primary" onclick="showSearch()">Find a Funeral Director</button>
             </div>
-        </nav>
 
-        <section class="relative pt-48 pb-24 lg:pt-64 lg:pb-40 overflow-hidden bg-gradient-to-b from-[#fcfbf9] to-white">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                
-                <span class="reveal-on-scroll text-[#C5A059] text-xs tracking-[0.3em] uppercase font-bold mb-8 block">
-                    Independent & Transparent
-                </span>
-                
-                <h1 class="reveal-on-scroll text-4xl md:text-6xl font-serif text-[#1a1a1a] mb-8 leading-tight font-medium">
-                    The new standard <br />
-                    <span class="italic font-light text-[#666]">of funeral care</span>
-                </h1>
-                
-                <p class="reveal-on-scroll max-w-xl mx-auto text-gray-500 text-base md:text-lg mb-14 font-light leading-relaxed">
-                    Take your time to compare verified funeral directors. 
-                    Simple pricing, genuine reviews, and the dignity your loved ones deserve.
-                </p>
-
-                <form action="/search" method="GET" class="reveal-on-scroll max-w-3xl mx-auto bg-white p-2 rounded-full soft-shadow border border-gray-100 flex flex-col md:flex-row gap-2 relative z-20 transition-all hover:shadow-lg duration-1000">
-                    <div class="flex-grow relative flex items-center px-6 py-4 bg-gray-50/50 rounded-full border border-transparent focus-within:border-gray-200 transition-colors">
-                        <svg class="text-[#C5A059] mr-3" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                        <input 
-                            type="text" 
-                            name="location"
-                            placeholder="Enter Postcode or Town" 
-                            class="w-full bg-transparent border-none text-[#1a1a1a] placeholder-gray-400 text-sm md:text-base tracking-wide"
-                            required
-                        />
+            <div class="card card-urgent">
+                <div>
+                    <div class="card-icon">
+                        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"></path></svg>
                     </div>
-                    
-                    <button type="submit" class="bg-[#1a1a1a] text-white px-10 py-4 rounded-full font-medium text-xs tracking-[0.15em] uppercase hover:bg-[#C5A059] transition-colors duration-500 shadow-md">
-                        Search
+                    <h2>A death has just occurred</h2>
+                    <p>If you are at a private residence and need immediate assistance with body removal.</p>
+                </div>
+                <button class="btn btn-urgent" onclick="triggerUrgentHelp()">Request Immediate Help</button>
+            </div>
+
+        </div>
+
+        <div id="searchInterface" class="search-interface">
+            <h3 style="margin-bottom: 1.5rem; text-align: left;">Find trusted local directors</h3>
+            <form action="results.html" method="GET" class="search-form">
+                
+                <div class="input-group">
+                    <label for="location">Postcode or Town</label>
+                    <input type="text" id="location" name="location" class="input-field" placeholder="e.g. SW1, Manchester" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="type">Service Type</label>
+                    <select id="type" name="type" class="input-field">
+                        <option value="simple">Simple / Direct Cremation</option>
+                        <option value="traditional" selected>Traditional Service</option>
+                        <option value="eco">Eco-Friendly / Woodland</option>
+                    </select>
+                </div>
+
+                <div class="input-group" style="flex: 0 0 auto; justify-content: flex-end;">
+                    <button type="submit" class="btn btn-primary" style="height: 52px; margin-top: auto;">
+                        Search Directors
                     </button>
-                </form>
-                
-                <div class="reveal-on-scroll mt-16 flex justify-center items-center gap-8 md:gap-16 text-[9px] md:text-[10px] text-gray-400 uppercase tracking-widest font-semibold flex-wrap">
-                    <div class="flex items-center gap-3 opacity-60 hover:opacity-100 transition-opacity duration-500">
-                        <div class="w-1 h-1 rounded-full bg-[#C5A059]"></div> Verified Directors
-                    </div>
-                    <div class="flex items-center gap-3 opacity-60 hover:opacity-100 transition-opacity duration-500">
-                        <div class="w-1 h-1 rounded-full bg-[#C5A059]"></div> Real Reviews
-                    </div>
-                    <div class="flex items-center gap-3 opacity-60 hover:opacity-100 transition-opacity duration-500">
-                        <div class="w-1 h-1 rounded-full bg-[#C5A059]"></div> No Hidden Fees
-                    </div>
                 </div>
+            </form>
+            <div style="text-align: left; margin-top: 1rem;">
+                <button onclick="hideSearch()" style="background:none; text-decoration: underline; color: var(--col-text-muted); font-size: 0.9rem;">
+                    &larr; Back to options
+                </button>
             </div>
-        </section>
+        </div>
 
-        <section class="py-24 bg-[#fcfbf9]">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-20 reveal-on-scroll">
-                    <h2 class="font-serif text-3xl text-[#1a1a1a] mb-4">Guidance at every step</h2>
-                    <p class="text-gray-400 font-light text-sm tracking-wide uppercase">Simple. Respectful. Clear.</p>
-                </div>
-
-                <div class="grid md:grid-cols-3 gap-10">
-                    <div class="reveal-on-scroll bg-white p-12 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-1000 hover:-translate-y-1 cursor-default group border border-transparent hover:border-gray-50">
-                        <div class="w-12 h-12 bg-[#f9f5eb] rounded-full flex items-center justify-center mb-8 group-hover:bg-[#C5A059] transition-colors duration-700">
-                            <span class="font-serif text-[#C5A059] group-hover:text-white transition-colors duration-700 text-xl">1</span>
-                        </div>
-                        <h3 class="font-serif text-xl mb-4 text-[#1a1a1a]">Compare Options</h3>
-                        <p class="text-sm text-gray-500 leading-7 font-light">Take your time to filter by location and price. Find a director that aligns with your wishes.</p>
-                    </div>
-
-                    <div class="reveal-on-scroll bg-white p-12 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-1000 hover:-translate-y-1 cursor-default group border border-transparent hover:border-gray-50" style="transition-delay: 200ms;">
-                        <div class="w-12 h-12 bg-[#f9f5eb] rounded-full flex items-center justify-center mb-8 group-hover:bg-[#C5A059] transition-colors duration-700">
-                            <span class="font-serif text-[#C5A059] group-hover:text-white transition-colors duration-700 text-xl">2</span>
-                        </div>
-                        <h3 class="font-serif text-xl mb-4 text-[#1a1a1a]">Read Reviews</h3>
-                        <p class="text-sm text-gray-500 leading-7 font-light">Read genuine experiences from other families in your community to ensure peace of mind.</p>
-                    </div>
-
-                    <div class="reveal-on-scroll bg-white p-12 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-1000 hover:-translate-y-1 cursor-default group border border-transparent hover:border-gray-50" style="transition-delay: 400ms;">
-                        <div class="w-12 h-12 bg-[#f9f5eb] rounded-full flex items-center justify-center mb-8 group-hover:bg-[#C5A059] transition-colors duration-700">
-                            <span class="font-serif text-[#C5A059] group-hover:text-white transition-colors duration-700 text-xl">3</span>
-                        </div>
-                        <h3 class="font-serif text-xl mb-4 text-[#1a1a1a]">Connect Directly</h3>
-                        <p class="text-sm text-gray-500 leading-7 font-light">Securely contact your chosen director. No pressure, just support when you are ready.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer class="bg-[#fcfbf9] border-t border-gray-100 pt-16 pb-8">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <div class="flex flex-col items-center mb-8 opacity-50 hover:opacity-100 transition-opacity duration-700">
-                    <span class="font-serif font-medium text-lg tracking-[0.25em] uppercase text-[#1a1a1a] mr-[-0.25em]">Funeral</span>
-                    <div class="h-[1px] w-12 bg-[#C5A059] my-2"></div>
-                    <span class="font-serif font-medium text-lg tracking-[0.65em] uppercase text-[#C5A059] mr-[-0.65em]">Match</span>
-                </div>
-                <p class="text-xs text-gray-400">&copy; 2026 Funeral Match Ltd. Registered in England & Wales.</p>
-            </div>
-        </footer>
-    </div>
-
-    <div id="mobile-menu" class="fixed inset-0 z-50 bg-white md:hidden flex flex-col pt-32 px-8">
-        <button onclick="toggleMobileMenu()" class="absolute top-10 right-8 text-[#1a1a1a]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-        
-        <button class="w-full bg-[#a84444] text-white py-4 rounded-full uppercase tracking-widest font-bold text-xs mb-12 shadow-lg">
-            Request Urgent Callback
-        </button>
-
-        <a href="#" class="text-3xl font-serif text-[#1a1a1a] mb-8 block">Find a Director</a>
-        <a href="#" class="text-3xl font-serif text-[#1a1a1a] mb-8 block">Planning Advice</a>
-        <a href="#" class="text-3xl font-serif text-[#1a1a1a] mb-8 block">Mission</a>
-    </div>
+    </main>
 
     <script>
-        // --- 1. INTRO LOGIC (3.8s) ---
-        function dismissIntro() {
-            const intro = document.getElementById('intro-overlay');
-            const main = document.getElementById('main-content');
-            
-            intro.classList.add('exit-clean');
-            main.classList.add('visible');
-            
-            setTimeout(() => { 
-                intro.style.display = 'none'; 
-            }, 1500); 
+        // UX Strategy: Progressive Disclosure
+        // We do not show the search bar immediately to avoid overwhelming the user.
+        
+        function showSearch() {
+            // Hide the triage cards gently
+            document.getElementById('triageSection').style.display = 'none';
+            // Show the search form
+            document.getElementById('searchInterface').style.display = 'block';
+            // Focus on the input for accessibility
+            document.getElementById('location').focus();
         }
 
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                if(document.getElementById('intro-overlay').style.display !== 'none') {
-                    dismissIntro();
-                }
-            }, 3800); 
-        });
+        function hideSearch() {
+            document.getElementById('searchInterface').style.display = 'none';
+            document.getElementById('triageSection').style.display = 'grid';
+        }
 
-        // --- 2. SLOW SCROLL OBSERVER ---
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.15 
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); 
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal-on-scroll').forEach((element) => {
-            observer.observe(element);
-        });
-
-        // --- 3. MOBILE MENU ---
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('open');
+        function triggerUrgentHelp() {
+            // In a real production app, this might open a modal with a 24/7 hotline 
+            // or a specialized form for "First Call" logic.
+            // For now, we redirect to the urgent help controller/page.
+            // alert("Redirecting to immediate assistance protocol...");
+            window.location.href = 'immediate-help.html'; 
         }
     </script>
 </body>
