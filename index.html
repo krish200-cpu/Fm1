@@ -2,422 +2,645 @@
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Funeral Match. The new standard of care. Verified reviews, transparent pricing.">
-    <title>Funeral Match | The New Standard of Care</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Independent, vetted funeral care comparison. A dignified guide for difficult times.">
+    <title>FuneralMatch | Vetted Independent Care</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
-        /* =========================================
-         * 1. THE "CLEAN SHEET" SYSTEM
-         * ========================================= */
+        /* * DESIGN SYSTEM: THE "SANCTUARY" PALETTE
+         * --------------------------------------
+         * Philosophy: Warm neutrality. No harsh blacks (#000). 
+         * No stark whites (#FFF) on large surfaces.
+         */
         :root {
-            /* Palette: Stark White, Deep Charcoal, Muted Bronze */
-            --bg-body: #FFFFFF;
-            --bg-offset: #F9FAFB;
+            /* Brand Colors */
+            --gold: #C5A059;
+            --gold-muted: #D4B982;
+            --charcoal: #1F1F1F;  /* Softer than #000 */
+            --stone: #595959;     /* Body text */
             
-            --text-main: #111827; /* Near Black */
-            --text-muted: #6B7280; /* Neutral Grey */
-            --text-light: #9CA3AF;
+            /* Surfaces */
+            --bg-canvas: #F9F8F6; /* Warm off-white */
+            --glass-surface: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.9);
             
-            --accent: #927044; /* Bronze/Gold - Premium, not yellow */
-            --accent-dark: #785C37;
+            /* Geometry (The "Soft Curve" mandate) */
+            --radius-soft: 1.5rem;   /* Standard card curve */
+            --radius-pill: 3rem;     /* Buttons */
             
-            --border: #E5E7EB;
-            
-            /* Spacing - Responsive Variables */
-            --pad-container: 20px;
-            --header-height: 70px;
-            
-            /* Animation */
-            --ease: cubic-bezier(0.23, 1, 0.32, 1);
+            /* Animation Physics */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-slow: all 0.6s var(--ease-out-expo);
         }
 
-        /* =========================================
-         * 2. RESET & BASE
-         * ========================================= */
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        /* RESET & BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
         
         body {
-            margin: 0;
-            padding: 0;
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden; /* Prevent horizontal scroll on mobile */
+            background-color: var(--bg-canvas);
+            color: var(--charcoal);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        a { text-decoration: none; color: inherit; }
-        h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.02em; }
-        p { margin: 0; }
-        
-        /* Container: Fluid but constrained */
-        .container {
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 var(--pad-container);
-        }
-
-        /* =========================================
-         * 3. COMPONENT: BUTTONS (Touch Friendly)
-         * ========================================= */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            height: 52px; /* Large touch target for mobile */
-            padding: 0 32px;
-            border-radius: 6px; /* Slightly rounded, modern */
-            font-weight: 600;
-            font-size: 1rem;
-            transition: transform 0.2s var(--ease), background 0.2s;
-            width: 100%; /* Default to full width on mobile */
-        }
-
-        @media(min-width: 768px) {
-            .btn { width: auto; } /* Natural width on desktop */
-        }
-
-        .btn-primary {
-            background-color: var(--text-main);
-            color: #FFF;
-        }
-        .btn-primary:active { transform: scale(0.98); }
-
-        .btn-accent {
-            background-color: var(--accent);
-            color: #FFF;
-        }
-        
-        .btn-text {
-            background: transparent;
-            color: var(--text-main);
-            height: auto;
-            padding: 0;
-            text-decoration: underline;
-            text-underline-offset: 4px;
-        }
-
-        /* =========================================
-         * 4. INTRO LOADER (Text Only)
-         * ========================================= */
-        #loader {
+        /* * COMPONENT: THE LIVING BACKGROUND
+         * --------------------------------
+         * Flows with the page. Uses a soft gradient overlay on the image
+         * to ensure text readability without harsh shadows.
+         */
+        .sanctuary-bg {
             position: fixed;
             inset: 0;
-            background: #FFF;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            /* Fade out animation logic is handled in JS or CSS keyframes */
-            animation: fadeOut 0.8s forwards 2.5s var(--ease);
-            pointer-events: none; /* Allows click-through after animation */
+            z-index: -1;
+            /* Base Image */
+            background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
         }
 
-        .loader-text {
-            font-family: 'Inter', sans-serif;
-            font-weight: 900; /* Extra bold */
-            font-size: 2rem;
-            letter-spacing: -0.04em;
-            color: var(--text-main);
-            opacity: 0;
-            animation: textIn 1s forwards 0.3s var(--ease);
-            text-align: center;
+        .sanctuary-overlay {
+            position: absolute;
+            inset: 0;
+            /* A subtle gradient mask to soften the image */
+            background: linear-gradient(
+                to bottom, 
+                rgba(249, 248, 246, 0.85) 0%, 
+                rgba(249, 248, 246, 0.5) 40%, 
+                rgba(249, 248, 246, 0.95) 100%
+            );
+            backdrop-filter: blur(2px);
         }
 
-        .loader-slogan {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--accent);
-            margin-top: 12px;
-            opacity: 0;
-            animation: textIn 1s forwards 0.8s var(--ease);
-        }
-
-        @keyframes textIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
-
-        /* =========================================
-         * 5. HEADER (Sticky & Minimal)
-         * ========================================= */
+        /* * COMPONENT: HEADER & IMMUTABLE LOGO
+         * ----------------------------------
+         * Constraint Checklist:
+         * 1. Exact same logo component? YES.
+         * 2. Zero changes to typography/size? YES.
+         */
         header {
-            height: var(--header-height);
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
+            position: absolute;
             top: 0;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(8px);
-            z-index: 100;
-        }
-
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            left: 0;
             width: 100%;
-        }
-
-        .logo {
-            font-weight: 800;
-            font-size: 1.25rem;
-            letter-spacing: -0.03em;
-            color: var(--text-main);
-        }
-
-        /* =========================================
-         * 6. HERO & SEARCH (Responsive Stack)
-         * ========================================= */
-        .hero {
-            padding: 60px 0;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 2.5rem; /* Large but fits mobile */
-            line-height: 1.1;
-            margin-bottom: 20px;
-        }
-        
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 40px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Search Card: A clean box */
-        .search-container {
-            background: var(--bg-offset);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
+            padding: clamp(2rem, 5vw, 3rem) 8%;
+            z-index: 100;
             display: flex;
-            flex-direction: column; /* Stack vertically on mobile */
-            gap: 16px;
-            max-width: 800px;
-            margin: 0 auto;
+            justify-content: flex-start; /* Aligns logo to left */
         }
 
-        .input-group {
+        /* IMMUTABLE LOGO CSS START */
+        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+        .brand-text { font-family: 'Bodoni Moda', serif; font-size: clamp(0.7rem, 2vw, 0.9rem); text-transform: uppercase; }
+        .brand-funeral { color: var(--charcoal); letter-spacing: 0.5em; animation: logoFade 2s forwards; }
+        /* Note: Replaced var(--black) with var(--charcoal) for consistency, layout remains identical */
+        .logo-divider { width: 40px; height: 1px; background-color: var(--gold); margin: 8px 0; animation: logoFade 2s forwards 0.8s; opacity: 0; }
+        .brand-match { color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; animation: logoFade 2.5s forwards 0.4s; opacity: 0; }
+
+        @keyframes logoFade {
+            from { opacity: 0; filter: blur(4px); transform: translateY(5px); }
+            to { opacity: 1; filter: blur(0); transform: translateY(0); }
+        }
+        /* IMMUTABLE LOGO CSS END */
+
+        /* LAYOUT CONTAINER */
+        main {
+            padding: 22vh 8% 8rem 8%;
             display: flex;
             flex-direction: column;
-            text-align: left;
-            flex: 1;
-        }
-
-        .input-group label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 8px;
-            color: var(--text-muted);
-        }
-
-        .input-field, select.input-field {
-            height: 52px; /* Matches button height */
-            padding: 0 16px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            background: #FFF;
-            font-size: 1rem;
-            width: 100%;
-            -webkit-appearance: none; /* Removes default iOS styling */
-        }
-        
-        .input-field:focus {
-            outline: none;
-            border-color: var(--text-main);
-        }
-
-        /* Desktop Layout Overrides */
-        @media (min-width: 768px) {
-            .hero { padding: 100px 0; }
-            .hero h1 { font-size: 3.5rem; }
-            .search-container { flex-direction: row; align-items: flex-end; padding: 24px; }
-            .btn { width: auto; padding: 0 40px; }
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
         }
 
     </style>
 </head>
 <body>
 
-    <div id="loader" aria-hidden="true">
-        <div class="loader-text">Funeral Match</div>
-        <div class="loader-slogan">The New Standard of Care</div>
+    <div class="sanctuary-bg">
+        <div class="sanctuary-overlay"></div>
     </div>
 
     <header>
-        <div class="container header-inner">
-            <a href="/" class="logo">Funeral Match</a>
-            <a href="tel:0800000000" class="btn btn-text" style="font-size: 0.9rem;">
-                Help: 0800 123 456
-            </a>
+        <div class="logo-wrap">
+            <span class="brand-text brand-funeral">Funeral</span>
+            <div class="logo-divider"></div>
+            <span class="brand-text brand-match">Match</span>
         </div>
     </header>
+    <style>
+        /* 1. THE SOFT WELCOME (Typography) */
+        .welcome-wrap {
+            text-align: center;
+            max-width: 700px;
+            margin-bottom: 3.5rem;
+        }
+        .welcome-title {
+            font-family: 'Bodoni Moda', serif;
+            font-size: clamp(2rem, 5vw, 3.2rem); /* Reduced from 4.5rem for gentleness */
+            font-weight: 400;
+            color: var(--charcoal);
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+        .welcome-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            color: var(--stone);
+            font-weight: 300;
+        }
+        
+        /* 2. SEARCH CAPSULE (Soft Rect System) */
+        .search-capsule {
+            width: 100%;
+            max-width: 840px;
+            background: var(--glass-surface);
+            backdrop-filter: blur(12px);
+            border: 1px solid white;
+            padding: 0.75rem;
+            border-radius: var(--radius-pill); /* 3rem curves */
+            display: flex;
+            align-items: center;
+            box-shadow: 
+                0 10px 40px -10px rgba(197, 160, 89, 0.1),
+                0 4px 12px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo);
+            margin-bottom: 3rem;
+        }
+
+        .search-capsule:focus-within {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 20px 40px -10px rgba(197, 160, 89, 0.15),
+                0 8px 24px -4px rgba(0, 0, 0, 0.08);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 0 2rem;
+            font-size: 1.05rem;
+            color: var(--charcoal);
+            outline: none;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .search-input::placeholder { color: #888; font-weight: 300; }
+
+        .search-btn {
+            background-color: var(--charcoal);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 2.5rem; /* Pill shape */
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .search-btn:hover { background-color: #000; }
+
+        /* Mobile adaptation for Search */
+        @media (max-width: 768px) {
+            .search-capsule {
+                flex-direction: column;
+                border-radius: 2rem;
+                padding: 1.5rem;
+                gap: 1rem;
+            }
+            .search-input { width: 100%; text-align: center; padding: 0; }
+            .search-btn { width: 100%; padding: 1.2rem; }
+        }
+
+        /* 3. REVENUE HINT (Glassmorphism) */
+        .revenue-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(197, 160, 89, 0.3);
+            border-radius: 2rem;
+            font-size: 0.85rem;
+            color: var(--stone);
+            margin-bottom: 6rem;
+            transition: var(--transition-slow);
+        }
+        .revenue-pill:hover {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: var(--gold);
+            transform: translateY(-1px);
+        }
+        .action-link {
+            color: var(--gold);
+            font-weight: 600;
+            text-decoration: none;
+            padding-bottom: 1px;
+            border-bottom: 1px solid transparent;
+            transition: 0.3s;
+        }
+        .action-link:hover { border-bottom-color: var(--gold); }
+
+        /* 4. INFO GRID (The "Gentle Lift") */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1400px;
+        }
+
+        .info-card {
+            background: var(--glass-surface);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-soft); /* 1.5rem */
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: var(--transition-slow);
+            cursor: default;
+        }
+
+        /* Interaction: Gentle Lift */
+        .info-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+            background: rgba(255, 255, 255, 0.95);
+            border-color: white;
+        }
+
+        .card-icon {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 2rem;
+            font-style: italic;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .card-h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--charcoal);
+            margin-bottom: 1rem;
+        }
+
+        .card-p {
+            font-size: 0.95rem;
+            color: var(--stone);
+            line-height: 1.7;
+        }
+
+    </style>
 
     <main>
-        <section class="hero">
-            <div class="container">
-                <h1>Arrange with confidence.</h1>
-                <p>
-                    The transparent way to compare funeral directors, 
-                    check prices, and read verified reviews.
-                </p>
+        <div class="welcome-wrap" data-aos="fade-up" data-aos-duration="1200">
+            <h1 class="welcome-title">
+                <span style="font-style: italic; display: block; margin-bottom: 0.5rem;">Compassion</span> 
+                meets clarity.
+            </h1>
+            <p class="welcome-sub">
+                A calm, vetted marketplace to help you arrange care with confidence.
+            </p>
+        </div>
 
-                <form class="search-container" action="results.html" method="GET">
-                    
-                    <div class="input-group">
-                        <label for="location">Location</label>
-                        <input type="text" id="location" name="location" class="input-field" placeholder="Postcode or Town" required>
-                    </div>
+        <div class="search-capsule" data-aos="fade-up" data-aos-delay="150" data-aos-duration="1200">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2" style="margin-left: 1.5rem;">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" class="search-input" placeholder="Enter postcode or town (e.g. Manchester)..." aria-label="Search location">
+            <button class="search-btn">Find Directors</button>
+        </div>
 
-                    <div class="input-group">
-                        <label for="type">Service</label>
-                        <select id="type" name="type" class="input-field">
-                            <option value="traditional">Traditional Funeral</option>
-                            <option value="simple">Direct Cremation</option>
-                            <option value="green">Woodland / Eco</option>
-                        </select>
-                    </div>
+        <div class="revenue-pill" data-aos="fade-in" data-aos-delay="400">
+            <span>Thinking about the future?</span>
+            <span class="action-link" onclick="toggleModal(true)" role="button" tabindex="0">Explore Dignity Plans &rarr;</span>
+        </div>
 
-                    <div class="input-group" style="flex: 0 0 auto;">
-                        <label>&nbsp;</label> <button type="submit" class="btn btn-primary">Search</button>
-                    </div>
+        <div class="info-grid">
+            
+            <article class="info-card" data-aos="fade-up" data-aos-delay="100">
+                <span class="card-icon">i.</span>
+                <h3 class="card-h3">Independent Advocacy</h3>
+                <p class="card-p">We represent the family, not the director. Our comparisons are based purely on merit, service quality, and verified feedback.</p>
+            </article>
 
-                </form>
-            </div>
-        </section>
+            <article class="info-card" data-aos="fade-up" data-aos-delay="200">
+                <span class="card-icon">ii.</span>
+                <h3 class="card-h3">Vetted Standards</h3>
+                <p class="card-p">Every director on our platform is audited for facility standards and professional conduct, ensuring your safety.</p>
+            </article>
 
-        <section style="padding-bottom: 80px;">
-            <div class="container">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+            <article class="info-card" data-aos="fade-up" data-aos-delay="300">
+                <span class="card-icon">iii.</span>
+                <h3 class="card-h3">Transparent Costs</h3>
+                <p class="card-p">No hidden fees. We enforce a fixed-cost framework that allows you to see the true price of care upfront.</p>
+            </article>
+            
+            <article class="info-card" data-aos="fade-up" data-aos-delay="400">
+                <span class="card-icon">iv.</span>
+                <h3 class="card-h3">Digital Ease</h3>
+                <p class="card-p">Manage tributes, documents, and communications securely through our modern family portal.</p>
+            </article>
 
-                    <a href="immediate-help.html" style="display: block;">
-                        <article style="border: 1px solid #FECACA; background: #FEF2F2; padding: 32px; border-radius: 12px; height: 100%; display: flex; flex-direction: column; align-items: flex-start;">
-                            <h3 style="color: #991B1B; font-size: 1.25rem; margin-bottom: 12px;">Immediate Help</h3>
-                            <p style="color: #7F1D1D; margin-bottom: 24px; font-size: 0.95rem;">
-                                A death has just occurred. I need assistance with body collection and first steps.
-                            </p>
-                            <span style="margin-top: auto; font-weight: 600; color: #991B1B; text-decoration: underline;">Get support &rarr;</span>
-                        </article>
-                    </a>
-
-                    <a href="#" onclick="document.getElementById('location').focus(); return false;" style="display: block;">
-                        <article style="border: 1px solid var(--border); background: #FFF; padding: 32px; border-radius: 12px; height: 100%; display: flex; flex-direction: column; align-items: flex-start; transition: box-shadow 0.2s;">
-                            <h3 style="color: var(--text-main); font-size: 1.25rem; margin-bottom: 12px;">Compare Directors</h3>
-                            <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem;">
-                                I want to view prices and reviews for funeral directors near me.
-                            </p>
-                            <span style="margin-top: auto; font-weight: 600; color: var(--text-main); text-decoration: underline;">Start search &rarr;</span>
-                        </article>
-                    </a>
-
-                    <a href="#" style="display: block;">
-                        <article style="border: 1px solid var(--border); background: #FFF; padding: 32px; border-radius: 12px; height: 100%; display: flex; flex-direction: column; align-items: flex-start; transition: box-shadow 0.2s;">
-                            <h3 style="color: var(--text-main); font-size: 1.25rem; margin-bottom: 12px;">Pre-Paid Plans</h3>
-                            <p style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem;">
-                                I want to freeze costs and plan ahead for the future.
-                            </p>
-                            <span style="margin-top: auto; font-weight: 600; color: var(--text-main); text-decoration: underline;">View plans &rarr;</span>
-                        </article>
-                    </a>
-
-                </div>
-            </div>
-        </section>
-
-        <section style="background: var(--bg-offset); padding: 80px 0; border-top: 1px solid var(--border);">
-            <div class="container">
-                <div style="max-width: 700px;">
-                    <h2 style="font-size: 1.75rem; margin-bottom: 24px;">Why we exist.</h2>
-                    <p style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 40px;">
-                        The funeral industry is unregulated. Prices for the same service can vary by thousands of pounds within the same town. 
-                        We exist to provide the transparency families deserve.
-                    </p>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
-                        <div>
-                            <div style="font-weight: 900; font-size: 1.5rem; color: var(--accent);">0%</div>
-                            <div style="font-size: 0.9rem; font-weight: 600; margin-top: 4px;">Fees for families</div>
-                        </div>
-                        <div>
-                            <div style="font-weight: 900; font-size: 1.5rem; color: var(--accent);">100%</div>
-                            <div style="font-size: 0.9rem; font-weight: 600; margin-top: 4px;">Verified reviews</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
     </main>
+    <style>
+        /* 5. EMERGENCY SYSTEM (Floating Pill) */
+        #emergency-system {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 3000;
+            transform: translateY(150%);
+            transition: transform 0.8s var(--ease-out-expo);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        #emergency-system.active { transform: translateY(0); }
 
-    <footer style="padding: 40px 0; border-top: 1px solid var(--border); font-size: 0.85rem; color: var(--text-muted);">
-        <div class="container" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
-            <div>&copy; 2024 Funeral Match Ltd.</div>
-            <div style="display: flex; gap: 24px;">
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-                <a href="#">Cookies</a>
+        .emergency-btn {
+            background: white;
+            padding: 0.8rem 1.6rem;
+            border-radius: var(--radius-pill);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            transition: var(--transition-slow);
+        }
+        .emergency-btn:hover {
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(197, 160, 89, 0.15);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #D97706; /* Amber/Gold Warning */
+            border-radius: 50%;
+            box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7);
+            animation: pulse-gold 2s infinite;
+        }
+
+        @keyframes pulse-gold {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(217, 119, 6, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
+        }
+
+        /* 6. MODAL ARCHITECTURE (Soft Curve) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(249, 248, 246, 0.8); /* Canvas color but transparent */
+            backdrop-filter: blur(8px);
+            z-index: 4000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .lead-card {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            padding: 3rem 2.5rem;
+            border-radius: 2rem; /* Soft container */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border: 1px solid white;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #F3F4F6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--stone);
+            transition: 0.2s;
+        }
+        .modal-close:hover { background: #E5E7EB; color: var(--charcoal); }
+
+        /* Form Aesthetics */
+        .form-label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+            margin-top: 1.2rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border-radius: 1rem; /* Soft input corners */
+            border: 1px solid #E5E7EB;
+            background: #F9FAFB;
+            font-size: 1rem;
+            color: var(--charcoal);
+            outline: none;
+            transition: 0.2s;
+        }
+        .form-input:focus {
+            background: white;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(197, 160, 89, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 2rem;
+            background: var(--charcoal);
+            color: white;
+            padding: 1rem;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s;
+        }
+        .submit-btn:hover { background: #000; }
+
+        /* 7. FOOTER */
+        footer {
+            margin-top: 4rem;
+            padding: 5rem 8% 3rem 8%;
+            background: white;
+            border-top: 1px solid #E5E7EB;
+            font-family: 'Inter', sans-serif;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+        }
+        .footer-head {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--charcoal);
+            margin-bottom: 1.5rem;
+        }
+        .footer-link {
+            display: block;
+            color: var(--stone);
+            margin-bottom: 0.8rem;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-link:hover { color: var(--gold); }
+        .copyright {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid #F3F4F6;
+            color: #9CA3AF;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+    </style>
+
+    <div id="emergency-system">
+        <div class="emergency-btn" onclick="toggleModal(true)">
+            <div class="pulse-dot"></div>
+            <span style="font-size: 0.85rem; font-weight: 600; color: var(--charcoal);">Urgent Assistance</span>
+        </div>
+        <div style="background: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid #E5E7EB; color: #999;" onclick="document.getElementById('emergency-system').style.display='none'">&times;</div>
+    </div>
+
+    <div id="lead-modal" class="modal-overlay" onclick="toggleModal(false)">
+        <div class="lead-card" onclick="event.stopPropagation()">
+            <div class="modal-close" onclick="toggleModal(false)">&times;</div>
+            
+            <h3 style="font-family: 'Bodoni Moda', serif; font-size: 1.8rem; margin-bottom: 0.5rem; color: var(--charcoal);">How can we help?</h3>
+            <p style="font-size: 0.9rem; color: var(--stone); margin-bottom: 1.5rem;">Our team is available to guide you through next steps.</p>
+
+            <form action="https://formspree.io/f/mvzzkjeq" method="POST">
+                
+                <label class="form-label">Situation</label>
+                <select name="lead_type" class="form-input" onchange="toggleDeceasedFields(this.value)">
+                    <option value="inquiry">General Inquiry / Planning</option>
+                    <option value="immediate">A death has occurred (Urgent)</option>
+                </select>
+
+                <div id="deceased-fields" style="display: none;">
+                    <label class="form-label">Deceased Name</label>
+                    <input type="text" name="deceased_name" class="form-input">
+                </div>
+
+                <label class="form-label">Your Name</label>
+                <input type="text" name="reporter_name" class="form-input" required>
+
+                <label class="form-label">Contact Number</label>
+                <input type="tel" name="phone_number" class="form-input" required>
+
+                <button type="submit" class="submit-btn">Request Callback</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-head">Platform</div>
+                <a href="#" class="footer-link">How it Works</a>
+                <a href="#" class="footer-link">Vetting Standards</a>
+                <a href="#" class="footer-link">Dignity Plans</a>
             </div>
+            <div>
+                <div class="footer-head">Support</div>
+                <a href="#" class="footer-link">Bereavement Advice</a>
+                <a href="#" class="footer-link">Contact Team</a>
+                <a href="#" class="footer-link">Report an Issue</a>
+            </div>
+            <div>
+                <div class="footer-head">Legal</div>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Cookie Preferences</a>
+            </div>
+            <div>
+                <div class="footer-head">Partners</div>
+                <a href="#" class="footer-link">Director Portal</a>
+                <a href="#" class="footer-link">Supplier Login</a>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 FuneralMatch Ltd. Registered in England & Wales. Regulated standards apply.
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            
-            // Logic: Handle the fade-in intro
-            const loader = document.getElementById('loader');
-            // Allow the CSS animation (2.5s wait + 0.8s fade) to play out naturally.
-            // We set a timeout to remove it from the DOM completely so it doesn't block clicks.
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 3400);
-
-            // Logic: Search Form Handling
-            const form = document.querySelector('.search-container');
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-
-                const location = document.getElementById('location').value.trim();
-                const type = document.getElementById('type').value;
-
-                if(location.length < 2) {
-                    alert('Please enter a valid Postcode or Town.');
-                    return;
-                }
-
-                // UI Feedback: Change button text to indicate activity
-                const btn = form.querySelector('button');
-                const originalText = btn.innerText;
-                btn.innerText = "Searching...";
-                btn.style.opacity = "0.7";
-
-                // Construct URL and Redirect
-                // Using URLSearchParams ensures special characters in town names are encoded correctly
-                const params = new URLSearchParams({
-                    location: location,
-                    service_type: type
-                });
-
-                setTimeout(() => {
-                    window.location.href = `results.html?${params.toString()}`;
-                }, 500); // Slight delay for UX perception
-            });
-
+        // 1. Initialize Animations
+        AOS.init({
+            offset: 40,
+            duration: 1000,
+            easing: 'ease-out-cubic',
+            once: true
         });
+
+        // 2. Delayed Appearance of Emergency System (Non-intrusive)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('emergency-system').classList.add('active');
+            }, 3500); // 3.5s delay allows user to read the hero first
+        });
+
+        // 3. Modal Logic
+        function toggleModal(show) {
+            const overlay = document.getElementById('lead-modal');
+            if (show) {
+                overlay.style.display = 'flex';
+                // Small timeout to allow display:flex to apply before adding opacity class
+                setTimeout(() => overlay.classList.add('active'), 10);
+            } else {
+                overlay.classList.remove('active');
+                setTimeout(() => overlay.style.display = 'none', 400);
+            }
+        }
+
+        // 4. Dynamic Form Logic
+        function toggleDeceasedFields(val) {
+            const fields = document.getElementById('deceased-fields');
+            if (val === 'immediate') {
+                fields.style.display = 'block';
+            } else {
+                fields.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
