@@ -192,55 +192,7 @@
     </header>
 
     <main>
-        <section class="hero-section" data-aos="fade-up">
-            <h1 class="hero-title">
-                Compassionate Guidance <br>
-                <span style="font-style: italic; color: var(--gold);">Independent Choice.</span>
-            </h1>
-            <p class="hero-sub">
-                The vetted marketplace for funeral care. Compare prices, verify standards, and arrange with dignity—all in one place.
-            </p>
-        </section>
-
-        <section class="service-grid">
-            <article class="soft-card card-urgent" onclick="toggleOverlay('urgent-modal', true)" data-aos="fade-up" data-aos-delay="100">
-                <div>
-                    <div class="card-eyebrow"><span style="width:8px; height:8px; background:#BE123C; border-radius:50%;"></span>Immediate Help</div>
-                    <h2 class="card-heading">A death has<br>occurred.</h2>
-                    <p class="card-desc">If you require body collection from a private residence, our team is available 24/7 to guide you.</p>
-                </div>
-                <div class="card-pill">Request Support &rarr;</div>
-            </article>
-
-            <article class="soft-card card-primary" onclick="toggleOverlay('search-overlay', true)" data-aos="fade-up" data-aos-delay="200">
-                <div>
-                    <div class="card-eyebrow">
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 12h3v8h6v-6h2v6h6v-8h3L12 2z"/></svg>
-                        Primary Service
-                    </div>
-                    <h2 class="card-heading">Find a Funeral<br>Director.</h2>
-                    <p class="card-desc">Compare verified independent directors. View transparent pricing, facility photos, and verified reviews.</p>
-                </div>
-                <div class="card-pill">Start Search &rarr;</div>
-            </article>
-
-            <article class="soft-card card-plan" onclick="window.location.href='/plans'" data-aos="fade-up" data-aos-delay="300">
-                <div>
-                    <div class="card-eyebrow">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        Future Planning
-                    </div>
-                    <h2 class="card-heading">Prepaid<br>Funeral Plans.</h2>
-                    <p class="card-desc">Secure peace of mind for your family by freezing costs at today's prices. Safe and regulated.</p>
-                </div>
-                <div class="card-pill">Explore Plans &rarr;</div>
-            </article>
-        </section>
-    </main>
-    <style>
-        /* =========================================
-         * 7. CATHEDRAL FOOTER (Physical Cutaway)
-         * ========================================= */
+         <style>
         footer {
             position: relative;
             z-index: 20; /* Sits above the background */
@@ -288,37 +240,6 @@
             .footer-container { grid-template-columns: 1fr; } 
             footer { border-top-left-radius: 2rem; border-top-right-radius: 2rem; padding-top: 4rem; }
         }
-
-        /* =========================================
-         * 8. SOFT OVERLAYS (Modals)
-         * ========================================= */
-        .soft-overlay {
-            position: fixed; inset: 0; background: rgba(31, 31, 31, 0.9); backdrop-filter: blur(12px);
-            z-index: 5000; display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.4s var(--ease-smooth);
-        }
-        .soft-overlay.active { opacity: 1; pointer-events: auto; }
-
-        .soft-modal-box {
-            background: white; padding: 3.5rem; width: 100%; max-width: 550px;
-            border-radius: 2.5rem; /* Soft corners */
-            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.3); transform: scale(0.95);
-            transition: transform 0.4s var(--ease-smooth); position: relative;
-        }
-        .soft-overlay.active .soft-modal-box { transform: scale(1); }
-
-        .close-circle {
-            position: absolute; top: 1.5rem; right: 1.5rem; width: 40px; height: 40px;
-            background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; color: #999; transition: 0.3s;
-        }
-        .close-circle:hover { background: #E5E7EB; color: var(--charcoal); }
-
-        .soft-input {
-            width: 100%; padding: 1.2rem 2rem; border-radius: 99px; border: 1px solid #E5E5E5;
-            background: #FAFAFA; font-size: 1.1rem; outline: none; transition: 0.3s;
-        }
-        .soft-input:focus { background: white; border-color: var(--gold); box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1); }
     </style>
 
     <footer>
@@ -368,6 +289,37 @@
         </div>
     </footer>
 
+
+    <style>
+        .soft-overlay {
+            position: fixed; inset: 0; background: rgba(31, 31, 31, 0.9); backdrop-filter: blur(12px);
+            z-index: 5000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s var(--ease-smooth);
+        }
+        .soft-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .soft-modal-box {
+            background: white; padding: 3.5rem; width: 100%; max-width: 550px;
+            border-radius: 2.5rem; /* Soft corners */
+            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.3); transform: scale(0.95);
+            transition: transform 0.4s var(--ease-smooth); position: relative;
+        }
+        .soft-overlay.active .soft-modal-box { transform: scale(1); }
+
+        .close-circle {
+            position: absolute; top: 1.5rem; right: 1.5rem; width: 40px; height: 40px;
+            background: #F3F4F6; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: #999; transition: 0.3s;
+        }
+        .close-circle:hover { background: #E5E7EB; color: var(--charcoal); }
+
+        .soft-input {
+            width: 100%; padding: 1.2rem 2rem; border-radius: 99px; border: 1px solid #E5E5E5;
+            background: #FAFAFA; font-size: 1.1rem; outline: none; transition: 0.3s;
+        }
+        .soft-input:focus { background: white; border-color: var(--gold); box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1); }
+    </style>
+
     <div id="search-overlay" class="soft-overlay">
         <div class="soft-modal-box">
             <div class="close-circle" onclick="toggleOverlay('search-overlay', false)">&times;</div>
@@ -384,220 +336,173 @@
                 ">GO</button>
             </form>
         </div>
+    </div>
+
+
     <style>
-    /* 1. THE PHYSICS (Spring Animation) */
-    @keyframes springUp {
-        0% { opacity: 0; transform: scale(0.9) translateY(20px); }
-        60% { opacity: 1; transform: scale(1.02) translateY(-5px); }
-        100% { opacity: 1; transform: scale(1) translateY(0); }
-    }
+        /* Physics */
+        @keyframes springUp { 0% { opacity: 0; transform: scale(0.9) translateY(20px); } 60% { opacity: 1; transform: scale(1.02) translateY(-5px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* 2. THE BACKDROP (Deep Blur) */
-    .emergency-backdrop {
-        position: fixed; inset: 0;
-        background: rgba(68, 51, 51, 0.4); /* Warm brown/grey tint */
-        backdrop-filter: blur(16px); /* Heavy blur focuses attention */
-        -webkit-backdrop-filter: blur(16px);
-        z-index: 6000;
-        display: flex; align-items: center; justify-content: center;
-        opacity: 0; pointer-events: none;
-        transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    }
-    .emergency-backdrop.active { opacity: 1; pointer-events: auto; }
+        /* Backdrop */
+        .emergency-backdrop {
+            position: fixed; inset: 0; background: rgba(68, 51, 51, 0.6);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            z-index: 6000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease; padding: 20px;
+        }
+        .emergency-backdrop.active { opacity: 1; pointer-events: auto; }
 
-    /* 3. THE CONSOLE (Card Design) */
-    .response-console {
-        background: #FFF;
-        width: 100%; max-width: 520px;
-        border-radius: 2rem;
-        padding: 0; /* Content handles padding */
-        position: relative;
-        box-shadow: 
-            0 25px 50px -12px rgba(155, 44, 44, 0.25), /* Rose Shadow */
-            0 0 0 1px rgba(155, 44, 44, 0.1); /* Subtle Red Stroke */
-        overflow: hidden;
-        transform: scale(0.95);
-        opacity: 0;
-        transition: transform 0.2s ease;
-    }
-    
-    /* Trigger Animation when Active */
-    .emergency-backdrop.active .response-console {
-        animation: springUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        animation-delay: 0.1s;
-    }
+        /* Console Card */
+        .response-console {
+            background: #FFF; width: 100%; max-width: 520px;
+            border-radius: 1.5rem; position: relative;
+            box-shadow: 0 25px 50px -12px rgba(155, 44, 44, 0.3), 0 0 0 1px rgba(155, 44, 44, 0.1);
+            overflow: hidden; transform: scale(0.95); opacity: 0; transition: transform 0.2s ease;
+            max-height: 90vh; overflow-y: auto;
+        }
+        .emergency-backdrop.active .response-console { animation: springUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; animation-delay: 0.1s; }
 
-    /* 4. HEADER SECTION (Rose Gradient) */
-    .console-header {
-        background: linear-gradient(135deg, #FFF5F5 0%, #FFF0F0 100%);
-        padding: 2.5rem 2.5rem 1.5rem 2.5rem;
-        border-bottom: 1px solid rgba(155, 44, 44, 0.1);
-    }
-    
-    .status-badge {
-        display: inline-flex; align-items: center; gap: 8px;
-        background: #9B2C2C; color: white;
-        padding: 6px 14px; border-radius: 99px;
-        font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-        margin-bottom: 1rem; box-shadow: 0 4px 10px rgba(155, 44, 44, 0.3);
-    }
-    .live-dot { width: 6px; height: 6px; background: #FCA5A5; border-radius: 50%; animation: blink 1.5s infinite; }
+        /* Header */
+        .console-header { background: linear-gradient(135deg, #FFF5F5 0%, #FFF0F0 100%); padding: 2rem; border-bottom: 1px solid rgba(155, 44, 44, 0.1); }
+        .status-badge { display: inline-flex; align-items: center; gap: 8px; background: #9B2C2C; color: white; padding: 6px 12px; border-radius: 99px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; box-shadow: 0 4px 10px rgba(155, 44, 44, 0.2); }
+        .live-dot { width: 6px; height: 6px; background: #FCA5A5; border-radius: 50%; animation: blink 1.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        /* Body & Inputs */
+        .console-body { padding: 2rem; }
+        .input-label { display: block; font-size: 0.75rem; font-weight: 700; color: #7F1D1D; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+        .smart-input { width: 100%; padding: 1rem; border-radius: 0.8rem; border: 1px solid #E5E7EB; background: #FAFAFA; font-size: 1rem; color: #1F1F1F; transition: all 0.2s ease; -webkit-appearance: none; }
+        .smart-input:focus { background: white; border-color: #9B2C2C; box-shadow: 0 0 0 4px rgba(155, 44, 44, 0.1); outline: none; }
+        .smart-input.error { border-color: #EF4444; background: #FEF2F2; animation: shake 0.4s ease; }
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem; }
+        @media (max-width: 600px) { .input-row { grid-template-columns: 1fr; gap: 0.8rem; } .console-header { padding: 1.5rem; } .console-body { padding: 1.5rem; } }
 
-    /* 5. FORM BODY */
-    .console-body { padding: 2rem 2.5rem 2.5rem 2.5rem; }
+        /* Action Button */
+        .dispatch-btn { width: 100%; padding: 1.2rem; background: #9B2C2C; color: white; border: none; border-radius: 1rem; font-size: 1rem; font-weight: 600; letter-spacing: 0.05em; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 20px -5px rgba(155, 44, 44, 0.3); margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .dispatch-btn:active { transform: scale(0.98); }
+        .dispatch-btn:disabled { background: #CCC; cursor: not-allowed; transform: none; box-shadow: none; }
+        .spinner { width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 0.8s linear infinite; display: none; }
+        .close-modal { position: absolute; top: 1.5rem; right: 1.5rem; width: 32px; height: 32px; border-radius: 50%; background: white; border: 1px solid #FECACA; color: #9B2C2C; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-size: 1.2rem; z-index: 10; }
+    </style>
 
-    .input-label {
-        display: block; font-size: 0.75rem; font-weight: 700; color: #7F1D1D;
-        text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;
-    }
-
-    .smart-input {
-        width: 100%; padding: 1.2rem;
-        border-radius: 1rem; border: 1px solid #E5E7EB;
-        background: #FAFAFA; font-size: 1rem; color: #1F1F1F;
-        transition: all 0.3s ease;
-    }
-    .smart-input:focus {
-        background: white; border-color: #9B2C2C;
-        box-shadow: 0 0 0 4px rgba(155, 44, 44, 0.1); outline: none;
-    }
-
-    /* Custom Select Styling */
-    .select-wrapper { position: relative; }
-    .select-wrapper::after {
-        content: '▼'; position: absolute; right: 1.5rem; top: 50%; transform: translateY(-50%);
-        font-size: 0.7rem; color: #9B2C2C; pointer-events: none;
-    }
-    .smart-select { appearance: none; cursor: pointer; }
-
-    /* Action Button */
-    .dispatch-btn {
-        width: 100%; padding: 1.2rem;
-        background: #9B2C2C; color: white;
-        border: none; border-radius: 1rem;
-        font-size: 1rem; font-weight: 600; letter-spacing: 0.05em;
-        cursor: pointer; transition: all 0.3s;
-        box-shadow: 0 10px 20px -5px rgba(155, 44, 44, 0.3);
-        margin-top: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 10px;
-    }
-    .dispatch-btn:hover { background: #7F1D1D; transform: translateY(-2px); box-shadow: 0 15px 25px -5px rgba(155, 44, 44, 0.4); }
-
-    .close-modal {
-        position: absolute; top: 1.5rem; right: 1.5rem;
-        width: 36px; height: 36px; border-radius: 50%;
-        background: white; border: 1px solid #FECACA;
-        color: #9B2C2C; display: flex; align-items: center; justify-content: center;
-        cursor: pointer; transition: 0.2s; font-size: 1.2rem;
-    }
-    .close-modal:hover { background: #9B2C2C; color: white; border-color: #9B2C2C; }
-</style>
-
-<div id="urgent-modal" class="emergency-backdrop">
-    <div class="response-console">
-        <button class="close-modal" onclick="toggleOverlay('urgent-modal', false)">&times;</button>
-        
-        <div class="console-header">
-            <div class="status-badge"><div class="live-dot"></div>Priority Dispatch Active</div>
-            <h3 style="font-family: 'Bodoni Moda', serif; font-size: 1.8rem; line-height: 1.1; color: #450A0A; margin-bottom: 0.5rem;">
-                Immediate Assistance
-            </h3>
-            <p style="font-size: 0.95rem; color: #7F1D1D; line-height: 1.5; opacity: 0.8;">
-                Our 24/7 Bereavement Team is on standby. Please tell us where the deceased is located so we can arrange the correct team.
-            </p>
-        </div>
-
-        <div class="console-body">
-            <form>
-                <div style="margin-bottom: 1.2rem;">
-                    <label class="input-label">Current Location of Deceased</label>
-                    <div class="select-wrapper">
-                        <select class="smart-input smart-select">
-                            <option value="" disabled selected>Select location type...</option>
-                            <option value="private">Private Residence (Home)</option>
-                            <option value="care_home">Nursing / Care Home</option>
-                            <option value="hospital">Hospital</option>
-                            <option value="coroner">Coroner / Public Mortuary</option>
-                        </select>
+    <div id="urgent-modal" class="emergency-backdrop">
+        <div class="response-console">
+            <button class="close-modal" onclick="toggleOverlay('urgent-modal', false)" aria-label="Close">&times;</button>
+            <div class="console-header">
+                <div class="status-badge"><div class="live-dot"></div>Priority Dispatch Active</div>
+                <h3 style="font-family: 'Bodoni Moda', serif; font-size: clamp(1.5rem, 4vw, 1.8rem); line-height: 1.1; color: #450A0A; margin-bottom: 0.5rem;">Immediate Assistance</h3>
+                <p style="font-size: 0.9rem; color: #7F1D1D; line-height: 1.5; opacity: 0.85;">Our Bereavement Team is on standby 24/7. Tell us the location so we can dispatch the correct vehicle.</p>
+            </div>
+            <div class="console-body">
+                <form id="urgent-form" onsubmit="handleDispatch(event)">
+                    <div style="margin-bottom: 1.2rem;">
+                        <label class="input-label" for="location-select">Current Location of Deceased</label>
+                        <div style="position: relative;">
+                            <select id="location-select" class="smart-input" style="cursor: pointer;" required>
+                                <option value="" disabled selected>Select location type...</option>
+                                <option value="private">Private Residence (Home)</option>
+                                <option value="care_home">Nursing / Care Home</option>
+                                <option value="hospital">Hospital</option>
+                                <option value="coroner">Coroner / Public Mortuary</option>
+                            </select>
+                            <div style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: #9B2C2C; font-size: 0.8rem;">&#9660;</div>
+                        </div>
                     </div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.2rem;">
-                    <div>
-                        <label class="input-label">Your Name</label>
-                        <input type="text" class="smart-input" placeholder="First & Last Name">
+                    <div class="input-row">
+                        <div><label class="input-label">Your Name</label><input type="text" id="contact-name" class="smart-input" placeholder="First & Last Name" required></div>
+                        <div><label class="input-label">Phone Number</label><input type="tel" id="contact-phone" class="smart-input" placeholder="Mobile Number" required></div>
                     </div>
-                    <div>
-                        <label class="input-label">Phone Number</label>
-                        <input type="tel" class="smart-input" placeholder="Best number to call">
-                    </div>
-                </div>
-
-                <button type="button" class="dispatch-btn" onclick="simulateDispatch(this)">
-                    <span>Request Immediate Call</span>
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-                
-                <p style="text-align: center; margin-top: 1.5rem; font-size: 0.8rem; color: #999;">
-                    Secure Connection. An advisor will call you within 5 minutes.
-                </p>
-            </form>
+                    <button type="submit" class="dispatch-btn" id="dispatch-btn">
+                        <span class="btn-text">Request Immediate Call</span>
+                        <div class="spinner"></div>
+                        <svg class="btn-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                    <p style="text-align: center; margin-top: 1.5rem; font-size: 0.75rem; color: #999;">Secure Connection. An advisor will call you within 5 minutes.</p>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
-<script>
-    // UX Simulation: Change button state to reassure user action
-    function simulateDispatch(btn) {
-        const originalContent = btn.innerHTML;
-        btn.style.background = "#064E3B"; // Success Green
-        btn.innerHTML = `<span>Dispatching Request...</span>`;
-        
-        setTimeout(() => {
-            btn.innerHTML = `<span>Request Sent. Stand by.</span>`;
-            // In production, this would submit the form
-        }, 1500);
-    }
-</script>
 
 
     <script>
-        // 1. Intro Animation Logic
+        // 1. INTRO & ANIMATIONS
         window.addEventListener('load', () => {
             const intro = document.getElementById('intro-overlay');
             if(intro) {
-                // Intro duration ~4.8s total
-                setTimeout(() => {
-                    intro.style.display = 'none';
-                }, 4800);
+                // Remove Intro after 4.8s
+                setTimeout(() => { intro.style.display = 'none'; }, 4800);
             }
             AOS.init({ duration: 1000, once: true, offset: 50 });
         });
 
-        // 2. Overlay Toggles
+        // 2. MODAL CONTROLLER
         function toggleOverlay(id, show) {
             const el = document.getElementById(id);
             if(show) {
                 el.classList.add('active');
-                if(id === 'search-overlay') {
-                    setTimeout(() => el.querySelector('input').focus(), 100);
-                }
+                // Auto-focus if search
+                if(id === 'search-overlay') setTimeout(() => el.querySelector('input').focus(), 100);
             } else {
                 el.classList.remove('active');
             }
         }
         
-        function openSearchOverlay() { toggleOverlay('search-overlay', true); }
-        function triggerUrgentModal() { toggleOverlay('urgent-modal', true); }
-
-        // 3. Escape Key
+        // 3. KEYBOARD SUPPORT
         document.addEventListener('keydown', (e) => {
             if(e.key === 'Escape') {
                 toggleOverlay('search-overlay', false);
                 toggleOverlay('urgent-modal', false);
             }
         });
+
+        // 4. URGENT FORM DISPATCH LOGIC
+        function handleDispatch(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('dispatch-btn');
+            const spinner = btn.querySelector('.spinner');
+            const text = btn.querySelector('.btn-text');
+            const icon = btn.querySelector('.btn-icon');
+            const inputs = document.querySelectorAll('#urgent-form .smart-input');
+            
+            // Validation Shake
+            let valid = true;
+            inputs.forEach(input => {
+                if(!input.value) {
+                    input.classList.add('error');
+                    setTimeout(() => input.classList.remove('error'), 500);
+                    valid = false;
+                }
+            });
+            if(!valid) return;
+
+            // Simulate API Call
+            btn.disabled = true;
+            text.innerText = "Connecting...";
+            spinner.style.display = "block";
+            icon.style.display = "none";
+            btn.style.background = "#7F1D1D"; 
+
+            setTimeout(() => {
+                text.innerText = "Request Received";
+                spinner.style.display = "none";
+                btn.style.background = "#064E3B"; // Success Green
+                btn.innerHTML = `<span>&#10003; Request Received</span>`;
+                
+                // Close & Reset
+                setTimeout(() => {
+                    toggleOverlay('urgent-modal', false);
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.style.background = "#9B2C2C";
+                        btn.innerHTML = `<span class="btn-text">Request Immediate Call</span><div class="spinner"></div><svg class="btn-icon" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+                        document.getElementById('urgent-form').reset();
+                    }, 500);
+                }, 2000);
+            }, 2000);
+        }
     </script>
 </body>
 </html>
