@@ -334,15 +334,34 @@
     </main>
     <style>
         /* =========================================
-         * 8. THE CATHEDRAL FOOTER
+         * REDESIGNED TRANSITION & FOOTER
          * ========================================= */
-        footer {
-            background-color: var(--charcoal);
-            color: #9CA3AF;
-            padding: 4rem 5% 3rem 5%; /* Top padding reduced as Blend Layer handles the transition */
-            font-size: 0.95rem;
+        
+        /* 1. The Container above the footer */
+        .service-grid {
             position: relative;
             z-index: 10;
+            padding-bottom: 8rem; /* Extra space for the footer overlap */
+            /* Ensure the grid doesn't get cut off */
+        }
+
+        /* 2. The New "Cathedral" Footer */
+        footer {
+            position: relative;
+            z-index: 20; /* Sits above the background */
+            background-color: var(--charcoal);
+            color: #9CA3AF;
+            
+            /* THE FIX: Soft Curved Top instead of a fade */
+            border-top-left-radius: 2.5rem;
+            border-top-right-radius: 2.5rem;
+            
+            /* THE BLEND: Pulls footer up to overlap the background image cleanly */
+            margin-top: -3rem; 
+            padding: 5rem 5% 3rem 5%;
+            
+            /* Depth Shadow to separate from the image */
+            box-shadow: 0 -20px 60px rgba(0,0,0,0.15);
         }
 
         .footer-container {
@@ -355,7 +374,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.08);
         }
 
-        /* Brand Column */
+        /* Footer Brand */
         .footer-brand h3 {
             font-family: 'Bodoni Moda', serif;
             color: white;
@@ -367,20 +386,27 @@
             max-width: 320px;
             margin-bottom: 2rem;
             opacity: 0.8;
+            font-size: 0.95rem;
         }
         
-        /* Soft Social Buttons */
+        /* Social Circles (Soft) */
         .social-circle {
-            width: 40px; height: 40px;
+            width: 44px; height: 44px;
             background: rgba(255,255,255,0.05);
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             transition: 0.3s; color: white; cursor: pointer;
-            font-size: 0.8rem; font-weight: 700;
+            font-size: 0.85rem; font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.05);
         }
-        .social-circle:hover { background: var(--gold); color: var(--charcoal); transform: scale(1.1); }
+        .social-circle:hover { 
+            background: var(--gold); 
+            color: var(--charcoal); 
+            border-color: var(--gold);
+            transform: translateY(-3px); 
+        }
 
-        /* Navigation Links */
+        /* Links */
         .footer-col h4 {
             color: white;
             font-size: 0.8rem;
@@ -388,6 +414,7 @@
             text-transform: uppercase;
             letter-spacing: 0.15em;
             margin-bottom: 2rem;
+            opacity: 0.9;
         }
         
         .footer-link {
@@ -396,68 +423,22 @@
             margin-bottom: 1.2rem;
             transition: 0.3s;
             text-decoration: none;
+            font-size: 0.95rem;
         }
-        .footer-link:hover { color: var(--gold); transform: translateX(5px); }
-
-        /* Bottom Bar */
-        .footer-bottom {
-            max-width: 1280px;
-            margin: 2rem auto 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.85rem;
+        .footer-link:hover { 
+            color: var(--gold); 
+            transform: translateX(6px); 
         }
 
-        @media (max-width: 1024px) { .footer-container { grid-template-columns: 1fr 1fr; gap: 3rem; } }
+        /* Responsive */
+        @media (max-width: 1024px) { 
+            .footer-container { grid-template-columns: 1fr 1fr; gap: 3rem; } 
+        }
         @media (max-width: 640px) { 
             .footer-container { grid-template-columns: 1fr; } 
-            .footer-bottom { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            footer { padding-top: 4rem; border-top-left-radius: 2rem; border-top-right-radius: 2rem; }
         }
 
-        /* =========================================
-         * 9. SOFT OVERLAYS (Modals)
-         * ========================================= */
-        .soft-overlay {
-            position: fixed; inset: 0;
-            background: rgba(31, 31, 31, 0.9); /* Dark Charcoal Blur */
-            backdrop-filter: blur(12px);
-            z-index: 5000;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.4s var(--ease-smooth);
-        }
-        .soft-overlay.active { opacity: 1; pointer-events: auto; }
-
-        .soft-modal-box {
-            background: white;
-            padding: 3.5rem;
-            width: 100%; max-width: 550px;
-            border-radius: 2.5rem; /* ULTRA SOFT CORNERS */
-            box-shadow: 0 40px 80px -20px rgba(0,0,0,0.3);
-            transform: scale(0.95);
-            transition: transform 0.4s var(--ease-smooth);
-            position: relative;
-        }
-        .soft-overlay.active .soft-modal-box { transform: scale(1); }
-
-        .close-circle {
-            position: absolute; top: 1.5rem; right: 1.5rem;
-            width: 40px; height: 40px;
-            background: #F3F4F6; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; color: #999; transition: 0.3s;
-        }
-        .close-circle:hover { background: #E5E7EB; color: var(--charcoal); }
-
-        /* Soft Input Fields */
-        .soft-input {
-            width: 100%; padding: 1.2rem 2rem;
-            border-radius: 99px; /* Pill Shape */
-            border: 1px solid #E5E5E5; background: #FAFAFA;
-            font-size: 1.1rem; outline: none; transition: 0.3s;
-        }
-        .soft-input:focus { background: white; border-color: var(--gold); box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1); }
     </style>
 
     <footer>
@@ -469,9 +450,9 @@
                     The independent standard for funeral comparison. Verified, transparent, and dignified care for every family.
                 </p>
                 <div style="display: flex; gap: 12px;">
-                    <div class="social-circle">X</div>
-                    <div class="social-circle">In</div>
-                    <div class="social-circle">Fb</div>
+                    <div class="social-circle" title="Twitter/X">X</div>
+                    <div class="social-circle" title="LinkedIn">In</div>
+                    <div class="social-circle" title="Facebook">Fb</div>
                 </div>
             </div>
 
@@ -500,98 +481,13 @@
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <div>&copy; 2026 FuneralMatch Ltd. Registered in England & Wales.</div>
+        <div style="max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem;">
+            <div>&copy; 2026 FuneralMatch Ltd.</div>
             <div style="display: flex; gap: 2rem;">
-                <a href="#" style="color: #666; text-decoration: none;">Privacy</a>
-                <a href="#" style="color: #666; text-decoration: none;">Terms</a>
-                <a href="#" style="color: #666; text-decoration: none;">Cookies</a>
+                <a href="#" style="color: #666; text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#666'">Privacy</a>
+                <a href="#" style="color: #666; text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#666'">Terms</a>
+                <a href="#" style="color: #666; text-decoration: none; transition: 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#666'">Cookies</a>
             </div>
         </div>
     </footer>
 
-    <div id="search-overlay" class="soft-overlay">
-        <div class="soft-modal-box">
-            <div class="close-circle" onclick="toggleOverlay('search-overlay', false)">&times;</div>
-            <h3 style="font-family: 'Bodoni Moda', serif; font-size: 2rem; margin-bottom: 2rem; text-align: center; color: var(--charcoal);">
-                Begin Search
-            </h3>
-            <form action="results.html" style="position: relative;">
-                <input type="text" class="soft-input" placeholder="Enter Postcode or Town..." autofocus>
-                <button type="submit" style="
-                    position: absolute; right: 6px; top: 6px; bottom: 6px;
-                    background: var(--charcoal); color: white; border: none;
-                    padding: 0 2rem; border-radius: 99px; font-weight: 600;
-                    cursor: pointer; transition: 0.3s;
-                ">GO</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="urgent-modal" class="soft-overlay">
-        <div class="soft-modal-box" style="border: 2px solid #FFF0F2;">
-            <div class="close-circle" onclick="toggleOverlay('urgent-modal', false)">&times;</div>
-            <h3 style="font-family: 'Bodoni Moda', serif; font-size: 1.8rem; margin-bottom: 1rem; color: #BE123C;">
-                Immediate Assistance
-            </h3>
-            <p style="color: #666; margin-bottom: 2rem; line-height: 1.6;">
-                Our compassionate team is available 24/7. Provide your number for a priority callback.
-            </p>
-            <form>
-                <div style="margin-bottom: 1rem;">
-                    <input type="text" class="soft-input" placeholder="Your Name">
-                </div>
-                <div style="margin-bottom: 2rem;">
-                    <input type="tel" class="soft-input" placeholder="Contact Number">
-                </div>
-                <button type="submit" style="
-                    width: 100%; padding: 1.2rem; background: #BE123C; color: white;
-                    border: none; border-radius: 99px; font-weight: 600; font-size: 1rem;
-                    cursor: pointer; box-shadow: 0 10px 30px rgba(190, 18, 60, 0.2);
-                ">Request Priority Call</button>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // 1. Intro Animation Logic
-        window.addEventListener('load', () => {
-            const intro = document.getElementById('intro-overlay');
-            if(intro) {
-                // Intro is visible, let CSS animations run. 
-                // Total duration approx 5s (including slogan delay)
-                setTimeout(() => {
-                    intro.style.display = 'none';
-                }, 5200);
-            }
-            // Initialize Scroll Animations
-            AOS.init({ duration: 1000, once: true, offset: 50 });
-        });
-
-        // 2. Overlay Toggles
-        function toggleOverlay(id, show) {
-            const el = document.getElementById(id);
-            if(show) {
-                el.classList.add('active');
-                if(id === 'search-overlay') {
-                    setTimeout(() => el.querySelector('input').focus(), 100);
-                }
-            } else {
-                el.classList.remove('active');
-            }
-        }
-
-        // 3. Trigger Functions
-        function openSearchOverlay() { toggleOverlay('search-overlay', true); }
-        function triggerUrgentModal() { toggleOverlay('urgent-modal', true); }
-
-        // 4. Keyboard Support
-        document.addEventListener('keydown', (e) => {
-            if(e.key === 'Escape') {
-                toggleOverlay('search-overlay', false);
-                toggleOverlay('urgent-modal', false);
-            }
-        });
-    </script>
-</body>
-</html>
