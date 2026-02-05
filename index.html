@@ -13,16 +13,14 @@
 
     <style>
         /* =========================================
-         * 1. DESIGN TOKENS
+         * 1. SYSTEM TOKENS
          * ========================================= */
         :root {
             --gold: #C5A059;
-            --gold-light: #E8D5B5;
+            --gold-light: #F1E5D1;
             --charcoal: #1F1F1F;
             --smoke: #F9F8F6;
             --white: #FFFFFF;
-            
-            /* Spacing Fixes */
             --header-h: 80px;
             --curve-radius: 2.5rem;
         }
@@ -36,14 +34,38 @@
         }
 
         /* =========================================
-         * 2. HEADER (Fixed & Solid)
+         * 2. CINEMATIC INTRO (Restored)
+         * ========================================= */
+        #intro-overlay {
+            position: fixed; inset: 0; background: #F9F8F6; z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            animation: curtainUp 1s forwards 4.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .intro-logo { display: flex; flex-direction: column; align-items: flex-start; transform: scale(1.4); }
+        .intro-logo .brand-funeral { opacity: 0; animation: fadeUp 1s forwards 0.5s; color: var(--charcoal); letter-spacing: 0.5em; font-family: 'Bodoni Moda', serif; text-transform: uppercase; }
+        .intro-logo .logo-divider { width: 0; height: 1px; background: var(--gold); margin: 6px 0; animation: expandLine 1s forwards 1s; }
+        .intro-logo .brand-match { opacity: 0; animation: fadeUp 1s forwards 1.5s; color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; font-family: 'Bodoni Moda', serif; text-transform: uppercase; }
+        
+        .intro-slogan {
+            font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.1rem; color: #888;
+            margin-top: 1.5rem; opacity: 0; animation: fadeUp 1s forwards 2.5s;
+        }
+
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(10px); } }
+        @keyframes expandLine { to { width: 40px; } from { width: 0; } }
+        @keyframes curtainUp { to { opacity: 0; visibility: hidden; } }
+
+        /* =========================================
+         * 3. HEADER (Sticky & Solid)
          * ========================================= */
         header {
             position: fixed; top: 0; left: 0; width: 100%; height: var(--header-h);
-            background: rgba(255, 255, 255, 0.98); /* Higher opacity for cleaner separation */
+            background: rgba(255, 255, 255, 0.98); 
             backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(0,0,0,0.05);
-            z-index: 1000; /* Highest priority */
+            z-index: 1000;
             display: flex; align-items: center; padding: 0 5%;
             transition: all 0.3s ease;
         }
@@ -56,7 +78,6 @@
         .logo-divider { width: 40px; height: 1px; background-color: var(--gold); margin: 6px 0; }
         .brand-match { color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; }
 
-        /* Mobile Menu & Nav */
         .nav-filler { display: flex; align-items: center; gap: 1.5rem; }
         .nav-link { font-size: 0.85rem; font-weight: 500; color: #555; text-decoration: none; transition: 0.3s; }
         .nav-link:hover { color: var(--gold); }
@@ -72,7 +93,7 @@
         @media (max-width: 768px) { .nav-filler { display: none; } .mobile-menu { display: block; } }
 
         /* =========================================
-         * 3. HERO & BACKGROUND
+         * 4. HERO SECTION
          * ========================================= */
         .bg-fixed { position: fixed; inset: 0; z-index: -1; background: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop') center/cover; }
         .bg-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(249,248,246,0.95) 0%, rgba(249,248,246,0.85) 100%); }
@@ -82,12 +103,12 @@
         .hero-sub { font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #666; line-height: 1.6; max-width: 600px; margin: 0 auto; }
 
         /* =========================================
-         * 4. SERVICES GRID (The Cards)
+         * 5. SERVICES GRID (Revamped)
          * ========================================= */
         .service-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
             max-width: 1280px; margin: 0 auto; 
-            padding: 0 5% 10rem 5%; /* HUGE bottom padding to allow footer overlap without hiding cards */
+            padding: 0 5% 10rem 5%; /* Large padding ensures cards clear the footer overlap */
             position: relative; z-index: 5;
         }
 
@@ -104,39 +125,42 @@
         .card-desc { font-size: 0.95rem; line-height: 1.6; color: #666; margin-bottom: 2rem; }
         .card-pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; border-radius: 99px; font-size: 0.8rem; font-weight: 600; transition: 0.3s; width: fit-content; }
 
-        /* Card Variants */
+        /* Variants */
+        /* 1. Urgent */
         .card-urgent .card-eyebrow { color: #BE123C; }
         .card-urgent .card-pill { background: #FFF0F2; color: #BE123C; }
         .card-urgent:hover .card-pill { background: #BE123C; color: white; }
 
-        .card-primary { border: 1px solid #E8D5B5; } /* Gold Border */
+        /* 2. Compare Directors (REVAMPED: Premium White/Gold) */
+        .card-primary { border: 1px solid var(--gold); } 
         .card-primary .card-eyebrow { color: var(--gold); }
         .card-primary .card-pill { background: var(--gold); color: white; }
-        .card-primary:hover { border-color: var(--gold); }
+        .card-primary:hover { border-color: #B08D4C; box-shadow: 0 30px 60px -15px rgba(197, 160, 89, 0.3); }
         .card-primary:hover .card-pill { background: var(--charcoal); }
 
+        /* 3. Plans */
         .card-plan .card-eyebrow { color: #64748B; }
         .card-plan .card-pill { background: #F1F5F9; color: #64748B; }
         .card-plan:hover .card-pill { background: #64748B; color: white; }
 
         /* =========================================
-         * 5. THE CATHEDRAL FOOTER (FIXED LAYOUT)
+         * 6. CATHEDRAL FOOTER (Corrected Cutaway)
          * ========================================= */
         footer {
             position: relative;
-            z-index: 20; /* Above background */
+            z-index: 20; 
             background-color: var(--charcoal);
             color: #9CA3AF;
             
-            /* The Cutaway Logic */
+            /* The Cutaway Curve */
             border-top-left-radius: var(--curve-radius);
             border-top-right-radius: var(--curve-radius);
-            margin-top: -4rem; /* Pull up over the service grid */
+            margin-top: -4rem; 
             
-            /* FIXED PADDING: This was the failure point. Increased significantly. */
+            /* CORRECTED PADDING: Pushes text down safely */
             padding: 7rem 5% 4rem 5%; 
             
-            box-shadow: 0 -20px 60px rgba(0,0,0,0.2); /* Deep shadow to separate layers */
+            box-shadow: 0 -20px 60px rgba(0,0,0,0.2);
         }
 
         .footer-grid {
@@ -156,20 +180,19 @@
         .footer-link { display: block; color: #9CA3AF; margin-bottom: 1rem; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
         .footer-link:hover { color: var(--gold); transform: translateX(4px); }
 
-        /* Responsive Footer */
         @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 640px) { 
             .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
             footer { 
-                padding-top: 5rem; /* Still generous on mobile */
-                margin-top: -2rem; /* Less aggressive pull-up on mobile */
+                padding-top: 5rem; 
+                margin-top: -2rem; 
                 border-top-left-radius: 2rem; 
                 border-top-right-radius: 2rem; 
             }
         }
 
         /* =========================================
-         * 6. URGENT CONSOLE (First Response)
+         * 7. RESPONSIVE MODAL CONSOLE
          * ========================================= */
         .backdrop {
             position: fixed; inset: 0; background: rgba(50, 40, 40, 0.6); backdrop-filter: blur(12px);
@@ -201,10 +224,18 @@
             margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px;
         }
         .close-icon { position: absolute; top: 1.5rem; right: 1.5rem; width: 32px; height: 32px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #9B2C2C; border: 1px solid #FECACA; }
-
     </style>
 </head>
 <body>
+
+    <div id="intro-overlay">
+        <div class="intro-logo">
+            <span class="brand-funeral">Funeral</span>
+            <div class="logo-divider"></div>
+            <span class="brand-match">Match</span>
+        </div>
+        <div class="intro-slogan">The New Standard of Care</div>
+    </div>
 
     <div class="bg-fixed"><div class="bg-overlay"></div></div>
 
@@ -248,9 +279,9 @@
 
             <article class="soft-card card-primary" data-aos="fade-up" data-aos-delay="200">
                 <div>
-                    <div class="card-eyebrow"><span style="color:var(--gold)">&#9733;</span>Primary Service</div>
-                    <h2 class="card-heading">Find a Funeral<br>Director.</h2>
-                    <p class="card-desc">Compare verified independent directors. View transparent pricing and verified reviews.</p>
+                    <div class="card-eyebrow"><span style="color:var(--gold)">&#9733;</span>Compare Directors</div>
+                    <h2 class="card-heading">Find a Trusted<br>Professional.</h2>
+                    <p class="card-desc">Compare verified independent directors near you. View transparent pricing and verified reviews.</p>
                 </div>
                 <div class="card-pill">Start Search &rarr;</div>
             </article>
@@ -340,13 +371,23 @@
     </div>
 
     <script>
+        // Init Animations
         AOS.init({ duration: 800, once: true });
         
+        // Modal Logic
         function toggleModal(show) {
             const modal = document.getElementById('urgent-modal');
             if(show) modal.classList.add('active');
             else modal.classList.remove('active');
         }
+
+        // Intro Logic: Remove overlay after 5s
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const intro = document.getElementById('intro-overlay');
+                if(intro) intro.style.display = 'none';
+            }, 5200);
+        });
     </script>
 </body>
 </html>
