@@ -19,22 +19,40 @@
             --gold: #C5A059;
             --gold-light: #F1E5D1;
             --charcoal: #1F1F1F;
-            --smoke: #F9F8F6;
+            --stone: #F9F8F6; /* Warm base */
             --white: #FFFFFF;
-            --header-h: 80px;
-            --curve-radius: 2.5rem;
+            --header-h: 90px;
+            --curve-radius: 3rem;
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--smoke);
+            background-color: var(--stone);
             color: var(--charcoal);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            margin: 0; padding: 0;
         }
 
         /* =========================================
-         * 2. CINEMATIC INTRO (Restored)
+         * 2. NEW PERFORMANCE BACKGROUND (No Lag)
+         * ========================================= */
+        .bg-layer {
+            position: fixed; inset: 0; z-index: -1;
+            /* A subtle, warm spotlight effect */
+            background: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F2F0EB 60%, #EBE8E1 100%);
+        }
+
+        /* Adds a tiny bit of texture to remove the "flat" feel without heavy images */
+        .noise-overlay {
+            position: fixed; inset: 0; z-index: -1;
+            opacity: 0.4;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+
+        /* =========================================
+         * 3. CINEMATIC INTRO (Restored)
          * ========================================= */
         #intro-overlay {
             position: fixed; inset: 0; background: #F9F8F6; z-index: 9999;
@@ -58,16 +76,14 @@
         @keyframes curtainUp { to { opacity: 0; visibility: hidden; } }
 
         /* =========================================
-         * 3. HEADER (Sticky & Solid)
+         * 4. HEADER (Absolute - NOT Sticky)
          * ========================================= */
         header {
-            position: fixed; top: 0; left: 0; width: 100%; height: var(--header-h);
-            background: rgba(255, 255, 255, 0.98); 
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            z-index: 1000;
+            position: absolute; /* Sits at top, scrolls away */
+            top: 0; left: 0; width: 100%; height: var(--header-h);
+            background: transparent; /* Seamless blend */
+            z-index: 100;
             display: flex; align-items: center; padding: 0 5%;
-            transition: all 0.3s ease;
         }
 
         .header-inner { width: 100%; max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
@@ -78,37 +94,40 @@
         .logo-divider { width: 40px; height: 1px; background-color: var(--gold); margin: 6px 0; }
         .brand-match { color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; }
 
-        .nav-filler { display: flex; align-items: center; gap: 1.5rem; }
+        .nav-filler { display: flex; align-items: center; gap: 2rem; }
         .nav-link { font-size: 0.85rem; font-weight: 500; color: #555; text-decoration: none; transition: 0.3s; }
         .nav-link:hover { color: var(--gold); }
         .mobile-menu { display: none; font-size: 1.5rem; cursor: pointer; color: var(--charcoal); }
         
         .support-btn {
-            background: var(--charcoal); color: white; padding: 10px 20px;
+            background: white; color: var(--charcoal); padding: 10px 20px;
+            border: 1px solid rgba(0,0,0,0.05);
             border-radius: 99px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em;
             display: flex; align-items: center; gap: 8px; transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
+        .support-btn:hover { background: var(--charcoal); color: white; transform: translateY(-1px); }
         .live-dot { width: 6px; height: 6px; background: #4ADE80; border-radius: 50%; box-shadow: 0 0 8px #4ADE80; }
 
         @media (max-width: 768px) { .nav-filler { display: none; } .mobile-menu { display: block; } }
 
         /* =========================================
-         * 4. HERO SECTION
+         * 5. HERO SECTION
          * ========================================= */
-        .bg-fixed { position: fixed; inset: 0; z-index: -1; background: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2560&auto=format&fit=crop') center/cover; }
-        .bg-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(249,248,246,0.95) 0%, rgba(249,248,246,0.85) 100%); }
-
-        .hero-section { padding: 180px 5% 4rem 5%; text-align: center; max-width: 900px; margin: 0 auto; position: relative; z-index: 1; }
+        .hero-section { 
+            padding: 180px 5% 4rem 5%; text-align: center; max-width: 900px; margin: 0 auto; 
+            position: relative; z-index: 1; 
+        }
         .hero-title { font-family: 'Bodoni Moda', serif; font-size: clamp(2.5rem, 6vw, 4rem); color: var(--charcoal); line-height: 1.15; margin-bottom: 1.5rem; }
         .hero-sub { font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #666; line-height: 1.6; max-width: 600px; margin: 0 auto; }
 
         /* =========================================
-         * 5. SERVICES GRID (Revamped)
+         * 6. SERVICES GRID (Revamped)
          * ========================================= */
         .service-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
             max-width: 1280px; margin: 0 auto; 
-            padding: 0 5% 10rem 5%; /* Large padding ensures cards clear the footer overlap */
+            padding: 0 5% 12rem 5%; /* Generous bottom padding for footer overlap */
             position: relative; z-index: 5;
         }
 
@@ -131,7 +150,7 @@
         .card-urgent .card-pill { background: #FFF0F2; color: #BE123C; }
         .card-urgent:hover .card-pill { background: #BE123C; color: white; }
 
-        /* 2. Compare Directors (REVAMPED: Premium White/Gold) */
+        /* 2. Compare Directors (REVAMPED) */
         .card-primary { border: 1px solid var(--gold); } 
         .card-primary .card-eyebrow { color: var(--gold); }
         .card-primary .card-pill { background: var(--gold); color: white; }
@@ -144,23 +163,18 @@
         .card-plan:hover .card-pill { background: #64748B; color: white; }
 
         /* =========================================
-         * 6. CATHEDRAL FOOTER (Corrected Cutaway)
+         * 7. CATHEDRAL FOOTER (Corrected Cutaway)
          * ========================================= */
         footer {
             position: relative;
             z-index: 20; 
             background-color: var(--charcoal);
             color: #9CA3AF;
-            
-            /* The Cutaway Curve */
             border-top-left-radius: var(--curve-radius);
             border-top-right-radius: var(--curve-radius);
-            margin-top: -4rem; 
-            
-            /* CORRECTED PADDING: Pushes text down safely */
-            padding: 7rem 5% 4rem 5%; 
-            
-            box-shadow: 0 -20px 60px rgba(0,0,0,0.2);
+            margin-top: -5rem; /* Pulls up over the gradient background */
+            padding: 8rem 5% 4rem 5%; /* Pushes text down safely */
+            box-shadow: 0 -20px 60px rgba(0,0,0,0.1);
         }
 
         .footer-grid {
@@ -183,16 +197,11 @@
         @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
         @media (max-width: 640px) { 
             .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-            footer { 
-                padding-top: 5rem; 
-                margin-top: -2rem; 
-                border-top-left-radius: 2rem; 
-                border-top-right-radius: 2rem; 
-            }
+            footer { padding-top: 6rem; border-top-left-radius: 2rem; border-top-right-radius: 2rem; }
         }
 
         /* =========================================
-         * 7. RESPONSIVE MODAL CONSOLE
+         * 8. RESPONSIVE MODAL CONSOLE
          * ========================================= */
         .backdrop {
             position: fixed; inset: 0; background: rgba(50, 40, 40, 0.6); backdrop-filter: blur(12px);
@@ -237,7 +246,8 @@
         <div class="intro-slogan">The New Standard of Care</div>
     </div>
 
-    <div class="bg-fixed"><div class="bg-overlay"></div></div>
+    <div class="bg-layer"></div>
+    <div class="noise-overlay"></div>
 
     <header>
         <div class="header-inner">
@@ -371,17 +381,14 @@
     </div>
 
     <script>
-        // Init Animations
         AOS.init({ duration: 800, once: true });
         
-        // Modal Logic
         function toggleModal(show) {
             const modal = document.getElementById('urgent-modal');
             if(show) modal.classList.add('active');
             else modal.classList.remove('active');
         }
 
-        // Intro Logic: Remove overlay after 5s
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const intro = document.getElementById('intro-overlay');
