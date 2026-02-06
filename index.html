@@ -1,30 +1,71 @@
+## 1. STRATEGIC DESIGN SPECIFICATION
+
+### 1.1 Intro Slogan Redesign
+**Objective:** Transition user from chaotic/stressful external context to a focused, calm digital environment.
+
+* **Option A (Selected for Production):** *"Dignity in every detail."*
+    * **Rationale:** Shifts focus from "death" (the problem) to "dignity" (the outcome). Validates the user's desire to do the right thing. Short enough to read in 1.5s animation window.
+* **Option B:** *"The trusted path forward."*
+    * **Rationale:** Emphasises guidance and movement. Reduces the feeling of paralysis common in grief.
+* **Option C:** *"Clear choices. Compassionate care."*
+    * **Rationale:** Functional and descriptive. Good for A/B testing against emotionally driven slogans if conversion rates are low.
+
+### 1.2 Primary Action Architecture (The "Triad of Need")
+**UX Principle:** Do not force a user in crisis to read generic copy. Segment immediately by urgency.
+
+| Action Category | Label Copy | Microcopy | Button Text | Interaction Outcome |
+| :--- | :--- | :--- | :--- | :--- |
+| **Immediate** (Crisis) | "A death has occurred" | "We can arrange collection from home or hospital immediately." | "Request Support" | **Modal Overlay** (No page load latency). Direct dispatch form. |
+| **Standard** (Search) | "Compare Directors" | "View pricing, reviews, and availability for independent directors." | "Start Search" | **Redirect** to `/search`. Standard funnel entry. |
+| **Future** (Planning) | "Plan Ahead" | "Secure peace of mind by freezing costs at today's prices." | "Explore Plans" | **Redirect** to `/plans`. Educational lead-in. |
+
+### 1.3 Interaction & Journey Enhancement
+**Soft-Touch Mechanics:**
+1.  **The "Curtain Raise":** The site does not "load" abruptly; it fades in. This mimics the biological response of "adjusting one's eyes," reducing cognitive shock.
+2.  **Hover Deceleration:** Buttons do not snap; they breathe. CSS transitions set to `0.4s cubic-bezier` to mimic physical weight, implying reliability.
+3.  **Non-Destructive Modals:** The "Immediate Help" modal must be dismissible easily (click outside) to prevent feeling trapped, but sticky enough to prevent accidental closure.
+
+---
+
+## 2. PRODUCTION IMPLEMENTATION
+
+```html
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>FuneralMatch | The New Standard</title>
+    <meta name="description" content="FuneralMatch: The independent standard for funeral comparison. Verified professionals, transparent pricing.">
+    <title>FuneralMatch | Dignity in Every Detail</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <script src="[https://unpkg.com/aos@2.3.1/dist/aos.js](https://unpkg.com/aos@2.3.1/dist/aos.js)"></script>
+    <link href="[https://unpkg.com/aos@2.3.1/dist/aos.css](https://unpkg.com/aos@2.3.1/dist/aos.css)" rel="stylesheet">
     
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="[https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap](https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap)" rel="stylesheet">
 
     <style>
         /* =========================================
-         * 1. SYSTEM TOKENS
+         * DESIGN TOKENS (Calm & Trust Palette)
          * ========================================= */
         :root {
-            --gold: #C5A059;
-            --gold-light: #F1E5D1;
-            --charcoal: #1F1F1F;
-            --stone: #F9F8F6; /* Warm base */
-            --white: #FFFFFF;
-            --header-h: 90px;
-            --curve-radius: 3rem;
+            /* Palette */
+            --gold: #B08D55;          /* Muted Gold - Luxurious but not gaudy */
+            --gold-subtle: #F3EFE9;   /* UI Highlights */
+            --charcoal: #1A1A1A;      /* Primary Text - Softer than black */
+            --stone: #F9F8F6;         /* Background Base - Warmth */
+            --slate: #64748B;         /* Secondary Text - Neutrality */
+            --error-soft: #FFF1F2;    /* Urgent BG */
+            --error-text: #9F1239;    /* Urgent Text */
+            
+            /* Dimensions & Physics */
+            --header-h: 84px;
+            --radius-lg: 1.5rem;
+            --radius-xl: 3rem;
+            --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
+        /* Base Reset */
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--stone);
@@ -35,346 +76,375 @@
         }
 
         /* =========================================
-         * 2. NEW PERFORMANCE BACKGROUND (No Lag)
+         * ATMOSPHERIC LAYERS
          * ========================================= */
         .bg-layer {
             position: fixed; inset: 0; z-index: -1;
-            /* A subtle, warm spotlight effect */
-            background: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F2F0EB 60%, #EBE8E1 100%);
+            background: radial-gradient(circle at 50% -20%, #FFFFFF 0%, #F2F0EB 50%, #E6E2D8 100%);
         }
-
-        /* Adds a tiny bit of texture to remove the "flat" feel without heavy images */
+        
         .noise-overlay {
-            position: fixed; inset: 0; z-index: -1;
-            opacity: 0.4;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
+            position: fixed; inset: 0; z-index: -1; opacity: 0.35;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='[http://www.w3.org/2000/svg'%3E%3Cfilter](http://www.w3.org/2000/svg'%3E%3Cfilter) id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
             pointer-events: none;
         }
 
         /* =========================================
-         * 3. CINEMATIC INTRO (Restored)
+         * CINEMATIC INTRO SEQUENCE
          * ========================================= */
         #intro-overlay {
             position: fixed; inset: 0; background: #F9F8F6; z-index: 9999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            animation: curtainUp 1s forwards 4.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            animation: curtainUp 1.2s forwards 4.0s var(--ease-out);
             pointer-events: none;
         }
 
-        .intro-logo { display: flex; flex-direction: column; align-items: flex-start; transform: scale(1.4); }
-        .intro-logo .brand-funeral { opacity: 0; animation: fadeUp 1s forwards 0.5s; color: var(--charcoal); letter-spacing: 0.5em; font-family: 'Bodoni Moda', serif; text-transform: uppercase; }
-        .intro-logo .logo-divider { width: 0; height: 1px; background: var(--gold); margin: 6px 0; animation: expandLine 1s forwards 1s; }
-        .intro-logo .brand-match { opacity: 0; animation: fadeUp 1s forwards 1.5s; color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; font-family: 'Bodoni Moda', serif; text-transform: uppercase; }
+        .intro-container { position: relative; overflow: hidden; }
         
-        .intro-slogan {
-            font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.1rem; color: #888;
-            margin-top: 1.5rem; opacity: 0; animation: fadeUp 1s forwards 2.5s;
+        .intro-logo-group { display: flex; flex-direction: column; align-items: flex-start; }
+        
+        .brand-serif { font-family: 'Bodoni Moda', serif; text-transform: uppercase; line-height: 1; }
+        
+        /* Animation: Text Reveal */
+        .reveal-text { opacity: 0; animation: gentleRise 1.2s forwards 0.3s var(--ease-out); }
+        .reveal-text-delay { opacity: 0; animation: gentleRise 1.2s forwards 1.2s var(--ease-out); }
+        
+        .logo-line { 
+            width: 0; height: 1px; background: var(--gold); margin: 12px 0; 
+            animation: expandLine 1.5s forwards 0.8s var(--ease-out); 
         }
 
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(10px); } }
-        @keyframes expandLine { to { width: 40px; } from { width: 0; } }
-        @keyframes curtainUp { to { opacity: 0; visibility: hidden; } }
+        .slogan-text {
+            margin-top: 2rem; font-family: 'Bodoni Moda', serif; font-size: 1.25rem; font-style: italic; color: var(--slate);
+            opacity: 0; animation: fadeUp 1s forwards 2.2s; letter-spacing: 0.02em;
+        }
+
+        @keyframes gentleRise { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes expandLine { to { width: 60px; } }
+        @keyframes fadeUp { to { opacity: 1; } }
+        @keyframes curtainUp { 
+            0% { opacity: 1; clip-path: inset(0 0 0 0); }
+            100% { opacity: 0; clip-path: inset(100% 0 0 0); visibility: hidden; } 
+        }
 
         /* =========================================
-         * 4. HEADER (Absolute - NOT Sticky)
+         * NAVIGATION (Floating)
          * ========================================= */
         header {
-            position: absolute; /* Sits at top, scrolls away */
-            top: 0; left: 0; width: 100%; height: var(--header-h);
-            background: transparent; /* Seamless blend */
-            z-index: 100;
-            display: flex; align-items: center; padding: 0 5%;
+            position: absolute; top: 0; left: 0; width: 100%; height: var(--header-h);
+            z-index: 100; display: flex; align-items: center; padding: 0 5%;
         }
 
-        .header-inner { width: 100%; max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-inner { width: 100%; max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
 
-        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
-        .brand-text { font-family: 'Bodoni Moda', serif; font-size: clamp(0.75rem, 2vw, 0.9rem); text-transform: uppercase; line-height: 1; font-weight: 500; }
-        .brand-funeral { color: var(--charcoal); letter-spacing: 0.5em; }
-        .logo-divider { width: 40px; height: 1px; background-color: var(--gold); margin: 6px 0; }
-        .brand-match { color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; }
+        .logo-block { display: flex; flex-direction: column; cursor: pointer; }
+        .logo-title { font-family: 'Bodoni Moda', serif; font-size: 1rem; letter-spacing: 0.1em; color: var(--charcoal); font-weight: 600; text-transform: uppercase; }
+        .logo-sub { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-top: 4px; }
 
-        .nav-filler { display: flex; align-items: center; gap: 2rem; }
-        .nav-link { font-size: 0.85rem; font-weight: 500; color: #555; text-decoration: none; transition: 0.3s; }
-        .nav-link:hover { color: var(--gold); }
-        .mobile-menu { display: none; font-size: 1.5rem; cursor: pointer; color: var(--charcoal); }
+        .nav-links { display: flex; gap: 2.5rem; align-items: center; }
+        .nav-item { font-size: 0.85rem; font-weight: 500; color: var(--charcoal); text-decoration: none; position: relative; }
+        .nav-item::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--gold); transition: width 0.3s; }
+        .nav-item:hover::after { width: 100%; }
+
+        .btn-urgent {
+            background: white; border: 1px solid rgba(0,0,0,0.08); padding: 10px 24px; border-radius: 99px;
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04); transition: all 0.3s ease;
+        }
+        .btn-urgent:hover { background: var(--charcoal); color: white; transform: translateY(-1px); border-color: var(--charcoal); }
+        .pulse-dot { width: 8px; height: 8px; background: #22C55E; border-radius: 50%; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); animation: pulse 2s infinite; }
         
-        .support-btn {
-            background: white; color: var(--charcoal); padding: 10px 20px;
-            border: 1px solid rgba(0,0,0,0.05);
-            border-radius: 99px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em;
-            display: flex; align-items: center; gap: 8px; transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
         }
-        .support-btn:hover { background: var(--charcoal); color: white; transform: translateY(-1px); }
-        .live-dot { width: 6px; height: 6px; background: #4ADE80; border-radius: 50%; box-shadow: 0 0 8px #4ADE80; }
-
-        @media (max-width: 768px) { .nav-filler { display: none; } .mobile-menu { display: block; } }
 
         /* =========================================
-         * 5. HERO SECTION
+         * HERO TYPOGRAPHY
          * ========================================= */
-        .hero-section { 
-            padding: 180px 5% 4rem 5%; text-align: center; max-width: 900px; margin: 0 auto; 
-            position: relative; z-index: 1; 
+        .hero-wrap { 
+            padding: 160px 5% 4rem 5%; text-align: center; max-width: 900px; margin: 0 auto; 
+            position: relative; z-index: 10; 
         }
-        .hero-title { font-family: 'Bodoni Moda', serif; font-size: clamp(2.5rem, 6vw, 4rem); color: var(--charcoal); line-height: 1.15; margin-bottom: 1.5rem; }
-        .hero-sub { font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #666; line-height: 1.6; max-width: 600px; margin: 0 auto; }
+        
+        .hero-h1 { 
+            font-family: 'Bodoni Moda', serif; font-size: clamp(2.8rem, 5vw, 4.5rem); 
+            color: var(--charcoal); line-height: 1.1; margin-bottom: 2rem; letter-spacing: -0.02em;
+        }
+        
+        .hero-p { 
+            font-size: 1.15rem; color: var(--slate); line-height: 1.6; max-width: 580px; margin: 0 auto; font-weight: 300; 
+        }
 
         /* =========================================
-         * 6. SERVICES GRID (Revamped)
+         * DECISION ENGINE (Cards)
          * ========================================= */
-        .service-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
-            max-width: 1280px; margin: 0 auto; 
-            padding: 0 5% 12rem 5%; /* Generous bottom padding for footer overlap */
-            position: relative; z-index: 5;
+        .decision-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;
+            max-width: 1280px; margin: 0 auto; padding: 2rem 5% 10rem 5%; z-index: 20; position: relative;
         }
 
-        .soft-card {
-            background: #FFFFFF; border-radius: 1.5rem; padding: 2.5rem;
-            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            border: 1px solid rgba(0,0,0,0.03); box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; cursor: pointer;
+        .card {
+            background: white; padding: 3rem 2.5rem; border-radius: var(--radius-lg);
+            border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            transition: all 0.4s var(--ease-out); cursor: pointer; position: relative; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: space-between; min-height: 420px;
         }
-        .soft-card:hover { transform: translateY(-8px); box-shadow: 0 25px 60px -10px rgba(197, 160, 89, 0.15); }
 
-        .card-eyebrow { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
-        .card-heading { font-family: 'Bodoni Moda', serif; font-size: 1.8rem; line-height: 1.1; color: var(--charcoal); margin-bottom: 1rem; }
-        .card-desc { font-size: 0.95rem; line-height: 1.6; color: #666; margin-bottom: 2rem; }
-        .card-pill { display: inline-flex; align-items: center; gap: 8px; padding: 10px 24px; border-radius: 99px; font-size: 0.8rem; font-weight: 600; transition: 0.3s; width: fit-content; }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.08); }
 
-        /* Variants */
-        /* 1. Urgent */
-        .card-urgent .card-eyebrow { color: #BE123C; }
-        .card-urgent .card-pill { background: #FFF0F2; color: #BE123C; }
-        .card-urgent:hover .card-pill { background: #BE123C; color: white; }
+        /* Card Content */
+        .card-tag { 
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1.5rem; 
+            display: flex; align-items: center; gap: 8px; 
+        }
+        .card-h2 { font-family: 'Bodoni Moda', serif; font-size: 2rem; line-height: 1.1; margin-bottom: 1rem; color: var(--charcoal); }
+        .card-body { font-size: 0.95rem; line-height: 1.6; color: var(--slate); margin-bottom: 2rem; }
+        
+        /* Action Button (Internal to card) */
+        .card-action {
+            display: flex; align-items: center; justify-content: space-between;
+            padding-top: 1.5rem; border-top: 1px solid rgba(0,0,0,0.05); font-weight: 600; font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .arrow-icon { transition: transform 0.3s var(--ease-out); }
+        .card:hover .arrow-icon { transform: translateX(6px); }
 
-        /* 2. Compare Directors (REVAMPED) */
-        .card-primary { border: 1px solid var(--gold); } 
-        .card-primary .card-eyebrow { color: var(--gold); }
-        .card-primary .card-pill { background: var(--gold); color: white; }
-        .card-primary:hover { border-color: #B08D4C; box-shadow: 0 30px 60px -15px rgba(197, 160, 89, 0.3); }
-        .card-primary:hover .card-pill { background: var(--charcoal); }
+        /* Variant: URGENT */
+        .card-urgent { border-top: 4px solid #BE123C; }
+        .card-urgent .card-tag { color: #BE123C; }
+        .card-urgent .card-action { color: #BE123C; }
+        .card-urgent:hover { border-color: #BE123C; }
 
-        /* 3. Plans */
-        .card-plan .card-eyebrow { color: #64748B; }
-        .card-plan .card-pill { background: #F1F5F9; color: #64748B; }
-        .card-plan:hover .card-pill { background: #64748B; color: white; }
+        /* Variant: SEARCH (Primary) */
+        .card-search { border-top: 4px solid var(--gold); }
+        .card-search .card-tag { color: var(--gold); }
+        .card-search .card-action { color: var(--gold); }
+        
+        /* Variant: PLAN */
+        .card-plan { border-top: 4px solid var(--slate); }
+        .card-plan .card-tag { color: var(--slate); }
+        .card-plan .card-action { color: var(--slate); }
 
         /* =========================================
-         * 7. CATHEDRAL FOOTER (Corrected Cutaway)
+         * MODAL (Urgent Dispatch)
+         * ========================================= */
+        .modal-backdrop {
+            position: fixed; inset: 0; z-index: 5000;
+            background: rgba(30, 30, 30, 0.4); backdrop-filter: blur(8px);
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+            display: flex; align-items: center; justify-content: center; padding: 1rem;
+        }
+        .modal-backdrop.active { opacity: 1; pointer-events: auto; }
+
+        .modal-panel {
+            background: white; width: 100%; max-width: 480px; border-radius: var(--radius-lg);
+            transform: scale(0.95) translateY(20px); opacity: 0; transition: all 0.4s var(--ease-out);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden;
+        }
+        .modal-backdrop.active .modal-panel { transform: scale(1) translateY(0); opacity: 1; }
+
+        .modal-header { background: #FFF1F2; padding: 2rem; border-bottom: 1px solid #FFE4E6; }
+        .modal-title { font-family: 'Bodoni Moda'; font-size: 1.5rem; color: #881337; margin-bottom: 0.5rem; }
+        
+        .form-group { margin-bottom: 1.25rem; }
+        .form-label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--slate); margin-bottom: 0.5rem; }
+        .form-input { 
+            width: 100%; padding: 0.875rem; border: 1px solid #E2E8F0; border-radius: 0.5rem; 
+            font-size: 1rem; color: var(--charcoal); transition: 0.2s;
+        }
+        .form-input:focus { outline: none; border-color: #881337; box-shadow: 0 0 0 3px rgba(136, 19, 55, 0.1); }
+        
+        .btn-submit {
+            width: 100%; padding: 1rem; background: #881337; color: white; font-weight: 600; border-radius: 0.75rem;
+            border: none; cursor: pointer; transition: 0.2s;
+        }
+        .btn-submit:hover { background: #9F1239; }
+
+        /* =========================================
+         * FOOTER (Architectural)
          * ========================================= */
         footer {
-            position: relative;
-            z-index: 20; 
-            background-color: var(--charcoal);
-            color: #9CA3AF;
-            border-top-left-radius: var(--curve-radius);
-            border-top-right-radius: var(--curve-radius);
-            margin-top: -5rem; /* Pulls up over the gradient background */
-            padding: 8rem 5% 4rem 5%; /* Pushes text down safely */
-            box-shadow: 0 -20px 60px rgba(0,0,0,0.1);
+            background: var(--charcoal); color: #94A3B8;
+            border-top-left-radius: var(--radius-xl); border-top-right-radius: var(--radius-xl);
+            margin-top: -4rem; padding: 6rem 5% 3rem 5%; position: relative; z-index: 15;
         }
-
-        .footer-grid {
-            max-width: 1280px; margin: 0 auto;
-            display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem;
-            padding-bottom: 4rem; border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .footer-brand h3 { font-family: 'Bodoni Moda', serif; color: white; font-size: 1.5rem; margin-bottom: 1rem; }
-        .footer-brand p { font-size: 0.9rem; line-height: 1.7; opacity: 0.8; max-width: 300px; margin-bottom: 1.5rem; }
+        .footer-logo { font-family: 'Bodoni Moda'; font-size: 1.5rem; color: white; margin-bottom: 1rem; display: block; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; max-width: 1280px; margin: 0 auto; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4rem; }
+        .footer-link { display: block; margin-bottom: 0.75rem; color: #94A3B8; text-decoration: none; transition: 0.3s; }
+        .footer-link:hover { color: var(--gold); padding-left: 5px; }
         
-        .socials { display: flex; gap: 10px; }
-        .social-dot { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .social-dot:hover { background: var(--gold); color: var(--charcoal); transform: translateY(-2px); }
-
-        .footer-col h4 { color: white; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.5rem; opacity: 0.9; }
-        .footer-link { display: block; color: #9CA3AF; margin-bottom: 1rem; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
-        .footer-link:hover { color: var(--gold); transform: translateX(4px); }
-
-        @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 640px) { 
-            .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-            footer { padding-top: 6rem; border-top-left-radius: 2rem; border-top-right-radius: 2rem; }
+        @media(max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+            .hero-h1 { font-size: 2.5rem; }
+            header { justify-content: center; }
+            .nav-links { display: none; } /* Simplified mobile header */
         }
-
-        /* =========================================
-         * 8. RESPONSIVE MODAL CONSOLE
-         * ========================================= */
-        .backdrop {
-            position: fixed; inset: 0; background: rgba(50, 40, 40, 0.6); backdrop-filter: blur(12px);
-            z-index: 5000; display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: 0.4s ease; padding: 20px;
-        }
-        .backdrop.active { opacity: 1; pointer-events: auto; }
-
-        .urgent-card {
-            background: white; width: 100%; max-width: 500px; border-radius: 1.5rem;
-            position: relative; overflow: hidden; transform: scale(0.95); opacity: 0; transition: 0.3s ease;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto;
-        }
-        .backdrop.active .urgent-card { transform: scale(1); opacity: 1; }
-
-        .uc-header { background: linear-gradient(135deg, #FFF5F5, #FFF0F0); padding: 2rem; border-bottom: 1px solid rgba(155, 44, 44, 0.1); }
-        .uc-body { padding: 2rem; }
-        
-        .badge { display: inline-flex; align-items: center; gap: 6px; background: #9B2C2C; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1rem; }
-        
-        .field { margin-bottom: 1.2rem; }
-        .label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; color: #7F1D1D; }
-        .input { width: 100%; padding: 1rem; border: 1px solid #E5E5E5; border-radius: 0.8rem; background: #FAFAFA; font-size: 1rem; outline: none; }
-        .input:focus { background: white; border-color: #9B2C2C; box-shadow: 0 0 0 3px rgba(155, 44, 44, 0.1); }
-
-        .btn-dispatch { 
-            width: 100%; padding: 1.2rem; background: #9B2C2C; color: white; border: none; 
-            border-radius: 1rem; font-size: 1rem; font-weight: 600; cursor: pointer; 
-            margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
-        .close-icon { position: absolute; top: 1.5rem; right: 1.5rem; width: 32px; height: 32px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #9B2C2C; border: 1px solid #FECACA; }
     </style>
 </head>
 <body>
 
     <div id="intro-overlay">
-        <div class="intro-logo">
-            <span class="brand-funeral">Funeral</span>
-            <div class="logo-divider"></div>
-            <span class="brand-match">Match</span>
+        <div class="intro-logo-group">
+            <span class="brand-serif reveal-text" style="font-size: 2rem; letter-spacing: 0.1em; color: var(--charcoal);">Funeral</span>
+            <div class="logo-line"></div>
+            <span class="brand-serif reveal-text-delay" style="font-size: 2rem; letter-spacing: 0.2em; color: var(--gold);">Match</span>
         </div>
-        <div class="intro-slogan">The New Standard of Care</div>
+        <div class="slogan-text">Dignity in every detail.</div>
     </div>
 
     <div class="bg-layer"></div>
     <div class="noise-overlay"></div>
 
     <header>
-        <div class="header-inner">
-            <div class="logo-wrap">
-                <span class="brand-text brand-funeral">Funeral</span>
-                <div class="logo-divider"></div>
-                <span class="brand-text brand-match">Match</span>
+        <div class="nav-inner">
+            <div class="logo-block">
+                <span class="logo-title">FuneralMatch</span>
+                <span class="logo-sub">Independent Marketplace</span>
             </div>
             
-            <nav class="nav-filler">
-                <a href="#" class="nav-link">For Directors</a>
-                <a href="#" class="nav-link">Sign In</a>
-                <a href="tel:0800123456" class="support-btn"><div class="live-dot"></div>24/7 Priority Line</a>
+            <nav class="nav-links">
+                <a href="#" class="nav-item">How it Works</a>
+                <a href="#" class="nav-item">For Directors</a>
+                <a href="#" class="nav-item">Sign In</a>
+                <button class="btn-urgent" onclick="toggleModal(true)">
+                    <div class="pulse-dot"></div>
+                    24/7 Support Line
+                </button>
             </nav>
-            <div class="mobile-menu">&#9776;</div>
         </div>
     </header>
 
     <main>
-        <section class="hero-section" data-aos="fade-up">
-            <h1 class="hero-title">
-                Compassionate Guidance <br>
-                <span style="font-style: italic; color: var(--gold);">Independent Choice.</span>
+        <section class="hero-wrap" data-aos="fade-up" data-aos-duration="1000">
+            <h1 class="hero-h1">
+                Guidance when you<br>
+                <span style="font-style: italic; color: var(--gold);">need it most.</span>
             </h1>
-            <p class="hero-sub">
-                The vetted marketplace for funeral care. Compare prices, verify standards, and arrange with dignity—all in one place.
+            <p class="hero-p">
+                The UK’s only fully independent funeral marketplace. Compare vetted directors, understand your options, and arrange care with absolute confidence.
             </p>
         </section>
 
-        <section class="service-grid">
-            <article class="soft-card card-urgent" onclick="toggleModal(true)" data-aos="fade-up" data-aos-delay="100">
+        <section class="decision-grid">
+            
+            <article class="card card-urgent" onclick="toggleModal(true)" data-aos="fade-up" data-aos-delay="100">
                 <div>
-                    <div class="card-eyebrow"><span style="width:8px; height:8px; background:#BE123C; border-radius:50%;"></span>Immediate Help</div>
-                    <h2 class="card-heading">A death has<br>occurred.</h2>
-                    <p class="card-desc">We can arrange body collection from a private residence immediately. 24/7 Support.</p>
+                    <div class="card-tag">
+                        <span style="width:6px; height:6px; background:currentColor; border-radius:50%;"></span>
+                        Immediate Need
+                    </div>
+                    <h2 class="card-h2">A death has<br>occurred.</h2>
+                    <p class="card-body">If you need immediate collection from a home, care home, or hospital, we can arrange this now.</p>
                 </div>
-                <div class="card-pill">Request Support &rarr;</div>
+                <div class="card-action">
+                    Request Assistance <span class="arrow-icon">&rarr;</span>
+                </div>
             </article>
 
-            <article class="soft-card card-primary" data-aos="fade-up" data-aos-delay="200">
+            <article class="card card-search" data-aos="fade-up" data-aos-delay="200">
                 <div>
-                    <div class="card-eyebrow"><span style="color:var(--gold)">&#9733;</span>Compare Directors</div>
-                    <h2 class="card-heading">Find a Trusted<br>Professional.</h2>
-                    <p class="card-desc">Compare verified independent directors near you. View transparent pricing and verified reviews.</p>
+                    <div class="card-tag">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                        Compare Directors
+                    </div>
+                    <h2 class="card-h2">Find a Local<br>Professional.</h2>
+                    <p class="card-body">View transparent pricing and reviews for independent directors in your area. No hidden fees.</p>
                 </div>
-                <div class="card-pill">Start Search &rarr;</div>
+                <div class="card-action">
+                    Start Search <span class="arrow-icon">&rarr;</span>
+                </div>
             </article>
 
-            <article class="soft-card card-plan" data-aos="fade-up" data-aos-delay="300">
+            <article class="card card-plan" data-aos="fade-up" data-aos-delay="300">
                 <div>
-                    <div class="card-eyebrow"><span>&#9875;</span>Future Planning</div>
-                    <h2 class="card-heading">Prepaid<br>Funeral Plans.</h2>
-                    <p class="card-desc">Secure peace of mind for your family by freezing costs at today's prices.</p>
+                    <div class="card-tag">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/></svg>
+                        Future Planning
+                    </div>
+                    <h2 class="card-h2">Prepaid Funeral<br>Plans.</h2>
+                    <p class="card-body">Protect your family from rising costs and emotional stress by planning ahead today.</p>
                 </div>
-                <div class="card-pill">Explore Plans &rarr;</div>
+                <div class="card-action">
+                    View Options <span class="arrow-icon">&rarr;</span>
+                </div>
             </article>
+
         </section>
     </main>
 
     <footer>
         <div class="footer-grid">
-            <div class="footer-brand">
-                <h3>FuneralMatch</h3>
-                <p>The independent standard for funeral comparison. Verified, transparent, and dignified care for every family.</p>
-                <div class="socials">
-                    <div class="social-dot">X</div>
-                    <div class="social-dot">In</div>
-                    <div class="social-dot">Fb</div>
-                </div>
+            <div>
+                <span class="footer-logo">FuneralMatch</span>
+                <p style="opacity: 0.8; line-height: 1.6; font-size: 0.9rem;">
+                    We are dedicated to bringing transparency, dignity, and choice to the funeral profession. Every director on our platform is vetted to the highest standard.
+                </p>
             </div>
-            
-            <div class="footer-col">
-                <h4>Platform</h4>
-                <a href="#" class="footer-link">How it Works</a>
-                <a href="#" class="footer-link">Vetting Standards</a>
-                <a href="#" class="footer-link">Our Charter</a>
+            <div>
+                <h4 style="color:white; margin-bottom:1.5rem; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.1em;">Platform</h4>
+                <a href="#" class="footer-link">About Us</a>
+                <a href="#" class="footer-link">Vetting Process</a>
+                <a href="#" class="footer-link">Price Guarantee</a>
             </div>
-            <div class="footer-col">
-                <h4>Services</h4>
-                <a href="#" class="footer-link">Find a Director</a>
-                <a href="#" class="footer-link">Direct Cremation</a>
-                <a href="#" class="footer-link">Eco Funerals</a>
+            <div>
+                <h4 style="color:white; margin-bottom:1.5rem; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.1em;">Advice</h4>
+                <a href="#" class="footer-link">What to do first</a>
+                <a href="#" class="footer-link">Registering a death</a>
+                <a href="#" class="footer-link">Coroner process</a>
             </div>
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="#" class="footer-link">Bereavement Advice</a>
-                <a href="#" class="footer-link">Coroner Enquiries</a>
-                <a href="#" class="footer-link">Contact Us</a>
+            <div>
+                <h4 style="color:white; margin-bottom:1.5rem; text-transform:uppercase; font-size:0.75rem; letter-spacing:0.1em;">Legal</h4>
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Use</a>
+                <a href="#" class="footer-link">Cookie Settings</a>
             </div>
         </div>
-        
-        <div style="max-width: 1280px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; display: flex; justify-content: space-between; font-size: 0.85rem;">
-            <div>&copy; 2026 FuneralMatch Ltd.</div>
-            <div style="display: flex; gap: 1.5rem;">
-                <a href="#" style="color:#666; text-decoration: none;">Privacy</a>
-                <a href="#" style="color:#666; text-decoration: none;">Terms</a>
-            </div>
+        <div style="text-align: center; margin-top: 3rem; font-size: 0.8rem; opacity: 0.5;">
+            &copy; 2026 FuneralMatch Ltd. Registered in England & Wales.
         </div>
     </footer>
 
-    <div id="urgent-modal" class="backdrop">
-        <div class="urgent-card">
-            <div class="close-icon" onclick="toggleModal(false)">&times;</div>
-            <div class="uc-header">
-                <div class="badge"><div class="live-dot" style="background:white; box-shadow:none;"></div>Priority Dispatch</div>
-                <h3 style="font-family:'Bodoni Moda'; font-size:1.6rem; color:#450A0A; margin-bottom:0.5rem;">Immediate Assistance</h3>
-                <p style="font-size:0.9rem; color:#7F1D1D; opacity:0.9;">Tell us the location so we can dispatch the correct vehicle.</p>
+    <div id="urgent-modal" class="modal-backdrop" onclick="if(event.target === this) toggleModal(false)">
+        <div class="modal-panel">
+            <div class="modal-header">
+                <div style="display:flex; justify-content:space-between; align-items:start;">
+                    <div>
+                        <div style="display:inline-flex; align-items:center; gap:6px; background:#FFE4E6; color:#881337; padding:4px 10px; border-radius:12px; font-size:0.7rem; font-weight:700; text-transform:uppercase; margin-bottom:0.8rem;">
+                            <div class="pulse-dot" style="width:6px; height:6px;"></div> Priority Dispatch
+                        </div>
+                        <h3 class="modal-title">Immediate Assistance</h3>
+                    </div>
+                    <button onclick="toggleModal(false)" style="background:none; border:none; font-size:1.5rem; color:#881337; cursor:pointer;">&times;</button>
+                </div>
+                <p style="color:#9F1239; font-size:0.9rem; margin-top:0.5rem;">
+                    Please provide the location of the deceased. We will connect you with the nearest First Call team immediately.
+                </p>
             </div>
-            <div class="uc-body">
-                <form onsubmit="event.preventDefault(); alert('Request Sent'); toggleModal(false);">
-                    <div class="field">
-                        <label class="label">Deceased Location</label>
-                        <select class="input" style="-webkit-appearance:none; background-image:url('data:image/svg+xml;utf8,<svg fill=%23999 height=24 viewBox=0 0 24 24 width=24 xmlns=http://www.w3.org/2000/svg><path d=M7 10l5 5 5-5z/></svg>'); background-repeat:no-repeat; background-position:right 10px center;">
+            <div style="padding: 2rem;">
+                <form onsubmit="event.preventDefault(); alert('Dispatch Request Logged. Connecting you now...'); toggleModal(false);">
+                    <div class="form-group">
+                        <label class="form-label">Current Location</label>
+                        <select class="form-input" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23333%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right .7rem top 50%; background-size: .65rem auto; appearance: none;">
                             <option>Private Residence</option>
-                            <option>Care Home</option>
+                            <option>Care Home / Nursing Home</option>
                             <option>Hospital</option>
+                            <option>Coroner's Facility</option>
                         </select>
                     </div>
-                    <div class="field">
-                        <label class="label">Your Name</label>
-                        <input type="text" class="input" placeholder="Full Name">
+                    <div class="form-group">
+                        <label class="form-label">Contact Name</label>
+                        <input type="text" class="form-input" placeholder="Your full name">
                     </div>
-                    <div class="field">
-                        <label class="label">Phone Number</label>
-                        <input type="tel" class="input" placeholder="Best number to call">
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" placeholder="Best number to call">
                     </div>
-                    <button class="btn-dispatch">Request Immediate Call</button>
+                    <button type="submit" class="btn-submit">Request Call Back</button>
+                    <p style="text-align:center; font-size:0.75rem; color:#94A3B8; margin-top:1rem;">
+                        Secure transmission. A team member will call within 2 minutes.
+                    </p>
                 </form>
             </div>
         </div>
@@ -382,18 +452,24 @@
 
     <script>
         AOS.init({ duration: 800, once: true });
-        
+
         function toggleModal(show) {
             const modal = document.getElementById('urgent-modal');
-            if(show) modal.classList.add('active');
-            else modal.classList.remove('active');
+            if (show) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent bg scroll
+            } else {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         }
 
+        // Clean up intro after animation
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const intro = document.getElementById('intro-overlay');
                 if(intro) intro.style.display = 'none';
-            }, 5200);
+            }, 5500); // 4.0s delay + 1.2s animation + buffer
         });
     </script>
 </body>
