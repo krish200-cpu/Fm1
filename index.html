@@ -3,353 +3,345 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>FuneralMatch | The New Standard of Care</title>
-
+    <title>Arrangement Console | FuneralMatch</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* =========================================
-         * 1. ORIGINAL SYSTEM TOKENS (RESTORED)
-         * ========================================= */
+        /* SYSTEM TOKENS */
         :root {
-            --gold: #C5A059;
-            --gold-light: #F1E5D1;
-            --charcoal: #1F1F1F;
-            --stone: #F9F8F6; /* The original warm base */
-            --white: #FFFFFF;
-            --header-h: 90px;
-            --curve-radius: 3rem;
+            --gold-primary: #B08D55;
+            --gold-subtle: #F0EAE0;
+            --obsidian: #1A1A1A;
+            --stone-50: #FAFAF9;
+            --stone-100: #F5F5F4;
+            --stone-200: #E7E5E4;
+            --border-light: rgba(0,0,0,0.06);
+            --glass: rgba(255, 255, 255, 0.95);
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--stone);
-            color: var(--charcoal);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-            margin: 0; padding: 0;
-        }
-
-        /* =========================================
-         * 2. ORIGINAL BACKGROUND (Clean, No Mesh)
-         * ========================================= */
-        .bg-layer {
-            position: fixed; inset: 0; z-index: -1;
-            background: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F2F0EB 60%, #EBE8E1 100%);
-        }
-
-        .noise-overlay {
-            position: fixed; inset: 0; z-index: -1;
-            opacity: 0.4;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
-            pointer-events: none;
-        }
-
-        /* =========================================
-         * 3. INTRO SEQUENCE (With New Slogan)
-         * ========================================= */
-        #intro-overlay {
-            position: fixed; inset: 0; background: #F9F8F6; z-index: 9999;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            animation: curtainUp 1s forwards 4.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            pointer-events: none;
-        }
-
-        .intro-logo { display: flex; flex-direction: column; align-items: flex-start; transform: scale(1.4); }
-        .intro-logo .brand-funeral { opacity: 0; animation: fadeUp 1s forwards 0.5s; color: var(--charcoal); letter-spacing: 0.5em; font-family: 'Bodoni Moda', serif; text-transform: uppercase; }
-        .intro-logo .logo-divider { width: 0; height: 1px; background: var(--gold); margin: 6px 0; animation: expandLine 1s forwards 1s; }
-        .intro-logo .brand-match { opacity: 0; animation: fadeUp 1s forwards 1.5s; color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; font-family: 'Bodoni Moda', serif; text-transform: uppercase; }
+        body { font-family: 'Manrope', sans-serif; background: var(--stone-50); color: var(--obsidian); }
+        .serif { font-family: 'Bodoni Moda', serif; }
         
-        .intro-slogan {
-            font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.2rem; color: #666;
-            margin-top: 1.5rem; opacity: 0; animation: fadeUp 1s forwards 2.5s;
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #D6D3D1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #A8A29E; }
+
+        /* Component: Card */
+        .panel {
+            background: white; border: 1px solid var(--border-light);
+            border-radius: 1rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
+        .panel:hover { box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.05); border-color: rgba(176, 141, 85, 0.2); }
 
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(10px); } }
-        @keyframes expandLine { to { width: 40px; } from { width: 0; } }
-        @keyframes curtainUp { to { opacity: 0; visibility: hidden; } }
-
-        /* =========================================
-         * 4. HEADER (Original Layout)
-         * ========================================= */
-        header {
-            position: absolute; top: 0; left: 0; width: 100%; height: var(--header-h);
-            background: transparent; z-index: 100;
-            display: flex; align-items: center; padding: 0 5%;
+        /* Component: Navigation */
+        .nav-link {
+            display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+            border-radius: 0.75rem; color: #57534E; font-size: 0.85rem; font-weight: 500;
+            transition: 0.2s; cursor: pointer; border: 1px solid transparent;
         }
+        .nav-link:hover { background: white; color: var(--obsidian); border-color: var(--border-light); }
+        .nav-link.active { background: var(--obsidian); color: white; font-weight: 600; }
+        .nav-link.active i { color: var(--gold-primary); }
 
-        .header-inner { width: 100%; max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-
-        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
-        .brand-text { font-family: 'Bodoni Moda', serif; font-size: clamp(0.75rem, 2vw, 0.9rem); text-transform: uppercase; line-height: 1; font-weight: 500; }
-        .brand-funeral { color: var(--charcoal); letter-spacing: 0.5em; }
-        .logo-divider { width: 40px; height: 1px; background-color: var(--gold); margin: 6px 0; }
-        .brand-match { color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; }
-
-        .nav-filler { display: flex; align-items: center; gap: 2rem; }
-        .nav-link { font-size: 0.85rem; font-weight: 500; color: #555; text-decoration: none; transition: 0.3s; }
-        .nav-link:hover { color: var(--gold); }
+        /* Component: Watermark */
+        .watermark {
+            position: fixed; bottom: -10vh; right: -5vw; font-size: 35vw;
+            font-family: 'Bodoni Moda'; opacity: 0.02; color: var(--gold-primary);
+            pointer-events: none; z-index: 0; line-height: 1; user-select: none;
+        }
         
-        .support-btn {
-            background: white; color: var(--charcoal); padding: 10px 20px;
-            border: 1px solid rgba(0,0,0,0.05);
-            border-radius: 99px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em;
-            display: flex; align-items: center; gap: 8px; transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+        /* Interactive: Checklist */
+        .check-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-bottom: 1px solid var(--stone-100); transition: 0.2s; }
+        .check-item:last-child { border-bottom: none; }
+        .check-item:hover { background: var(--stone-50); }
+        .custom-checkbox {
+            width: 20px; height: 20px; border: 2px solid #D6D3D1; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s;
         }
-        .support-btn:hover { background: var(--charcoal); color: white; transform: translateY(-1px); }
-        .live-dot { width: 6px; height: 6px; background: #4ADE80; border-radius: 50%; box-shadow: 0 0 8px #4ADE80; }
-
-        /* =========================================
-         * 5. HERO SECTION
-         * ========================================= */
-        .hero-section { 
-            padding: 180px 5% 4rem 5%; text-align: center; max-width: 900px; margin: 0 auto; 
-            position: relative; z-index: 1; 
-        }
-        .hero-title { font-family: 'Bodoni Moda', serif; font-size: clamp(2.5rem, 6vw, 4rem); color: var(--charcoal); line-height: 1.15; margin-bottom: 1.5rem; }
-        .hero-sub { font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #666; line-height: 1.6; max-width: 600px; margin: 0 auto; }
-
-        /* =========================================
-         * 6. SERVICES GRID (Clean, White Cards)
-         * ========================================= */
-        .service-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
-            max-width: 1280px; margin: 0 auto; 
-            padding: 0 5% 12rem 5%;
-            position: relative; z-index: 5;
-        }
-
-        .soft-card {
-            background: #FFFFFF; border-radius: 1.5rem; padding: 2.5rem;
-            /* Subtle physics only */
-            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            border: 1px solid rgba(0,0,0,0.03); box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; cursor: pointer;
-        }
-        .soft-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px -10px rgba(0,0,0,0.08); }
-
-        .card-eyebrow { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
-        .card-heading { font-family: 'Bodoni Moda', serif; font-size: 1.8rem; line-height: 1.1; color: var(--charcoal); margin-bottom: 1rem; }
-        .card-desc { font-size: 0.95rem; line-height: 1.6; color: #666; margin-bottom: 2rem; }
-        
-        .card-pill { 
-            display: inline-flex; align-items: center; gap: 8px; 
-            padding: 10px 0; font-size: 0.85rem; font-weight: 600; 
-            transition: 0.3s; width: fit-content; border-bottom: 1px solid transparent;
-        }
-
-        /* Variant Styling */
-        .card-urgent .card-eyebrow { color: #BE123C; }
-        .card-urgent .card-pill { color: #BE123C; }
-        .card-urgent:hover { border-color: #FECDD3; }
-        
-        .card-primary { border: 1px solid var(--gold); } 
-        .card-primary .card-eyebrow { color: var(--gold); }
-        .card-primary .card-pill { color: var(--gold); }
-        .card-primary:hover { border-color: #B08D4C; }
-        
-        .card-plan .card-eyebrow { color: #64748B; }
-        .card-plan .card-pill { color: #64748B; }
-
-        /* =========================================
-         * 7. CATHEDRAL FOOTER
-         * ========================================= */
-        footer {
-            position: relative; z-index: 20; 
-            background-color: var(--charcoal); color: #9CA3AF;
-            border-top-left-radius: var(--curve-radius); border-top-right-radius: var(--curve-radius);
-            margin-top: -5rem; padding: 8rem 5% 4rem 5%; box-shadow: 0 -20px 60px rgba(0,0,0,0.1);
-        }
-
-        .footer-grid {
-            max-width: 1280px; margin: 0 auto;
-            display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem;
-            padding-bottom: 4rem; border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .footer-brand h3 { font-family: 'Bodoni Moda', serif; color: white; font-size: 1.5rem; margin-bottom: 1rem; }
-        .footer-brand p { font-size: 0.9rem; line-height: 1.7; opacity: 0.8; max-width: 300px; margin-bottom: 1.5rem; }
-        
-        .footer-col h4 { color: white; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.5rem; opacity: 0.9; }
-        .footer-link { display: block; color: #9CA3AF; margin-bottom: 1rem; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
-        .footer-link:hover { color: var(--gold); transform: translateX(4px); }
-
-        @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 640px) { 
-            .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-            footer { padding-top: 6rem; border-top-left-radius: 2rem; border-top-right-radius: 2rem; }
-        }
-
-        /* =========================================
-         * 8. MODAL (Clean Logic)
-         * ========================================= */
-        .backdrop {
-            position: fixed; inset: 0; background: rgba(30, 30, 30, 0.4); backdrop-filter: blur(8px);
-            z-index: 5000; display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); padding: 20px;
-        }
-        .backdrop.active { opacity: 1; pointer-events: auto; }
-
-        .urgent-card {
-            background: white; width: 100%; max-width: 500px; border-radius: 1.5rem;
-            position: relative; overflow: hidden; transform: scale(0.95) translateY(10px); opacity: 0; 
-            transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.3);
-        }
-        .backdrop.active .urgent-card { transform: scale(1) translateY(0); opacity: 1; }
-
-        .uc-header { background: linear-gradient(135deg, #FFF5F5, #FFF0F0); padding: 2rem; border-bottom: 1px solid rgba(155, 44, 44, 0.1); }
-        .uc-body { padding: 2rem; }
-        
-        .btn-dispatch { 
-            width: 100%; padding: 1.2rem; background: #9B2C2C; color: white; border: none; 
-            border-radius: 1rem; font-size: 1rem; font-weight: 600; cursor: pointer; 
-            margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px;
-        }
-        .close-icon { position: absolute; top: 1.5rem; right: 1.5rem; width: 32px; height: 32px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #9B2C2C; border: 1px solid #FECACA; }
+        .check-item input:checked + .custom-checkbox { background: var(--gold-primary); border-color: var(--gold-primary); }
     </style>
 </head>
-<body>
+<body class="flex h-screen overflow-hidden text-sm">
 
-    <div id="intro-overlay">
-        <div class="intro-logo">
-            <span class="brand-funeral">Funeral</span>
-            <div class="logo-divider"></div>
-            <span class="brand-match">Match</span>
+    <div class="watermark">F</div>
+
+    <aside class="w-64 bg-white border-r border-stone-200 flex flex-col z-20 hidden md:flex">
+        <div class="p-6 border-b border-stone-100">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-black text-white rounded flex items-center justify-center font-serif text-lg">F</div>
+                <span class="serif font-bold text-lg tracking-tight">Funeral<span class="text-[#B08D55]">Match</span></span>
+            </div>
         </div>
-        <div class="intro-slogan">The New Standard of Care</div>
-    </div>
 
-    <div class="bg-layer"></div>
-    <div class="noise-overlay"></div>
+        <nav class="flex-1 overflow-y-auto p-4 space-y-1">
+            <div class="nav-link active"><i data-lucide="layout-grid" width="16"></i> Console</div>
+            <div class="nav-link"><i data-lucide="list-todo" width="16"></i> Checklist <span class="ml-auto bg-amber-100 text-amber-700 text-[10px] px-2 rounded-full font-bold">3</span></div>
+            <div class="nav-link"><i data-lucide="calendar-days" width="16"></i> Itinerary</div>
+            <div class="nav-link"><i data-lucide="users" width="16"></i> Guest List</div>
+            <div class="nav-link"><i data-lucide="music" width="16"></i> Music & Readings</div>
+            <div class="nav-link"><i data-lucide="banknote" width="16"></i> Budget</div>
+            <div class="nav-link"><i data-lucide="file-check" width="16"></i> Documents</div>
+        </nav>
 
-    <header>
-        <div class="header-inner">
-            <div class="logo-wrap">
-                <span class="brand-text brand-funeral">Funeral</span>
-                <div class="logo-divider"></div>
-                <span class="brand-text brand-match">Match</span>
+        <div class="p-4 bg-stone-50 border-t border-stone-200">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="relative">
+                    <img src="https://i.pravatar.cc/150?img=33" class="w-10 h-10 rounded-full border border-stone-300">
+                    <div class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-white"></div>
+                </div>
+                <div>
+                    <p class="text-[10px] uppercase font-bold text-stone-500">Your Director</p>
+                    <p class="font-bold text-xs">James C.</p>
+                </div>
+            </div>
+            <button class="w-full py-2 bg-white border border-stone-300 rounded-lg text-xs font-bold hover:bg-black hover:text-white transition">Message</button>
+        </div>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto relative z-10">
+        
+        <header class="bg-white/80 backdrop-blur sticky top-0 z-30 border-b border-stone-200 px-8 py-5 flex justify-between items-center">
+            <div>
+                <div class="flex items-center gap-2 mb-1 text-stone-500">
+                    <span class="text-[10px] uppercase font-bold tracking-wider">Ref: #FM-8921</span>
+                    <span class="w-1 h-1 bg-stone-300 rounded-full"></span>
+                    <span class="text-[10px] uppercase font-bold tracking-wider text-amber-600">Arrangement In Progress</span>
+                </div>
+                <h1 class="serif text-2xl font-medium">Eleanor Rigby <span class="text-stone-400 font-sans text-sm font-normal ml-2">(1942 - 2026)</span></h1>
+            </div>
+            <div class="flex gap-3">
+                <button class="bg-stone-100 hover:bg-stone-200 px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2"><i data-lucide="user-plus" width="14"></i> Invite Family</button>
+                <button class="bg-[#B08D55] hover:bg-[#9c7b46] text-white px-5 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-lg shadow-amber-900/10"><i data-lucide="eye" width="14"></i> Preview Order of Service</button>
+            </div>
+        </header>
+
+        <div class="p-8 max-w-7xl mx-auto space-y-6">
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                <div class="col-span-12 md:col-span-3 panel p-5 flex flex-col justify-between h-32 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition transform group-hover:scale-110">
+                        <i data-lucide="clock" width="60" height="60"></i>
+                    </div>
+                    <p class="text-[10px] uppercase font-bold text-stone-400">Time Until Service</p>
+                    <div>
+                        <span class="text-3xl font-bold font-serif">4 Days</span>
+                        <div class="w-full bg-stone-100 h-1.5 rounded-full mt-3 overflow-hidden">
+                            <div class="bg-stone-800 h-full w-[75%] rounded-full"></div>
+                        </div>
+                        <p class="text-[10px] text-stone-500 mt-2">Fri 24th Jan, 11:00 AM</p>
+                    </div>
+                </div>
+
+                <div class="col-span-12 md:col-span-3 panel p-5 flex flex-col justify-between h-32">
+                    <div class="flex justify-between items-start">
+                        <p class="text-[10px] uppercase font-bold text-stone-400">Estimated Cost</p>
+                        <span class="bg-green-100 text-green-700 text-[10px] px-1.5 py-0.5 rounded font-bold">On Budget</span>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-bold">£3,450</span>
+                        <p class="text-[10px] text-stone-400">of £4,000 budget</p>
+                    </div>
+                    <div class="flex gap-1 mt-2">
+                        <div class="h-1 flex-1 bg-[#B08D55] rounded-l-full"></div>
+                        <div class="h-1 flex-1 bg-[#B08D55] opacity-50"></div>
+                        <div class="h-1 flex-1 bg-stone-200 rounded-r-full"></div>
+                    </div>
+                </div>
+
+                <div class="col-span-12 md:col-span-6 panel bg-[#1A1A1A] text-white p-5 flex items-center justify-between border-none shadow-xl">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-amber-500/20 text-amber-500 flex items-center justify-center border border-amber-500/30">
+                            <i data-lucide="alert-circle" width="20"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm">Registrar's Certificate Missing</h3>
+                            <p class="text-xs text-stone-400 mt-0.5">We need the 'Green Form' to confirm the cremation booking.</p>
+                        </div>
+                    </div>
+                    <button class="bg-[#B08D55] hover:bg-white hover:text-black text-white px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition">Upload Now</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+                
+                <div class="col-span-12 md:col-span-8 space-y-6">
+                    
+                    <div class="panel">
+                        <div class="p-4 border-b border-stone-100 flex justify-between items-center bg-stone-50/50 rounded-t-lg">
+                            <h3 class="font-serif font-bold text-base flex items-center gap-2">
+                                <i data-lucide="check-square" width="16" class="text-[#B08D55]"></i> Arrangement Checklist
+                            </h3>
+                            <span class="text-xs font-bold text-stone-400">4 of 12 Completed</span>
+                        </div>
+                        <div>
+                            <label class="check-item cursor-pointer group">
+                                <input type="checkbox" checked class="hidden">
+                                <div class="custom-checkbox"><i data-lucide="check" width="12" class="text-white"></i></div>
+                                <span class="line-through text-stone-400">First Call Collection</span>
+                                <span class="ml-auto text-[10px] text-green-600 font-bold bg-green-50 px-2 py-1 rounded">DONE</span>
+                            </label>
+                            <label class="check-item cursor-pointer group">
+                                <input type="checkbox" class="hidden">
+                                <div class="custom-checkbox group-hover:border-[#B08D55]"></div>
+                                <span>Select Coffin & Urn</span>
+                                <button class="ml-auto text-[10px] font-bold border border-stone-200 px-3 py-1 rounded hover:bg-black hover:text-white transition">Browse Catalog</button>
+                            </label>
+                            <label class="check-item cursor-pointer group">
+                                <input type="checkbox" class="hidden">
+                                <div class="custom-checkbox group-hover:border-[#B08D55]"></div>
+                                <span>Draft Obituary Text</span>
+                                <button class="ml-auto text-[10px] font-bold border border-stone-200 px-3 py-1 rounded hover:bg-black hover:text-white transition">Open Editor</button>
+                            </label>
+                            <label class="check-item cursor-pointer group">
+                                <input type="checkbox" class="hidden">
+                                <div class="custom-checkbox group-hover:border-[#B08D55]"></div>
+                                <span>Choose Entrance Music</span>
+                                <span class="ml-auto text-[10px] text-amber-600 font-bold bg-amber-50 px-2 py-1 rounded">PENDING</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="panel p-6">
+                        <div class="flex justify-between items-end mb-6">
+                            <div>
+                                <h3 class="font-serif font-bold text-lg">Order of Service</h3>
+                                <p class="text-xs text-stone-500 mt-1">Drag and drop to reorder the timeline of the day.</p>
+                            </div>
+                            <button class="text-xs font-bold text-[#B08D55] flex items-center gap-1 hover:underline">Edit Full Timeline <i data-lucide="arrow-right" width="12"></i></button>
+                        </div>
+                        
+                        <div class="space-y-3 relative before:absolute before:left-4 before:top-4 before:bottom-4 before:w-0.5 before:bg-stone-200">
+                            <div class="relative pl-10">
+                                <div class="absolute left-2.5 top-3 w-3 h-3 bg-stone-800 rounded-full border-2 border-white"></div>
+                                <div class="bg-stone-50 border border-stone-100 p-3 rounded-lg flex justify-between items-center hover:border-stone-300 transition cursor-grab active:cursor-grabbing">
+                                    <div>
+                                        <p class="font-bold text-xs">10:45 AM • Arrival</p>
+                                        <p class="text-xs text-stone-500">Hearse arrives at Chapel Entrance</p>
+                                    </div>
+                                    <i data-lucide="grip-vertical" width="14" class="text-stone-300"></i>
+                                </div>
+                            </div>
+                            <div class="relative pl-10">
+                                <div class="absolute left-2.5 top-3 w-3 h-3 bg-[#B08D55] rounded-full border-2 border-white"></div>
+                                <div class="bg-white border border-[#B08D55] p-3 rounded-lg flex justify-between items-center shadow-sm">
+                                    <div>
+                                        <p class="font-bold text-xs text-[#B08D55]">11:00 AM • Entrance Music</p>
+                                        <div class="flex items-center gap-2 mt-1">
+                                            <i data-lucide="music" width="10" class="text-stone-400"></i>
+                                            <span class="text-xs font-medium">"Eleanor Rigby" - The Beatles (Orchestral)</span>
+                                        </div>
+                                    </div>
+                                    <button class="text-[10px] font-bold text-stone-400 hover:text-black">Change</button>
+                                </div>
+                            </div>
+                            <div class="relative pl-10">
+                                <div class="absolute left-2.5 top-3 w-3 h-3 bg-stone-300 rounded-full border-2 border-white"></div>
+                                <div class="bg-stone-50 border border-dashed border-stone-300 p-3 rounded-lg flex justify-center items-center text-stone-400 text-xs font-bold hover:bg-stone-100 hover:text-stone-600 transition cursor-pointer">
+                                    + Add Reading or Eulogy
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-span-12 md:col-span-4 space-y-6">
+                    
+                    <div class="panel bg-gradient-to-b from-stone-50 to-white">
+                        <div class="p-4 border-b border-stone-100">
+                            <h3 class="font-serif font-bold text-sm">Suggested Additions</h3>
+                        </div>
+                        <div class="p-2 space-y-2">
+                            <div class="flex gap-3 p-2 hover:bg-white rounded-lg transition group cursor-pointer border border-transparent hover:border-stone-100 hover:shadow-sm">
+                                <div class="w-12 h-12 bg-stone-200 rounded-md overflow-hidden flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1596068586938-1b6e1590209f?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-xs">Floral Spray</h4>
+                                    <p class="text-[10px] text-stone-500 mb-1">White lilies & roses</p>
+                                    <span class="text-[10px] font-bold text-[#B08D55]">+£120</span>
+                                </div>
+                                <button class="ml-auto w-6 h-6 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 group-hover:bg-[#B08D55] group-hover:text-white group-hover:border-[#B08D55] transition">
+                                    <i data-lucide="plus" width="12"></i>
+                                </button>
+                            </div>
+                            <div class="flex gap-3 p-2 hover:bg-white rounded-lg transition group cursor-pointer border border-transparent hover:border-stone-100 hover:shadow-sm">
+                                <div class="w-12 h-12 bg-stone-200 rounded-md overflow-hidden flex-shrink-0">
+                                    <img src="https://images.unsplash.com/photo-1516962215378-7fa2e137ae93?auto=format&fit=crop&w=200&q=80" class="w-full h-full object-cover">
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-xs">Service Booklets</h4>
+                                    <p class="text-[10px] text-stone-500 mb-1">50x Premium Print</p>
+                                    <span class="text-[10px] font-bold text-[#B08D55]">+£85</span>
+                                </div>
+                                <button class="ml-auto w-6 h-6 rounded-full border border-stone-200 flex items-center justify-center text-stone-400 group-hover:bg-[#B08D55] group-hover:text-white group-hover:border-[#B08D55] transition">
+                                    <i data-lucide="plus" width="12"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-3 border-t border-stone-100 text-center">
+                            <button class="text-[10px] font-bold uppercase text-stone-500 hover:text-[#B08D55] transition">Visit Full Marketplace</button>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="p-4 border-b border-stone-100 flex justify-between items-center">
+                            <h3 class="font-serif font-bold text-sm">Document Vault</h3>
+                            <button class="text-xs text-stone-400 hover:text-black"><i data-lucide="upload-cloud" width="14"></i></button>
+                        </div>
+                        <div class="divide-y divide-stone-50">
+                            <div class="p-3 flex items-center gap-3">
+                                <div class="w-8 h-8 rounded bg-green-50 text-green-600 flex items-center justify-center"><i data-lucide="file-check" width="14"></i></div>
+                                <div>
+                                    <p class="text-xs font-bold">Death Certificate</p>
+                                    <p class="text-[9px] text-green-600 font-bold uppercase">Verified</p>
+                                </div>
+                            </div>
+                            <div class="p-3 flex items-center gap-3 bg-amber-50/30">
+                                <div class="w-8 h-8 rounded bg-amber-100 text-amber-600 flex items-center justify-center animate-pulse"><i data-lucide="file-warning" width="14"></i></div>
+                                <div>
+                                    <p class="text-xs font-bold text-amber-900">Green Form (Registrar)</p>
+                                    <p class="text-[9px] text-amber-600 font-bold uppercase">Action Required</p>
+                                </div>
+                            </div>
+                            <div class="p-3 flex items-center gap-3 opacity-50">
+                                <div class="w-8 h-8 rounded bg-stone-100 text-stone-400 flex items-center justify-center"><i data-lucide="file" width="14"></i></div>
+                                <div>
+                                    <p class="text-xs font-bold">Cremation Form 1</p>
+                                    <p class="text-[9px] text-stone-400 font-bold uppercase">Pending</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
             
-            <nav class="nav-filler">
-                <a href="#" class="nav-link">For Directors</a>
-                <a href="#" class="nav-link">Sign In</a>
-                <a href="tel:0800123456" class="support-btn"><div class="live-dot"></div>24/7 Priority Line</a>
-            </nav>
+            <div class="h-20"></div>
         </div>
-    </header>
-
-    <main>
-        <section class="hero-section" data-aos="fade-up">
-            <h1 class="hero-title">
-                Compassionate Guidance <br>
-                <span style="font-style: italic; color: var(--gold);">Independent Choice.</span>
-            </h1>
-            <p class="hero-sub">
-                The vetted marketplace for funeral care. Compare prices, verify standards, and arrange with dignity—all in one place.
-            </p>
-        </section>
-
-        <section class="service-grid">
-            
-            <article class="soft-card card-urgent" onclick="toggleModal(true)" data-aos="fade-up" data-aos-delay="100">
-                <div>
-                    <div class="card-eyebrow"><span style="width:8px; height:8px; background:#BE123C; border-radius:50%;"></span>Urgent Assistance</div>
-                    <h2 class="card-heading">A death has<br>occurred.</h2>
-                    <p class="card-desc">Request immediate collection from a private residence, care home, or hospital. 24/7 Support.</p>
-                </div>
-                <div class="card-pill">Request Dispatch &rarr;</div>
-            </article>
-
-            <article class="soft-card card-primary" data-aos="fade-up" data-aos-delay="200">
-                <div>
-                    <div class="card-eyebrow"><span style="color:var(--gold)">&#9733;</span>Find a Director</div>
-                    <h2 class="card-heading">Compare Trusted<br>Professionals.</h2>
-                    <p class="card-desc">View verified independent directors near you. Transparent pricing, real reviews, no hidden fees.</p>
-                </div>
-                <div class="card-pill">Search Area &rarr;</div>
-            </article>
-
-            <article class="soft-card card-plan" data-aos="fade-up" data-aos-delay="300">
-                <div>
-                    <div class="card-eyebrow"><span>&#9875;</span>Prepaid Plans</div>
-                    <h2 class="card-heading">Plan for the<br>Future.</h2>
-                    <p class="card-desc">Secure peace of mind for your family by freezing funeral costs at today's prices.</p>
-                </div>
-                <div class="card-pill">View Plans &rarr;</div>
-            </article>
-        </section>
     </main>
 
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <h3>FuneralMatch</h3>
-                <p>The independent standard for funeral comparison. Verified, transparent, and dignified care for every family.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Platform</h4>
-                <a href="#" class="footer-link">How it Works</a>
-                <a href="#" class="footer-link">Vetting Standards</a>
-            </div>
-            <div class="footer-col">
-                <h4>Services</h4>
-                <a href="#" class="footer-link">Find a Director</a>
-                <a href="#" class="footer-link">Direct Cremation</a>
-            </div>
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="#" class="footer-link">Bereavement Advice</a>
-                <a href="#" class="footer-link">Contact Us</a>
-            </div>
+    <div class="fixed bottom-0 left-0 right-0 md:left-64 bg-white border-t border-stone-200 p-3 z-40 flex justify-between items-center px-8 shadow-[0_-5px_20px_rgba(0,0,0,0.02)]">
+        <div class="flex items-center gap-2 text-xs">
+            <span class="w-2 h-2 rounded-full bg-green-500"></span>
+            <span class="text-stone-500">Last saved: <span class="text-stone-800 font-bold">Just now</span></span>
         </div>
-        
-        <div style="max-width: 1280px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; display: flex; justify-content: space-between; font-size: 0.85rem;">
-            <div>&copy; 2026 FuneralMatch Ltd.</div>
-        </div>
-    </footer>
-
-    <div id="urgent-modal" class="backdrop">
-        <div class="urgent-card">
-            <div class="close-icon" onclick="toggleModal(false)">&times;</div>
-            <div class="uc-header">
-                <h3 style="font-family:'Bodoni Moda'; font-size:1.6rem; color:#450A0A; margin-bottom:0.5rem;">Immediate Assistance</h3>
-                <p style="font-size:0.9rem; color:#7F1D1D; opacity:0.9;">Tell us the location so we can dispatch the correct vehicle.</p>
-            </div>
-            <div class="uc-body">
-                <form onsubmit="event.preventDefault(); alert('Request Sent'); toggleModal(false);">
-                    <div style="margin-bottom: 1rem;">
-                        <input type="text" style="width:100%; padding:1rem; border:1px solid #ddd; border-radius:0.5rem;" placeholder="Location (e.g. Home, Hospital)">
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <input type="tel" style="width:100%; padding:1rem; border:1px solid #ddd; border-radius:0.5rem;" placeholder="Your Phone Number">
-                    </div>
-                    <button class="btn-dispatch">Request Immediate Call</button>
-                </form>
-            </div>
+        <div class="flex gap-4">
+            <button class="text-xs font-bold text-stone-500 hover:text-black transition">Save as Draft</button>
+            <button class="bg-black text-white px-6 py-2 rounded-lg text-xs font-bold uppercase tracking-wide hover:bg-[#B08D55] transition shadow-lg">Submit Arrangement</button>
         </div>
     </div>
 
     <script>
-        AOS.init({ duration: 800, once: true });
-        
-        function toggleModal(show) {
-            const modal = document.getElementById('urgent-modal');
-            if(show) modal.classList.add('active');
-            else modal.classList.remove('active');
-        }
-
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const intro = document.getElementById('intro-overlay');
-                if(intro) intro.style.display = 'none';
-            }, 5200);
-        });
+        AOS.init();
+        lucide.createIcons();
     </script>
 </body>
 </html>
