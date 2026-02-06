@@ -3,401 +3,322 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>FuneralMatch | Guidance & Choice</title>
+    <title>FuneralMatch | The New Standard of Care</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     
-    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,600;0,800;1,400&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
         /* =========================================
-         * 1. SYSTEM TOKENS (YOUR BASE)
+         * 1. LUXURY SYSTEM TOKENS
          * ========================================= */
         :root {
-            --gold: #C5A059;
-            --gold-light: #F1E5D1;
-            --charcoal: #1F1F1F;
-            --stone: #F9F8F6;
-            --white: #FFFFFF;
-            --header-h: 90px;
-            --curve-radius: 3rem;
+            --gold-primary: #C6A87C;
+            --gold-dim: #9F8259;
+            --obsidian: #0F1115;
+            --charcoal: #1C1E24;
+            --vapour: #F4F6F5;
+            --surface-glass: rgba(255, 255, 255, 0.75);
+            --surface-glass-hover: rgba(255, 255, 255, 0.95);
+            --blur-strength: 20px;
+            --ease-lux: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--stone);
-            color: var(--charcoal);
+            font-family: 'Manrope', sans-serif;
+            background-color: #F0F2F4;
+            color: var(--obsidian);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
             margin: 0; padding: 0;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* =========================================
-         * 2. BACKGROUND & TEXTURE
+         * 2. LIVING BACKGROUND (MESH GRADIENT)
          * ========================================= */
-        .bg-layer {
+        .ambient-canvas {
             position: fixed; inset: 0; z-index: -1;
-            background: radial-gradient(circle at 50% 0%, #FFFFFF 0%, #F2F0EB 60%, #EBE8E1 100%);
+            background: linear-gradient(125deg, #FDFBF7 0%, #F4F2ED 40%, #E8E6E1 100%);
         }
 
-        .noise-overlay {
-            position: fixed; inset: 0; z-index: -1;
-            opacity: 0.4;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
-            pointer-events: none;
+        .orb {
+            position: absolute; border-radius: 50%;
+            filter: blur(80px); opacity: 0.6;
+            animation: float 20s infinite ease-in-out;
+        }
+        .orb-1 { width: 60vw; height: 60vw; background: #EADDCD; top: -10%; left: -10%; animation-delay: 0s; }
+        .orb-2 { width: 50vw; height: 50vw; background: #D8DCE5; bottom: -10%; right: -10%; animation-delay: -5s; }
+        .orb-3 { width: 30vw; height: 30vw; background: rgba(198, 168, 124, 0.15); top: 40%; left: 40%; animation-delay: -10s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.95); }
         }
 
         /* =========================================
-         * 3. CINEMATIC INTRO (REFINED SLOGAN)
+         * 3. CINEMATIC CURTAIN (Slogan: New Standard)
          * ========================================= */
-        #intro-overlay {
-            position: fixed; inset: 0; background: #F9F8F6; z-index: 9999;
+        #curtain {
+            position: fixed; inset: 0; z-index: 9999;
+            background: #0F1115; color: white;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            animation: curtainUp 1s forwards 4.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-            pointer-events: none;
         }
-
-        .intro-logo { display: flex; flex-direction: column; align-items: flex-start; transform: scale(1.4); }
-        .intro-logo .brand-funeral { opacity: 0; animation: fadeUp 1s forwards 0.5s; color: var(--charcoal); letter-spacing: 0.5em; font-family: 'Bodoni Moda', serif; text-transform: uppercase; }
-        .intro-logo .logo-divider { width: 0; height: 1px; background: var(--gold); margin: 6px 0; animation: expandLine 1s forwards 1s; }
-        .intro-logo .brand-match { opacity: 0; animation: fadeUp 1s forwards 1.5s; color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; font-family: 'Bodoni Moda', serif; text-transform: uppercase; }
         
-        .intro-slogan {
-            font-family: 'Bodoni Moda', serif; font-style: italic; font-size: 1.2rem; color: #666;
-            margin-top: 1.5rem; opacity: 0; animation: fadeUp 1s forwards 2.5s;
-        }
-
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(10px); } }
-        @keyframes expandLine { to { width: 40px; } from { width: 0; } }
-        @keyframes curtainUp { to { opacity: 0; visibility: hidden; } }
-
-        /* =========================================
-         * 4. HEADER
-         * ========================================= */
-        header {
-            position: absolute; top: 0; left: 0; width: 100%; height: var(--header-h);
-            background: transparent; z-index: 100;
-            display: flex; align-items: center; padding: 0 5%;
-        }
-
-        .header-inner { width: 100%; max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-
-        .logo-wrap { display: flex; flex-direction: column; align-items: flex-start; }
-        .brand-text { font-family: 'Bodoni Moda', serif; font-size: clamp(0.75rem, 2vw, 0.9rem); text-transform: uppercase; line-height: 1; font-weight: 500; }
-        .brand-funeral { color: var(--charcoal); letter-spacing: 0.5em; }
-        .logo-divider { width: 40px; height: 1px; background-color: var(--gold); margin: 6px 0; }
-        .brand-match { color: var(--gold); letter-spacing: 0.82em; margin-right: -0.82em; }
-
-        .nav-filler { display: flex; align-items: center; gap: 2rem; }
-        .nav-link { font-size: 0.85rem; font-weight: 500; color: #555; text-decoration: none; transition: 0.3s; }
-        .nav-link:hover { color: var(--gold); }
-        .mobile-menu { display: none; font-size: 1.5rem; cursor: pointer; color: var(--charcoal); }
-        
-        .support-btn {
-            background: white; color: var(--charcoal); padding: 10px 20px;
-            border: 1px solid rgba(0,0,0,0.05);
-            border-radius: 99px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em;
-            display: flex; align-items: center; gap: 8px; transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-        }
-        .support-btn:hover { background: var(--charcoal); color: white; transform: translateY(-1px); }
-        .live-dot { width: 6px; height: 6px; background: #4ADE80; border-radius: 50%; box-shadow: 0 0 8px #4ADE80; }
-
-        @media (max-width: 768px) { .nav-filler { display: none; } .mobile-menu { display: block; } }
-
-        /* =========================================
-         * 5. HERO SECTION
-         * ========================================= */
-        .hero-section { 
-            padding: 180px 5% 4rem 5%; text-align: center; max-width: 900px; margin: 0 auto; 
-            position: relative; z-index: 1; 
-        }
-        .hero-title { font-family: 'Bodoni Moda', serif; font-size: clamp(2.5rem, 6vw, 4rem); color: var(--charcoal); line-height: 1.15; margin-bottom: 1.5rem; }
-        .hero-sub { font-family: 'Inter', sans-serif; font-size: 1.1rem; color: #666; line-height: 1.6; max-width: 600px; margin: 0 auto; }
-
-        /* =========================================
-         * 6. SERVICES GRID (UPDATED INTERACTIONS)
-         * ========================================= */
-        .service-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;
-            max-width: 1280px; margin: 0 auto; 
-            padding: 0 5% 12rem 5%;
-            position: relative; z-index: 5;
-        }
-
-        .soft-card {
-            background: #FFFFFF; border-radius: 1.5rem; padding: 2.5rem;
-            /* SOFT INTERACTION: Slower, cubic-bezier transition */
-            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s ease;
-            border: 1px solid rgba(0,0,0,0.03); box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            display: flex; flex-direction: column; justify-content: space-between; min-height: 380px; cursor: pointer;
-        }
-        .soft-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px -10px rgba(0,0,0,0.08); }
-
-        .card-eyebrow { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
-        .card-heading { font-family: 'Bodoni Moda', serif; font-size: 1.8rem; line-height: 1.1; color: var(--charcoal); margin-bottom: 1rem; }
-        .card-desc { font-size: 0.95rem; line-height: 1.6; color: #666; margin-bottom: 2rem; }
-        
-        /* Updated Buttons to be less "pill" like, more "link" like within card */
-        .card-pill { 
-            display: inline-flex; align-items: center; gap: 8px; 
-            padding: 10px 0; font-size: 0.85rem; font-weight: 600; 
-            transition: 0.3s; width: fit-content; border-bottom: 1px solid transparent;
-        }
-
-        /* 1. Urgent (Refined) */
-        .card-urgent .card-eyebrow { color: #BE123C; }
-        .card-urgent .card-pill { color: #BE123C; }
-        .card-urgent:hover { border-color: #FECDD3; }
-        .card-urgent:hover .card-pill { padding-left: 5px; }
-
-        /* 2. Compare (Refined) */
-        .card-primary { border: 1px solid var(--gold); } 
-        .card-primary .card-eyebrow { color: var(--gold); }
-        .card-primary .card-pill { color: var(--gold); }
-        .card-primary:hover { border-color: #B08D4C; box-shadow: 0 30px 60px -15px rgba(197, 160, 89, 0.2); }
-        .card-primary:hover .card-pill { padding-left: 5px; }
-
-        /* 3. Plans (Refined) */
-        .card-plan .card-eyebrow { color: #64748B; }
-        .card-plan .card-pill { color: #64748B; }
-        .card-plan:hover .card-pill { padding-left: 5px; }
-
-        /* =========================================
-         * 7. CATHEDRAL FOOTER
-         * ========================================= */
-        footer {
-            position: relative; z-index: 20; 
-            background-color: var(--charcoal); color: #9CA3AF;
-            border-top-left-radius: var(--curve-radius); border-top-right-radius: var(--curve-radius);
-            margin-top: -5rem; padding: 8rem 5% 4rem 5%; box-shadow: 0 -20px 60px rgba(0,0,0,0.1);
-        }
-
-        .footer-grid {
-            max-width: 1280px; margin: 0 auto;
-            display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem;
-            padding-bottom: 4rem; border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .footer-brand h3 { font-family: 'Bodoni Moda', serif; color: white; font-size: 1.5rem; margin-bottom: 1rem; }
-        .footer-brand p { font-size: 0.9rem; line-height: 1.7; opacity: 0.8; max-width: 300px; margin-bottom: 1.5rem; }
-        
-        .socials { display: flex; gap: 10px; }
-        .social-dot { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; color: white; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: 0.3s; }
-        .social-dot:hover { background: var(--gold); color: var(--charcoal); transform: translateY(-2px); }
-
-        .footer-col h4 { color: white; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.5rem; opacity: 0.9; }
-        .footer-link { display: block; color: #9CA3AF; margin-bottom: 1rem; text-decoration: none; font-size: 0.9rem; transition: 0.3s; }
-        .footer-link:hover { color: var(--gold); transform: translateX(4px); }
-
-        @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 640px) { 
-            .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-            footer { padding-top: 6rem; border-top-left-radius: 2rem; border-top-right-radius: 2rem; }
+        .curtain-text {
+            font-family: 'Bodoni Moda', serif; font-size: 3vw; font-weight: 400;
+            overflow: hidden; white-space: nowrap; opacity: 0;
+            background: linear-gradient(90deg, #fff 0%, #C6A87C 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         /* =========================================
-         * 8. RESPONSIVE MODAL (Softened)
+         * 4. GLASS INTERFACE (Header)
          * ========================================= */
-        .backdrop {
-            position: fixed; inset: 0; background: rgba(30, 30, 30, 0.4); backdrop-filter: blur(8px);
-            z-index: 5000; display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); padding: 20px;
+        .glass-nav {
+            position: fixed; top: 2rem; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 1400px; height: 70px;
+            background: rgba(255,255,255,0.6); backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.4); border-radius: 99px;
+            display: flex; align-items: center; justify-content: space-between; padding: 0 2rem;
+            z-index: 100; box-shadow: 0 10px 40px rgba(0,0,0,0.03);
+            transition: all 0.4s var(--ease-lux);
         }
-        .backdrop.active { opacity: 1; pointer-events: auto; }
 
-        .urgent-card {
-            background: white; width: 100%; max-width: 500px; border-radius: 1.5rem;
-            position: relative; overflow: hidden; transform: scale(0.95) translateY(10px); opacity: 0; 
-            transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-            box-shadow: 0 30px 80px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto;
+        .brand-mark { font-family: 'Bodoni Moda'; font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; color: var(--obsidian); }
+        .brand-mark span { color: var(--gold-primary); }
+
+        .nav-actions { display: flex; align-items: center; gap: 2rem; }
+        .nav-link { font-size: 0.85rem; font-weight: 600; color: #555; text-decoration: none; transition: 0.3s; text-transform: uppercase; letter-spacing: 0.05em; }
+        .nav-link:hover { color: var(--gold-primary); }
+
+        .emergency-pill {
+            background: var(--obsidian); color: white; padding: 12px 24px; border-radius: 99px;
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+            display: flex; align-items: center; gap: 8px; cursor: pointer; transition: 0.3s;
         }
-        .backdrop.active .urgent-card { transform: scale(1) translateY(0); opacity: 1; }
+        .emergency-pill:hover { background: #333; transform: scale(1.02); }
+        .pulse { width: 6px; height: 6px; background: #FF4444; border-radius: 50%; box-shadow: 0 0 10px #FF4444; }
 
-        .uc-header { background: linear-gradient(135deg, #FFF5F5, #FFF0F0); padding: 2rem; border-bottom: 1px solid rgba(155, 44, 44, 0.1); }
-        .uc-body { padding: 2rem; }
+        /* =========================================
+         * 5. EDITORIAL HERO
+         * ========================================= */
+        .hero-stage {
+            min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 120px 20px 40px; position: relative;
+        }
+
+        .headline-wrap { overflow: hidden; margin-bottom: 1.5rem; }
+        .hero-headline {
+            font-family: 'Bodoni Moda', serif; font-size: clamp(3.5rem, 7vw, 6.5rem);
+            line-height: 1.05; letter-spacing: -0.03em; color: var(--obsidian);
+            opacity: 0; transform: translateY(40px); /* GSAP Target */
+        }
         
-        .badge { display: inline-flex; align-items: center; gap: 6px; background: #9B2C2C; color: white; padding: 5px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: 1rem; }
-        
-        .field { margin-bottom: 1.2rem; }
-        .label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; color: #7F1D1D; }
-        .input { width: 100%; padding: 1rem; border: 1px solid #E5E5E5; border-radius: 0.8rem; background: #FAFAFA; font-size: 1rem; outline: none; transition: 0.2s; }
-        .input:focus { background: white; border-color: #9B2C2C; box-shadow: 0 0 0 3px rgba(155, 44, 44, 0.1); }
-
-        .btn-dispatch { 
-            width: 100%; padding: 1.2rem; background: #9B2C2C; color: white; border: none; 
-            border-radius: 1rem; font-size: 1rem; font-weight: 600; cursor: pointer; 
-            margin-top: 1rem; display: flex; align-items: center; justify-content: center; gap: 10px;
-            transition: background 0.2s;
+        .hero-sub {
+            font-size: 1.1rem; color: #666; max-width: 500px; line-height: 1.6; margin-bottom: 4rem;
+            opacity: 0; transform: translateY(20px); /* GSAP Target */
         }
-        .btn-dispatch:hover { background: #7F1D1D; }
-        .close-icon { position: absolute; top: 1.5rem; right: 1.5rem; width: 32px; height: 32px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #9B2C2C; border: 1px solid #FECACA; transition: 0.2s; }
-        .close-icon:hover { background: #FFF1F2; }
+
+        /* =========================================
+         * 6. "ENTICING" CARDS (Glassmorphism + Tilt)
+         * ========================================= */
+        .action-deck {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+            width: 100%; max-width: 1400px;
+            opacity: 0; transform: translateY(40px); /* GSAP Target */
+        }
+
+        .glass-card {
+            position: relative; height: 450px; padding: 3rem;
+            background: var(--surface-glass); backdrop-filter: blur(var(--blur-strength));
+            border: 1px solid rgba(255,255,255,0.6);
+            border-radius: 2rem;
+            display: flex; flex-direction: column; justify-content: space-between;
+            transition: all 0.5s var(--ease-lux);
+            cursor: pointer; overflow: hidden;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.05);
+        }
+
+        .glass-card::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 100%);
+            opacity: 0; transition: 0.5s;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            background: var(--surface-glass-hover);
+            box-shadow: 0 40px 80px -20px rgba(198, 168, 124, 0.25);
+            border-color: rgba(198, 168, 124, 0.3);
+        }
+        .glass-card:hover::before { opacity: 1; }
+
+        /* Card Content */
+        .card-icon-wrap {
+            width: 50px; height: 50px; border-radius: 50%; background: white;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 2rem; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            font-size: 1.2rem; color: var(--obsidian);
+            transition: 0.4s var(--ease-lux);
+        }
+        .glass-card:hover .card-icon-wrap { transform: scale(1.1); background: var(--obsidian); color: var(--gold-primary); }
+
+        .card-title { font-family: 'Bodoni Moda'; font-size: 2rem; line-height: 1.1; margin-bottom: 1rem; color: var(--obsidian); }
+        .card-text { font-size: 0.95rem; color: #666; line-height: 1.6; position: relative; z-index: 2; }
+
+        .card-cta {
+            margin-top: auto; display: flex; align-items: center; gap: 10px;
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+            color: var(--obsidian); opacity: 0.6; transition: 0.3s;
+        }
+        .glass-card:hover .card-cta { opacity: 1; gap: 20px; color: var(--gold-dim); }
+
+        /* URGENT VARIANT */
+        .card-urgent { border-left: 4px solid #A62828; }
+        .card-urgent:hover { box-shadow: 0 40px 80px -20px rgba(166, 40, 40, 0.15); border-color: #A62828; }
+        .card-urgent .card-icon-wrap { color: #A62828; }
+
+        @media(max-width: 1024px) {
+            .action-deck { grid-template-columns: 1fr; }
+            .glass-card { height: auto; min-height: 300px; }
+            .glass-nav { top: 0; width: 100%; border-radius: 0; border: none; border-bottom: 1px solid rgba(0,0,0,0.05); }
+        }
+
+        /* =========================================
+         * 7. MODAL (Slide-Up Console)
+         * ========================================= */
+        .console-overlay {
+            position: fixed; inset: 0; background: rgba(15, 17, 21, 0.4); backdrop-filter: blur(10px);
+            z-index: 9000; opacity: 0; pointer-events: none; transition: 0.5s var(--ease-lux);
+            display: flex; align-items: flex-end; justify-content: center;
+        }
+        .console-overlay.active { opacity: 1; pointer-events: auto; }
+
+        .console-panel {
+            width: 100%; max-width: 600px; background: #FFFFFF;
+            border-top-left-radius: 2.5rem; border-top-right-radius: 2.5rem;
+            padding: 3rem; transform: translateY(100%); transition: 0.6s var(--ease-lux);
+            box-shadow: 0 -20px 60px rgba(0,0,0,0.2);
+        }
+        .console-overlay.active .console-panel { transform: translateY(0); }
+
+        .input-line {
+            width: 100%; padding: 1.5rem 0; border: none; border-bottom: 1px solid #ddd;
+            font-family: 'Manrope'; font-size: 1.2rem; background: transparent; outline: none;
+            transition: 0.3s;
+        }
+        .input-line:focus { border-bottom-color: var(--obsidian); }
+
+        .btn-black {
+            width: 100%; background: var(--obsidian); color: white; padding: 1.5rem;
+            font-size: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em;
+            border: none; border-radius: 1rem; margin-top: 2rem; cursor: pointer; transition: 0.3s;
+        }
+        .btn-black:hover { transform: translateY(-2px); background: #333; }
+
     </style>
 </head>
 <body>
 
-    <div id="intro-overlay">
-        <div class="intro-logo">
-            <span class="brand-funeral">Funeral</span>
-            <div class="logo-divider"></div>
-            <span class="brand-match">Match</span>
-        </div>
-        <div class="intro-slogan">Dignity in every detail.</div>
+    <div id="curtain">
+        <div class="curtain-text">The New Standard of Care</div>
     </div>
 
-    <div class="bg-layer"></div>
-    <div class="noise-overlay"></div>
+    <div class="ambient-canvas">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
 
-    <header>
-        <div class="header-inner">
-            <div class="logo-wrap">
-                <span class="brand-text brand-funeral">Funeral</span>
-                <div class="logo-divider"></div>
-                <span class="brand-text brand-match">Match</span>
+    <nav class="glass-nav">
+        <div class="brand-mark">Funeral<span>Match</span></div>
+        <div class="nav-actions">
+            <a href="#" class="nav-link hidden md:block">For Directors</a>
+            <a href="#" class="nav-link hidden md:block">Sign In</a>
+            <div class="emergency-pill" onclick="toggleConsole(true)">
+                <div class="pulse"></div> 24/7 Support
             </div>
-            
-            <nav class="nav-filler">
-                <a href="#" class="nav-link">For Directors</a>
-                <a href="#" class="nav-link">Sign In</a>
-                <a href="tel:0800123456" class="support-btn"><div class="live-dot"></div>24/7 Priority Line</a>
-            </nav>
-            <div class="mobile-menu">&#9776;</div>
         </div>
-    </header>
+    </nav>
 
-    <main>
-        <section class="hero-section" data-aos="fade-up">
-            <h1 class="hero-title">
-                Compassionate Guidance <br>
-                <span style="font-style: italic; color: var(--gold);">Independent Choice.</span>
-            </h1>
-            <p class="hero-sub">
-                The vetted marketplace for funeral care. Compare prices, verify standards, and arrange with dignity—all in one place.
-            </p>
-        </section>
+    <main class="hero-stage">
+        
+        <div class="headline-wrap">
+            <h1 class="hero-headline">Care, redefined.</h1>
+        </div>
+        <p class="hero-sub">The independent marketplace for funeral services. Verified professionals, transparent pricing, and dignity in every detail.</p>
 
-        <section class="service-grid">
+        <div class="action-deck">
             
-            <article class="soft-card card-urgent" onclick="toggleModal(true)" data-aos="fade-up" data-aos-delay="100">
+            <div class="glass-card card-urgent" onclick="toggleConsole(true)">
                 <div>
-                    <div class="card-eyebrow"><span style="width:8px; height:8px; background:#BE123C; border-radius:50%;"></span>Urgent Assistance</div>
-                    <h2 class="card-heading">A death has<br>occurred.</h2>
-                    <p class="card-desc">Request immediate collection from a private residence, care home, or hospital. 24/7 Support.</p>
+                    <div class="card-icon-wrap">!</div>
+                    <h2 class="card-title">Immediate<br>Assistance</h2>
+                    <p class="card-text">A death has occurred. Request priority collection from home or hospital.</p>
                 </div>
-                <div class="card-pill">Request Dispatch &rarr;</div>
-            </article>
+                <div class="card-cta">Request Support &rarr;</div>
+            </div>
 
-            <article class="soft-card card-primary" data-aos="fade-up" data-aos-delay="200">
+            <div class="glass-card">
                 <div>
-                    <div class="card-eyebrow"><span style="color:var(--gold)">&#9733;</span>Find a Director</div>
-                    <h2 class="card-heading">Compare Trusted<br>Professionals.</h2>
-                    <p class="card-desc">View verified independent directors near you. Transparent pricing, real reviews, no hidden fees.</p>
+                    <div class="card-icon-wrap">&starf;</div>
+                    <h2 class="card-title">Compare<br>Directors</h2>
+                    <p class="card-text">Find vetted local directors. View transparent costs and verified reviews.</p>
                 </div>
-                <div class="card-pill">Search Area &rarr;</div>
-            </article>
+                <div class="card-cta">Start Search &rarr;</div>
+            </div>
 
-            <article class="soft-card card-plan" data-aos="fade-up" data-aos-delay="300">
+            <div class="glass-card">
                 <div>
-                    <div class="card-eyebrow"><span>&#9875;</span>Prepaid Plans</div>
-                    <h2 class="card-heading">Plan for the<br>Future.</h2>
-                    <p class="card-desc">Secure peace of mind for your family by freezing funeral costs at today's prices.</p>
+                    <div class="card-icon-wrap">&infin;</div>
+                    <h2 class="card-title">Prepaid<br>Plans</h2>
+                    <p class="card-text">Secure the future. Lock in today’s prices for peace of mind.</p>
                 </div>
-                <div class="card-pill">View Plans &rarr;</div>
-            </article>
-        </section>
+                <div class="card-cta">Explore Options &rarr;</div>
+            </div>
+
+        </div>
     </main>
 
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <h3>FuneralMatch</h3>
-                <p>The independent standard for funeral comparison. Verified, transparent, and dignified care for every family.</p>
-                <div class="socials">
-                    <div class="social-dot">X</div>
-                    <div class="social-dot">In</div>
-                    <div class="social-dot">Fb</div>
-                </div>
+    <div id="console" class="console-overlay" onclick="if(event.target === this) toggleConsole(false)">
+        <div class="console-panel">
+            <div style="display:flex; justify-content:space-between; margin-bottom:2rem;">
+                <h3 style="font-family:'Bodoni Moda'; font-size:2rem; margin:0;">Priority Dispatch</h3>
+                <button onclick="toggleConsole(false)" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">&times;</button>
             </div>
+            <p style="color:#666; margin-bottom:2rem;">We will connect you with a First Call team immediately.</p>
             
-            <div class="footer-col">
-                <h4>Platform</h4>
-                <a href="#" class="footer-link">How it Works</a>
-                <a href="#" class="footer-link">Vetting Standards</a>
-                <a href="#" class="footer-link">Our Charter</a>
-            </div>
-            <div class="footer-col">
-                <h4>Services</h4>
-                <a href="#" class="footer-link">Find a Director</a>
-                <a href="#" class="footer-link">Direct Cremation</a>
-                <a href="#" class="footer-link">Eco Funerals</a>
-            </div>
-            <div class="footer-col">
-                <h4>Support</h4>
-                <a href="#" class="footer-link">Bereavement Advice</a>
-                <a href="#" class="footer-link">Coroner Enquiries</a>
-                <a href="#" class="footer-link">Contact Us</a>
-            </div>
-        </div>
-        
-        <div style="max-width: 1280px; margin: 0 auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; display: flex; justify-content: space-between; font-size: 0.85rem;">
-            <div>&copy; 2026 FuneralMatch Ltd.</div>
-            <div style="display: flex; gap: 1.5rem;">
-                <a href="#" style="color:#666; text-decoration: none;">Privacy</a>
-                <a href="#" style="color:#666; text-decoration: none;">Terms</a>
-            </div>
-        </div>
-    </footer>
-
-    <div id="urgent-modal" class="backdrop">
-        <div class="urgent-card">
-            <div class="close-icon" onclick="toggleModal(false)">&times;</div>
-            <div class="uc-header">
-                <div class="badge"><div class="live-dot" style="background:white; box-shadow:none;"></div>Priority Dispatch</div>
-                <h3 style="font-family:'Bodoni Moda'; font-size:1.6rem; color:#450A0A; margin-bottom:0.5rem;">Immediate Assistance</h3>
-                <p style="font-size:0.9rem; color:#7F1D1D; opacity:0.9;">Tell us the location so we can dispatch the correct vehicle.</p>
-            </div>
-            <div class="uc-body">
-                <form onsubmit="event.preventDefault(); alert('Request Sent'); toggleModal(false);">
-                    <div class="field">
-                        <label class="label">Deceased Location</label>
-                        <select class="input" style="-webkit-appearance:none; background-image:url('data:image/svg+xml;utf8,<svg fill=%23999 height=24 viewBox=0 0 24 24 width=24 xmlns=http://www.w3.org/2000/svg><path d=M7 10l5 5 5-5z/></svg>'); background-repeat:no-repeat; background-position:right 10px center;">
-                            <option>Private Residence</option>
-                            <option>Care Home</option>
-                            <option>Hospital</option>
-                        </select>
-                    </div>
-                    <div class="field">
-                        <label class="label">Your Name</label>
-                        <input type="text" class="input" placeholder="Full Name">
-                    </div>
-                    <div class="field">
-                        <label class="label">Phone Number</label>
-                        <input type="tel" class="input" placeholder="Best number to call">
-                    </div>
-                    <button class="btn-dispatch">Request Immediate Call</button>
-                </form>
-            </div>
+            <form onsubmit="event.preventDefault(); alert('Dispatch Requested'); toggleConsole(false);">
+                <input type="text" class="input-line" placeholder="Where is the deceased located?" required>
+                <input type="tel" class="input-line" placeholder="Your Phone Number" style="margin-top:1rem;" required>
+                <button type="submit" class="btn-black">Request Call Back</button>
+            </form>
         </div>
     </div>
 
     <script>
-        AOS.init({ duration: 800, once: true });
-        
-        function toggleModal(show) {
-            const modal = document.getElementById('urgent-modal');
-            if(show) modal.classList.add('active');
-            else modal.classList.remove('active');
-        }
+        // Init GSAP Timeline
+        const tl = gsap.timeline();
 
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const intro = document.getElementById('intro-overlay');
-                if(intro) intro.style.display = 'none';
-            }, 5200);
-        });
+        // 1. Curtain Sequence
+        tl.to(".curtain-text", { opacity: 1, duration: 1.5, ease: "power2.out" })
+          .to(".curtain-text", { scale: 1.1, duration: 2, ease: "none" }, "<")
+          .to("#curtain", { y: "-100%", duration: 1.2, ease: "power4.inOut", delay: 0.5 });
+
+        // 2. Hero Reveal
+        tl.to(".hero-headline", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.5")
+          .to(".hero-sub", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+          .to(".action-deck", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.8");
+
+        // Interaction Logic
+        function toggleConsole(show) {
+            const el = document.getElementById('console');
+            if(show) el.classList.add('active');
+            else el.classList.remove('active');
+        }
     </script>
 </body>
 </html>
