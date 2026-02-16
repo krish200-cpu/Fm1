@@ -3,73 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gadex Gadget Experts | Shop Tech</title>
+    <title>Gadex Gadget Experts | Premium Retail</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CORE STYLES --- */
+        /* --- 1. RESET & VARIABLES --- */
         :root {
-            --bg-dark: #050505;
-            --bg-card: #121212;
-            --primary: #3b82f6; /* Bright Blue */
-            --accent: #8b5cf6;  /* Violet */
+            --bg-body: #050505;
+            --bg-card: #101010;
+            --bg-card-hover: #161616;
+            --primary: #2563eb; /* Professional Blue */
             --text-main: #ffffff;
-            --text-muted: #a3a3a3;
-            --border: rgba(255, 255, 255, 0.1);
-            --radius: 12px;
-            --nav-height: 70px;
+            --text-muted: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.08);
+            --nav-height: 80px;
+            --container: 1200px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
+        html { scroll-behavior: smooth; }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
+            background-color: var(--bg-body);
             color: var(--text-main);
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+            line-height: 1.6;
         }
 
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
         img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
 
-        /* --- LAYOUT UTILITIES --- */
+        /* --- 2. LAYOUT --- */
         .container {
-            max-width: 1200px;
+            max-width: var(--container);
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
-        .section-title {
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 60px;
-        }
-        
-        .section-title span { color: var(--primary); }
+        .section-padding { padding: 100px 0; }
 
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            margin-bottom: 20px;
-        }
-
-        /* --- NAVIGATION --- */
+        /* --- 3. NAVIGATION --- */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
             height: var(--nav-height);
-            background: rgba(5, 5, 5, 0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             z-index: 1000;
             display: flex;
@@ -90,156 +75,173 @@
             color: white;
         }
 
-        .nav-links { display: flex; gap: 30px; }
-        .nav-links a { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); transition: 0.2s; }
-        .nav-links a:hover { color: white; }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { font-size: 0.95rem; font-weight: 500; color: var(--text-muted); }
+        .nav-links a:hover { color: var(--primary); }
 
-        /* Mobile Menu Button */
-        .menu-btn { display: none; color: white; font-size: 1.5rem; cursor: pointer; }
+        .contact-btn {
+            padding: 10px 24px;
+            background: white;
+            color: black;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .contact-btn:hover { background: var(--primary); color: white; }
 
-        /* --- HERO SECTION (SHOP FOCUSED) --- */
+        /* --- 4. HERO SECTION --- */
         .hero {
-            margin-top: var(--nav-height);
-            height: 550px;
+            height: 100vh;
+            min-height: 600px;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            overflow: hidden;
+            margin-top: 0;
         }
 
-        /* Dark overlay on hero image */
         .hero-bg {
             position: absolute;
             inset: 0;
-            /* Using a high quality tech abstract background */
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
-                        url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop');
+            z-index: -1;
+            /* 🔴 IMPORTANT: Ensure hero.jpg is in your images folder */
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('images/hero.jpg');
             background-size: cover;
             background-position: center;
-            z-index: -1;
+            /* Fallback color if image missing */
+            background-color: #1a1a1a; 
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-size: clamp(3rem, 6vw, 5rem);
             font-weight: 900;
             line-height: 1.1;
             margin-bottom: 24px;
-            text-transform: uppercase;
-            font-style: italic;
-            max-width: 800px;
+            letter-spacing: -2px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            color: #d4d4d8;
+            max-width: 600px;
+            margin: 0 auto 40px;
         }
 
-        .hero-btn-group {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 14px 32px;
-            border-radius: 4px;
+        .btn-primary {
+            padding: 16px 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 6px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.9rem;
+            font-size: 1rem;
             border: none;
             cursor: pointer;
-            transition: 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
+
+        /* --- 5. CATEGORY GRID --- */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 50px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
         }
 
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: #2563eb; transform: translateY(-2px); }
+        .section-title { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; }
+        .section-subtitle { color: var(--text-muted); }
 
-        .btn-outline { background: transparent; border: 2px solid white; color: white; }
-        .btn-outline:hover { background: white; color: black; }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
 
-        /* --- PRODUCT CARDS --- */
         .card {
             background: var(--bg-card);
-            border-radius: var(--radius);
+            border-radius: 16px;
             overflow: hidden;
-            position: relative;
-            height: 380px;
             border: 1px solid var(--border);
-            transition: 0.3s ease;
-            cursor: pointer;
+            transition: 0.4s ease;
+            position: relative;
+            group: hover;
         }
 
         .card:hover {
+            transform: translateY(-8px);
             border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
         }
 
-        .card-img {
-            height: 100%;
-            width: 100%;
-            transition: 0.5s;
+        .card-img-wrap {
+            height: 300px; /* Consistent height */
+            overflow: hidden;
+            background-color: #1a1a1a; /* Placeholder color if img broken */
         }
 
-        .card:hover .card-img {
-            transform: scale(1.05);
+        .card-img-wrap img {
+            transition: transform 0.6s ease;
         }
 
-        /* Overlay text on image */
-        .card-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, transparent);
-            padding: 24px;
-            z-index: 2;
-        }
+        .card:hover .card-img-wrap img { transform: scale(1.08); }
 
-        .card-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 6px;
-        }
+        .card-content { padding: 30px; }
+        
+        .card-content h3 { font-size: 1.5rem; margin-bottom: 8px; }
+        .card-content p { color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
+        
+        .link-arrow { color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 8px; }
 
-        .card-sub {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-        }
-
-        .tag {
-            background: var(--primary);
-            color: white;
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-weight: bold;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 3;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* --- FOOTER --- */
-        footer {
+        /* --- 6. TRUST ICONS (Why Choose Us) --- */
+        .trust-section {
+            background: #0a0a0a;
             border-top: 1px solid var(--border);
-            padding: 60px 20px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-top: 80px;
-            background: #000;
+            border-bottom: 1px solid var(--border);
         }
 
-        /* --- MOBILE --- */
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .trust-item h4 { margin: 15px 0 10px; font-size: 1.1rem; }
+        .trust-item p { font-size: 0.9rem; color: var(--text-muted); }
+        .icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+
+        /* --- 7. FOOTER --- */
+        footer { padding: 80px 0 40px; border-top: 1px solid var(--border); }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand p { color: var(--text-muted); margin-top: 20px; max-width: 300px; }
+        .footer-col h4 { color: white; margin-bottom: 24px; font-size: 1.1rem; }
+        .footer-col a { display: block; color: var(--text-muted); margin-bottom: 12px; }
+        .footer-col a:hover { color: white; }
+
+        .copyright {
+            text-align: center;
+            border-top: 1px solid var(--border);
+            padding-top: 30px;
+            color: #52525b;
+            font-size: 0.9rem;
+        }
+
+        /* --- MOBILE RESPONSIVE --- */
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .menu-btn { display: block; }
-            .card { height: 300px; }
-            .hero { height: 450px; }
-            .section-title { margin-top: 40px; }
+            .hero h1 { font-size: 3rem; }
+            .grid-3 { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
         }
     </style>
 </head>
@@ -251,140 +253,205 @@
             <div class="nav-links">
                 <a href="#phones">Phones</a>
                 <a href="#gaming">Gaming</a>
-                <a href="#vapes">Vapes</a>
+                <a href="#vapes">Lifestyle</a>
+                <a href="#trust">Why Us</a>
             </div>
-            <div class="menu-btn">☰</div>
+            <a href="#" class="contact-btn">Contact Us</a>
         </div>
     </nav>
 
     <header class="hero">
-        <div class="hero-bg"></div>
-        <div class="container">
-            <h1>The New Standard<br>In Tech Retail</h1>
-            <div class="hero-btn-group">
-                <button class="btn btn-primary" onclick="scrollToSection('phones')">Shop Phones</button>
-                <button class="btn btn-outline" onclick="scrollToSection('gaming')">Gaming Deals</button>
-                <button class="btn btn-outline" onclick="scrollToSection('vapes')">Vapes</button>
-            </div>
+        <div class="hero-bg"></div> <div class="container">
+            <h1>THE FUTURE OF<br>TECH IS HERE.</h1>
+            <p>Your premium destination for authentic devices. Shop the latest drops in mobile, gaming, and lifestyle tech.</p>
+            <button class="btn-primary" onclick="document.getElementById('phones').scrollIntoView()">Explore Collection</button>
         </div>
     </header>
 
-    <main class="container">
-
-        <div id="phones">
-            <h2 class="section-title"><span>01.</span> Mobile Phones</h2>
+    <section id="phones" class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Mobile Phones</h2>
+                <span class="section-subtitle">Flagship Performance</span>
+            </div>
             <div class="grid-3">
                 <div class="card">
-                    <span class="tag">Best Seller</span>
-                    <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop" class="card-img" alt="iPhone 15">
-                    <div class="card-overlay">
-                        <h3 class="card-title">Apple iPhone</h3>
-                        <p class="card-sub">Latest 15 Pro, Pro Max & Plus</p>
+                    <div class="card-img-wrap">
+                        <img src="images/iphone.jpg" alt="Apple iPhone">
+                    </div>
+                    <div class="card-content">
+                        <h3>Apple iPhone</h3>
+                        <p>iPhone 15, Pro & Pro Max available now.</p>
+                        <a href="#" class="link-arrow">View Models &rarr;</a>
                     </div>
                 </div>
-
                 <div class="card">
-                    <span class="tag">New Arrival</span>
-                    <img src="https://images.unsplash.com/photo-1610945415295-d96bf067d9e4?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Samsung Galaxy">
-                    <div class="card-overlay">
-                        <h3 class="card-title">Samsung Galaxy</h3>
-                        <p class="card-sub">S24 Ultra & Fold Series</p>
+                    <div class="card-img-wrap">
+                        <img src="images/samsung.jpg" alt="Samsung Galaxy">
+                    </div>
+                    <div class="card-content">
+                        <h3>Samsung Galaxy</h3>
+                        <p>S24 Ultra AI & Z-Fold Series.</p>
+                        <a href="#" class="link-arrow">View Models &rarr;</a>
                     </div>
                 </div>
-
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1616348436168-de43ad0db179?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Google Pixel">
-                    <div class="card-overlay">
-                        <h3 class="card-title">Google Pixel</h3>
-                        <p class="card-sub">Pure Android Experience</p>
+                    <div class="card-img-wrap">
+                        <img src="images/pixel.jpg" alt="Google Pixel">
+                    </div>
+                    <div class="card-content">
+                        <h3>Google Pixel</h3>
+                        <p>Experience pure Android intelligence.</p>
+                        <a href="#" class="link-arrow">View Models &rarr;</a>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div id="gaming">
-            <h2 class="section-title"><span>02.</span> Gaming Arena</h2>
+    <section id="gaming" class="section-padding" style="background: #080808;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Gaming Arena</h2>
+                <span class="section-subtitle">Next-Gen Consoles</span>
+            </div>
             <div class="grid-3">
                 <div class="card">
-                    <span class="tag">Restocked</span>
-                    <img src="https://images.unsplash.com/photo-1606318801954-d46d46d3360a?q=80&w=800&auto=format&fit=crop" class="card-img" alt="PS5">
-                    <div class="card-overlay">
-                        <h3 class="card-title">PlayStation 5</h3>
-                        <p class="card-sub">Consoles, Edge Controllers & VR2</p>
+                    <div class="card-img-wrap">
+                        <img src="images/ps5.jpg" alt="PlayStation 5">
+                    </div>
+                    <div class="card-content">
+                        <h3>PlayStation 5</h3>
+                        <p>Consoles, VR2 & Edge Controllers.</p>
+                        <a href="#" class="link-arrow">Shop PS5 &rarr;</a>
                     </div>
                 </div>
-
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1605901309584-818e25960b8f?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Xbox Series X">
-                    <div class="card-overlay">
-                        <h3 class="card-title">Xbox Series X</h3>
-                        <p class="card-sub">Power your dreams with Game Pass</p>
+                    <div class="card-img-wrap">
+                        <img src="images/xbox.jpg" alt="Xbox Series X">
+                    </div>
+                    <div class="card-content">
+                        <h3>Xbox Series X</h3>
+                        <p>Power your dreams with Game Pass.</p>
+                        <a href="#" class="link-arrow">Shop Xbox &rarr;</a>
                     </div>
                 </div>
-
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Nintendo Switch">
-                    <div class="card-overlay">
-                        <h3 class="card-title">Nintendo Switch</h3>
-                        <p class="card-sub">OLED Models & Lite Editions</p>
+                    <div class="card-img-wrap">
+                        <img src="images/switch.jpg" alt="Nintendo Switch">
+                    </div>
+                    <div class="card-content">
+                        <h3>Nintendo Switch</h3>
+                        <p>OLED Models & Handheld Editions.</p>
+                        <a href="#" class="link-arrow">Shop Nintendo &rarr;</a>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div id="vapes">
-            <h2 class="section-title"><span>03.</span> Vapes & Lifestyle</h2>
+    <section id="vapes" class="section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Vapes & Lifestyle</h2>
+                <span class="section-subtitle">Premium Hardware</span>
+            </div>
             <div class="grid-3">
                 <div class="card">
-                    <span class="tag">Trending</span>
-                    <img src="https://images.unsplash.com/photo-1536566482680-fca31930a09d?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Vape Smoke">
-                    <div class="card-overlay">
-                        <h3 class="card-title">Disposables</h3>
-                        <p class="card-sub">Top brands (Elf, Lost Mary). 600 - 10k Puffs.</p>
+                    <div class="card-img-wrap">
+                        <img src="images/vape-disposable.jpg" alt="Disposables">
+                    </div>
+                    <div class="card-content">
+                        <h3>Disposables</h3>
+                        <p>Top brands. 600 - 10,000 Puffs.</p>
+                        <a href="#" class="link-arrow">View Selection &rarr;</a>
                     </div>
                 </div>
-
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Tech Device">
-                    <div class="card-overlay">
-                        <h3 class="card-title">Refillable Kits</h3>
-                        <p class="card-sub">Advanced Mods, Pod Systems & Tanks</p>
+                    <div class="card-img-wrap">
+                        <img src="images/vape-kit.jpg" alt="Refillable Kits">
+                    </div>
+                    <div class="card-content">
+                        <h3>Refillable Kits</h3>
+                        <p>Mods, Pod Systems & Tanks.</p>
+                        <a href="#" class="link-arrow">View Hardware &rarr;</a>
                     </div>
                 </div>
-
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1605557202138-0945e767d5f2?q=80&w=800&auto=format&fit=crop" class="card-img" alt="E-Liquids">
-                    <div class="card-overlay">
-                        <h3 class="card-title">E-Liquids</h3>
-                        <p class="card-sub">Nic Salts, Shortfills & 50/50 Blends</p>
+                    <div class="card-img-wrap">
+                        <img src="images/eliquid.jpg" alt="E-Liquids">
+                    </div>
+                    <div class="card-content">
+                        <h3>E-Liquids</h3>
+                        <p>Nic Salts & Shortfills.</p>
+                        <a href="#" class="link-arrow">View Flavors &rarr;</a>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
 
-    </main>
+    <section id="trust" class="section-padding trust-section">
+        <div class="container">
+            <div class="trust-grid">
+                <div class="trust-item">
+                    <span class="icon">💎</span>
+                    <h4>100% Genuine</h4>
+                    <p>Direct manufacturer sourcing.</p>
+                </div>
+                <div class="trust-item">
+                    <span class="icon">🚀</span>
+                    <h4>Fast Delivery</h4>
+                    <p>Same-day local dispatch.</p>
+                </div>
+                <div class="trust-item">
+                    <span class="icon">🛡️</span>
+                    <h4>Warranty Included</h4>
+                    <p>Full support on all devices.</p>
+                </div>
+                <div class="trust-item">
+                    <span class="icon">💳</span>
+                    <h4>Secure Payment</h4>
+                    <p>Encrypted transactions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer>
-        <p>&copy; 2024 Gadex Gadget Experts. All items 100% Genuine.</p>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3 class="logo">GADEX.</h3>
+                    <p>The premier destination for modern technology. We bring the future to your doorstep with trust and speed.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Shop</h4>
+                    <a href="#phones">Mobile Phones</a>
+                    <a href="#gaming">Gaming Consoles</a>
+                    <a href="#vapes">Vapes & Pods</a>
+                    <a href="#">Accessories</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <a href="#">Contact Support</a>
+                    <a href="#">Shipping Policy</a>
+                    <a href="#">Returns & Refunds</a>
+                    <a href="#">Warranty Info</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <a href="#">Instagram</a>
+                    <a href="#">Facebook</a>
+                    <a href="#">Twitter / X</a>
+                    <a href="#">TikTok</a>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2024 Gadex Gadget Experts. All rights reserved.
+            </div>
+        </div>
     </footer>
 
-    <script>
-        // Smooth scroll script
-        function scrollToSection(id) {
-            const element = document.getElementById(id);
-            if (!element) return;
-            
-            const offset = 80; // offset for sticky header
-            const bodyRect = document.body.getBoundingClientRect().top;
-            const elementRect = element.getBoundingClientRect().top;
-            const elementPosition = elementRect - bodyRect;
-            const offsetPosition = elementPosition - offset;
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: "smooth"
-            });
-        }
-    </script>
 </body>
 </html>
