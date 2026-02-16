@@ -50,6 +50,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-top: 60px;
         }
         
         .section-title span { color: var(--primary); }
@@ -58,7 +59,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 24px;
-            margin-bottom: 60px;
+            margin-bottom: 20px;
         }
 
         /* --- NAVIGATION --- */
@@ -99,7 +100,7 @@
         /* --- HERO SECTION (SHOP FOCUSED) --- */
         .hero {
             margin-top: var(--nav-height);
-            height: 500px;
+            height: 550px;
             position: relative;
             display: flex;
             align-items: center;
@@ -112,7 +113,8 @@
         .hero-bg {
             position: absolute;
             inset: 0;
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
+            /* Using a high quality tech abstract background */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
                         url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
@@ -120,23 +122,24 @@
         }
 
         .hero h1 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
             font-weight: 900;
             line-height: 1.1;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             text-transform: uppercase;
             font-style: italic;
+            max-width: 800px;
         }
 
         .hero-btn-group {
             display: flex;
-            gap: 15px;
+            gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
         }
 
         .btn {
-            padding: 12px 30px;
+            padding: 14px 32px;
             border-radius: 4px;
             font-weight: 700;
             text-transform: uppercase;
@@ -159,7 +162,7 @@
             border-radius: var(--radius);
             overflow: hidden;
             position: relative;
-            height: 350px; /* Taller for better image display */
+            height: 380px;
             border: 1px solid var(--border);
             transition: 0.3s ease;
             cursor: pointer;
@@ -187,56 +190,56 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background: linear-gradient(to top, black 10%, transparent);
-            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 20%, transparent);
+            padding: 24px;
             z-index: 2;
         }
 
         .card-title {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: white;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         .card-sub {
             color: var(--text-muted);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
+            font-size: 0.95rem;
         }
 
         .tag {
             background: var(--primary);
             color: white;
-            font-size: 0.7rem;
-            padding: 2px 8px;
+            font-size: 0.75rem;
+            padding: 4px 10px;
             border-radius: 4px;
             font-weight: bold;
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 20px;
+            right: 20px;
             z-index: 3;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* --- FOOTER --- */
         footer {
             border-top: 1px solid var(--border);
-            padding: 40px 20px;
+            padding: 60px 20px;
             text-align: center;
             color: var(--text-muted);
             font-size: 0.9rem;
-            margin-top: 40px;
+            margin-top: 80px;
+            background: #000;
         }
 
         /* --- MOBILE --- */
         @media (max-width: 768px) {
             .nav-links { display: none; }
             .menu-btn { display: block; }
-            
-            .card { height: 280px; } /* Slightly smaller on mobile */
-            .hero { height: 400px; }
+            .card { height: 300px; }
+            .hero { height: 450px; }
+            .section-title { margin-top: 40px; }
         }
     </style>
 </head>
@@ -266,23 +269,23 @@
         </div>
     </header>
 
-    <main class="container" style="padding-top: 60px;">
+    <main class="container">
 
         <div id="phones">
             <h2 class="section-title"><span>01.</span> Mobile Phones</h2>
             <div class="grid-3">
                 <div class="card">
-                    <span class="tag">BEST SELLER</span>
-                    <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop" class="card-img" alt="iPhone">
+                    <span class="tag">Best Seller</span>
+                    <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop" class="card-img" alt="iPhone 15">
                     <div class="card-overlay">
                         <h3 class="card-title">Apple iPhone</h3>
-                        <p class="card-sub">15, 15 Pro, & Pro Max in stock</p>
+                        <p class="card-sub">Latest 15 Pro, Pro Max & Plus</p>
                     </div>
                 </div>
 
                 <div class="card">
-                    <span class="tag">NEW ARRIVAL</span>
-                    <img src="https://images.unsplash.com/photo-1610945265078-d86f3d297dfb?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Samsung">
+                    <span class="tag">New Arrival</span>
+                    <img src="https://images.unsplash.com/photo-1610945415295-d96bf067d9e4?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Samsung Galaxy">
                     <div class="card-overlay">
                         <h3 class="card-title">Samsung Galaxy</h3>
                         <p class="card-sub">S24 Ultra & Fold Series</p>
@@ -290,7 +293,7 @@
                 </div>
 
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff23?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Google Pixel">
+                    <img src="https://images.unsplash.com/photo-1616348436168-de43ad0db179?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Google Pixel">
                     <div class="card-overlay">
                         <h3 class="card-title">Google Pixel</h3>
                         <p class="card-sub">Pure Android Experience</p>
@@ -303,19 +306,19 @@
             <h2 class="section-title"><span>02.</span> Gaming Arena</h2>
             <div class="grid-3">
                 <div class="card">
-                    <span class="tag">RESTOCKED</span>
-                    <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop" class="card-img" alt="PS5">
+                    <span class="tag">Restocked</span>
+                    <img src="https://images.unsplash.com/photo-1606318801954-d46d46d3360a?q=80&w=800&auto=format&fit=crop" class="card-img" alt="PS5">
                     <div class="card-overlay">
                         <h3 class="card-title">PlayStation 5</h3>
-                        <p class="card-sub">Consoles & DualSense Controllers</p>
+                        <p class="card-sub">Consoles, Edge Controllers & VR2</p>
                     </div>
                 </div>
 
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1621259182903-06dc7c49f6eb?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Xbox">
+                    <img src="https://images.unsplash.com/photo-1605901309584-818e25960b8f?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Xbox Series X">
                     <div class="card-overlay">
                         <h3 class="card-title">Xbox Series X</h3>
-                        <p class="card-sub">Power your dreams. Game Pass ready.</p>
+                        <p class="card-sub">Power your dreams with Game Pass</p>
                     </div>
                 </div>
 
@@ -333,27 +336,27 @@
             <h2 class="section-title"><span>03.</span> Vapes & Lifestyle</h2>
             <div class="grid-3">
                 <div class="card">
-                    <span class="tag">POPULAR</span>
-                    <img src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Disposable Vapes">
+                    <span class="tag">Trending</span>
+                    <img src="https://images.unsplash.com/photo-1536566482680-fca31930a09d?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Vape Smoke">
                     <div class="card-overlay">
                         <h3 class="card-title">Disposables</h3>
-                        <p class="card-sub">Top brands. 600 - 10,000 Puffs.</p>
+                        <p class="card-sub">Top brands (Elf, Lost Mary). 600 - 10k Puffs.</p>
                     </div>
                 </div>
 
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1563811771046-ba984ff30900?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Vape Mods">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Tech Device">
                     <div class="card-overlay">
                         <h3 class="card-title">Refillable Kits</h3>
-                        <p class="card-sub">Pod systems, Mods & Tanks</p>
+                        <p class="card-sub">Advanced Mods, Pod Systems & Tanks</p>
                     </div>
                 </div>
 
                 <div class="card">
-                    <img src="https://images.unsplash.com/photo-1616031036577-49527e02df35?q=80&w=800&auto=format&fit=crop" class="card-img" alt="E-Liquids">
+                    <img src="https://images.unsplash.com/photo-1605557202138-0945e767d5f2?q=80&w=800&auto=format&fit=crop" class="card-img" alt="E-Liquids">
                     <div class="card-overlay">
                         <h3 class="card-title">E-Liquids</h3>
-                        <p class="card-sub">Nic Salts & Shortfills</p>
+                        <p class="card-sub">Nic Salts, Shortfills & 50/50 Blends</p>
                     </div>
                 </div>
             </div>
@@ -369,6 +372,8 @@
         // Smooth scroll script
         function scrollToSection(id) {
             const element = document.getElementById(id);
+            if (!element) return;
+            
             const offset = 80; // offset for sticky header
             const bodyRect = document.body.getBoundingClientRect().top;
             const elementRect = element.getBoundingClientRect().top;
