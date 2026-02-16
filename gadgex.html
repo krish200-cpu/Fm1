@@ -3,528 +3,383 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gadex Gadget Experts | Premium Tech</title>
+    <title>Gadex Gadget Experts | Shop Tech</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     
     <style>
-        /* --- CSS STYLES --- */
+        /* --- CORE STYLES --- */
         :root {
-            --bg-dark: #0a0a0a;
+            --bg-dark: #050505;
             --bg-card: #121212;
-            --bg-card-hover: #1e1e1e;
-            --primary: #2563eb; /* Royal Blue */
-            --accent: #7c3aed; /* Violet */
+            --primary: #3b82f6; /* Bright Blue */
+            --accent: #8b5cf6;  /* Violet */
             --text-main: #ffffff;
-            --text-muted: #a1a1aa;
-            --border: rgba(255, 255, 255, 0.08);
-            --glass: rgba(18, 18, 18, 0.85);
-            --radius: 16px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --text-muted: #a3a3a3;
+            --border: rgba(255, 255, 255, 0.1);
+            --radius: 12px;
+            --nav-height: 70px;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html { scroll-behavior: smooth; }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
-            line-height: 1.6;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
-        img { max-width: 100%; display: block; }
-        
+        img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        /* --- LAYOUT UTILITIES --- */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 20px;
         }
 
-        .section-padding { padding: 100px 0; }
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title span { color: var(--primary); }
 
-        /* --- Navigation --- */
-        header {
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 60px;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
             position: fixed;
             top: 0;
             width: 100%;
-            z-index: 1000;
-            padding: 20px 0;
-            transition: var(--transition);
-        }
-
-        header.scrolled {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            height: var(--nav-height);
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border);
-            padding: 16px 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
         }
 
-        .nav-container {
+        .nav-inner {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
 
         .logo {
             font-size: 1.5rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: -1px;
+            color: white;
         }
 
-        .nav-links { display: flex; gap: 40px; }
-        .nav-links a {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-        .nav-links a:hover { color: var(--text-main); }
+        .nav-links { display: flex; gap: 30px; }
+        .nav-links a { font-size: 0.9rem; font-weight: 600; color: var(--text-muted); transition: 0.2s; }
+        .nav-links a:hover { color: white; }
 
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            flex-direction: column;
-            gap: 6px;
-            z-index: 1001;
-        }
+        /* Mobile Menu Button */
+        .menu-btn { display: none; color: white; font-size: 1.5rem; cursor: pointer; }
 
-        .mobile-menu-btn span {
-            width: 24px;
-            height: 2px;
-            background-color: var(--text-main);
-            transition: var(--transition);
-        }
-
-        /* Mobile Nav Overlay */
-        .mobile-nav {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-dark);
+        /* --- HERO SECTION (SHOP FOCUSED) --- */
+        .hero {
+            margin-top: var(--nav-height);
+            height: 500px;
+            position: relative;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 2rem;
-            z-index: 999;
-            transform: translateX(100%);
-            transition: var(--transition);
-        }
-        .mobile-nav.active { transform: translateX(0); }
-        .mobile-nav a { font-size: 2rem; font-weight: 600; }
-
-        /* --- Hero Section --- */
-        #hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            background: 
-                radial-gradient(circle at 15% 50%, rgba(37, 99, 235, 0.15) 0%, transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(124, 58, 237, 0.15) 0%, transparent 25%);
-            padding-top: 80px;
+            text-align: center;
+            overflow: hidden;
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
+        /* Dark overlay on hero image */
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
         }
 
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 16px;
-            background: rgba(37, 99, 235, 0.1);
-            color: #60a5fa;
-            border: 1px solid rgba(37, 99, 235, 0.2);
-            border-radius: 100px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 24px;
-        }
-
-        #hero h1 {
-            font-size: clamp(3rem, 5vw, 4.5rem);
-            font-weight: 800;
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
             line-height: 1.1;
-            margin-bottom: 24px;
-            letter-spacing: -1px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            font-style: italic;
         }
 
-        #hero p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            margin-bottom: 40px;
-            max-width: 600px;
+        .hero-btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
-
-        .cta-group { display: flex; gap: 16px; flex-wrap: wrap; }
 
         .btn {
-            padding: 14px 32px;
-            border-radius: 100px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
+            padding: 12px 30px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
             border: none;
-            font-size: 1rem;
-        }
-
-        .btn-primary {
-            background: var(--text-main);
-            color: var(--bg-dark);
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,255,255,0.2); }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-        }
-        .btn-outline:hover { border-color: var(--text-main); background: rgba(255,255,255,0.05); }
-
-        /* --- Category Cards --- */
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 50px;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .section-header h2 { font-size: 2.5rem; letter-spacing: -0.5px; }
-
-        .filter-buttons {
-            display: flex;
-            gap: 8px;
-            background: var(--bg-card);
-            padding: 6px;
-            border-radius: 100px;
-            border: 1px solid var(--border);
-        }
-
-        .filter-btn {
-            background: none;
-            border: none;
-            padding: 10px 24px;
-            color: var(--text-muted);
             cursor: pointer;
-            border-radius: 100px;
-            font-weight: 500;
-            transition: var(--transition);
+            transition: 0.2s;
         }
 
-        .filter-btn.active, .filter-btn:hover {
-            background: var(--bg-card-hover);
-            color: var(--text-main);
-        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: #2563eb; transform: translateY(-2px); }
 
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 24px;
-        }
+        .btn-outline { background: transparent; border: 2px solid white; color: white; }
+        .btn-outline:hover { background: white; color: black; }
 
+        /* --- PRODUCT CARDS --- */
         .card {
             background: var(--bg-card);
-            border: 1px solid var(--border);
             border-radius: var(--radius);
             overflow: hidden;
-            transition: var(--transition);
             position: relative;
-            group: hover;
+            height: 350px; /* Taller for better image display */
+            border: 1px solid var(--border);
+            transition: 0.3s ease;
+            cursor: pointer;
         }
 
         .card:hover {
             border-color: var(--primary);
-            transform: translateY(-4px);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         }
 
-        .card-image-wrapper {
-            height: 240px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .card img {
-            width: 100%;
+        .card-img {
             height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+            width: 100%;
+            transition: 0.5s;
         }
 
-        .card:hover img { transform: scale(1.05); }
+        .card:hover .card-img {
+            transform: scale(1.05);
+        }
 
-        .card-content { padding: 24px; }
-        .card-content h3 { font-size: 1.25rem; margin-bottom: 8px; }
-        .card-content p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; }
+        /* Overlay text on image */
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(to top, black 10%, transparent);
+            padding: 20px;
+            z-index: 2;
+        }
 
-        .card-link {
-            color: var(--primary);
-            font-weight: 600;
-            display: inline-flex;
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .card-sub {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
 
-        .hide { display: none; }
+        .tag {
+            background: var(--primary);
+            color: white;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 3;
+        }
 
-        /* --- Footer --- */
+        /* --- FOOTER --- */
         footer {
             border-top: 1px solid var(--border);
-            padding: 80px 0 30px;
-            margin-top: 50px;
-            background: #050505;
-        }
-        
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 60px;
-        }
-
-        .footer-brand p { color: var(--text-muted); margin-top: 10px; max-width: 300px; }
-        .footer-col h4 { color: #fff; margin-bottom: 20px; }
-        .footer-col a { display: block; color: var(--text-muted); margin-bottom: 12px; }
-        .footer-col a:hover { color: var(--primary); }
-
-        .copyright {
+            padding: 40px 20px;
             text-align: center;
-            color: #52525b;
+            color: var(--text-muted);
             font-size: 0.9rem;
-            padding-top: 30px;
-            border-top: 1px solid #1e1e1e;
+            margin-top: 40px;
         }
 
-        /* Mobile Responsive */
+        /* --- MOBILE --- */
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .mobile-menu-btn { display: flex; }
+            .menu-btn { display: block; }
             
-            #hero { text-align: center; justify-content: center; }
-            .hero-content { margin: 0 auto; }
-            .cta-group { justify-content: center; }
-            
-            .section-header { flex-direction: column; align-items: flex-start; }
-            .filter-buttons { width: 100%; overflow-x: auto; }
-            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .card { height: 280px; } /* Slightly smaller on mobile */
+            .hero { height: 400px; }
         }
     </style>
 </head>
 <body>
 
-    <header id="navbar">
-        <div class="container nav-container">
+    <nav>
+        <div class="container nav-inner">
             <a href="#" class="logo">GADEX.</a>
-            <nav class="nav-links">
-                <a href="#hero">Home</a>
-                <a href="#categories">Shop</a>
-                <a href="#about">Why Us</a>
-                <a href="#contact">Support</a>
-            </nav>
-            <button class="mobile-menu-btn" aria-label="Toggle Menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            <div class="nav-links">
+                <a href="#phones">Phones</a>
+                <a href="#gaming">Gaming</a>
+                <a href="#vapes">Vapes</a>
+            </div>
+            <div class="menu-btn">☰</div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <h1>The New Standard<br>In Tech Retail</h1>
+            <div class="hero-btn-group">
+                <button class="btn btn-primary" onclick="scrollToSection('phones')">Shop Phones</button>
+                <button class="btn btn-outline" onclick="scrollToSection('gaming')">Gaming Deals</button>
+                <button class="btn btn-outline" onclick="scrollToSection('vapes')">Vapes</button>
+            </div>
         </div>
     </header>
 
-    <div class="mobile-nav">
-        <a href="#hero">Home</a>
-        <a href="#categories">Shop</a>
-        <a href="#about">Why Us</a>
-        <a href="#contact">Support</a>
-    </div>
+    <main class="container" style="padding-top: 60px;">
 
-    <section id="hero">
-        <div class="container hero-content">
-            <span class="badge">🚀 New Arrivals In Stock</span>
-            <h1>Gadex Gadget Experts</h1>
-            <p>Your premium destination for the latest phones, next-gen gaming consoles, and lifestyle tech. Experience the future today.</p>
-            <div class="cta-group">
-                <button class="btn btn-primary" onclick="document.getElementById('categories').scrollIntoView()">Shop Now</button>
-                <button class="btn btn-outline">View Deals</button>
-            </div>
-        </div>
-    </section>
-
-    <section id="categories" class="section-padding">
-        <div class="container">
-            <div class="section-header">
-                <h2>Browse Categories</h2>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="phones">Phones</button>
-                    <button class="filter-btn" data-filter="gaming">Gaming</button>
-                    <button class="filter-btn" data-filter="vapes">Lifestyle</button>
-                </div>
-            </div>
-
-            <div class="category-grid">
-                <div class="card" data-category="phones">
-                    <div class="card-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=800&auto=format&fit=crop" alt="iPhone 15">
-                    </div>
-                    <div class="card-content">
-                        <h3>Smartphones</h3>
-                        <p>Latest iPhone & Samsung Galaxy models.</p>
-                        <a href="#" class="card-link">View Models &rarr;</a>
+        <div id="phones">
+            <h2 class="section-title"><span>01.</span> Mobile Phones</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <span class="tag">BEST SELLER</span>
+                    <img src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop" class="card-img" alt="iPhone">
+                    <div class="card-overlay">
+                        <h3 class="card-title">Apple iPhone</h3>
+                        <p class="card-sub">15, 15 Pro, & Pro Max in stock</p>
                     </div>
                 </div>
 
-                <div class="card" data-category="gaming">
-                    <div class="card-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop" alt="PS5">
-                    </div>
-                    <div class="card-content">
-                        <h3>Gaming Consoles</h3>
-                        <p>PS5, Xbox Series X, and Nintendo Switch.</p>
-                        <a href="#" class="card-link">Shop Gaming &rarr;</a>
+                <div class="card">
+                    <span class="tag">NEW ARRIVAL</span>
+                    <img src="https://images.unsplash.com/photo-1610945265078-d86f3d297dfb?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Samsung">
+                    <div class="card-overlay">
+                        <h3 class="card-title">Samsung Galaxy</h3>
+                        <p class="card-sub">S24 Ultra & Fold Series</p>
                     </div>
                 </div>
 
-                <div class="card" data-category="vapes">
-                    <div class="card-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1559183492-960cb011786e?q=80&w=800&auto=format&fit=crop" alt="Vapes">
-                    </div>
-                    <div class="card-content">
-                        <h3>Vapes & Disposables</h3>
-                        <p>Premium disposables and refillable kits.</p>
-                        <a href="#" class="card-link">Browse Selection &rarr;</a>
-                    </div>
-                </div>
-
-                <div class="card" data-category="phones">
-                    <div class="card-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1572569028738-411a56103324?q=80&w=800&auto=format&fit=crop" alt="Accessories">
-                    </div>
-                    <div class="card-content">
-                        <h3>Tech Accessories</h3>
-                        <p>Cases, chargers, and audio gear.</p>
-                        <a href="#" class="card-link">View Accessories &rarr;</a>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1598327105666-5b89351aff23?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Google Pixel">
+                    <div class="card-overlay">
+                        <h3 class="card-title">Google Pixel</h3>
+                        <p class="card-sub">Pure Android Experience</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+
+        <div id="gaming">
+            <h2 class="section-title"><span>02.</span> Gaming Arena</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <span class="tag">RESTOCKED</span>
+                    <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop" class="card-img" alt="PS5">
+                    <div class="card-overlay">
+                        <h3 class="card-title">PlayStation 5</h3>
+                        <p class="card-sub">Consoles & DualSense Controllers</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1621259182903-06dc7c49f6eb?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Xbox">
+                    <div class="card-overlay">
+                        <h3 class="card-title">Xbox Series X</h3>
+                        <p class="card-sub">Power your dreams. Game Pass ready.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Nintendo Switch">
+                    <div class="card-overlay">
+                        <h3 class="card-title">Nintendo Switch</h3>
+                        <p class="card-sub">OLED Models & Lite Editions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="vapes">
+            <h2 class="section-title"><span>03.</span> Vapes & Lifestyle</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <span class="tag">POPULAR</span>
+                    <img src="https://images.unsplash.com/photo-1522069169874-c58ec4b76be5?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Disposable Vapes">
+                    <div class="card-overlay">
+                        <h3 class="card-title">Disposables</h3>
+                        <p class="card-sub">Top brands. 600 - 10,000 Puffs.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1563811771046-ba984ff30900?q=80&w=800&auto=format&fit=crop" class="card-img" alt="Vape Mods">
+                    <div class="card-overlay">
+                        <h3 class="card-title">Refillable Kits</h3>
+                        <p class="card-sub">Pod systems, Mods & Tanks</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1616031036577-49527e02df35?q=80&w=800&auto=format&fit=crop" class="card-img" alt="E-Liquids">
+                    <div class="card-overlay">
+                        <h3 class="card-title">E-Liquids</h3>
+                        <p class="card-sub">Nic Salts & Shortfills</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
 
     <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <h3 class="logo">GADEX.</h3>
-                    <p>Authentic tech, unbeatable prices, and local support you can trust.</p>
-                </div>
-                <div class="footer-col">
-                    <h4>Shop</h4>
-                    <a href="#">All Products</a>
-                    <a href="#">New Arrivals</a>
-                    <a href="#">Featured</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Support</h4>
-                    <a href="#">Contact Us</a>
-                    <a href="#">Shipping Policy</a>
-                    <a href="#">Returns</a>
-                </div>
-                <div class="footer-col">
-                    <h4>Social</h4>
-                    <a href="#">Instagram</a>
-                    <a href="#">Twitter / X</a>
-                    <a href="#">Facebook</a>
-                </div>
-            </div>
-            <div class="copyright">
-                &copy; 2024 Gadex Gadget Experts. All rights reserved.
-            </div>
-        </div>
+        <p>&copy; 2024 Gadex Gadget Experts. All items 100% Genuine.</p>
     </footer>
 
     <script>
-        // --- JAVASCRIPT LOGIC --- //
-        
-        // 1. Mobile Menu Toggle
-        const mobileBtn = document.querySelector('.mobile-menu-btn');
-        const mobileNav = document.querySelector('.mobile-nav');
-        
-        mobileBtn.addEventListener('click', () => {
-            mobileNav.classList.toggle('active');
-            
-            // Animate hamburger to X
-            const spans = mobileBtn.querySelectorAll('span');
-            if (mobileNav.classList.contains('active')) {
-                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-                spans[1].style.opacity = '0';
-                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
-            } else {
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
-            }
-        });
+        // Smooth scroll script
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            const offset = 80; // offset for sticky header
+            const bodyRect = document.body.getBoundingClientRect().top;
+            const elementRect = element.getBoundingClientRect().top;
+            const elementPosition = elementRect - bodyRect;
+            const offsetPosition = elementPosition - offset;
 
-        // Close mobile menu when link is clicked
-        document.querySelectorAll('.mobile-nav a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileNav.classList.remove('active');
-                // Reset hamburger
-                const spans = mobileBtn.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
             });
-        });
-
-        // 2. Sticky Navbar
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // 3. Category Filter
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const cards = document.querySelectorAll('.card');
-
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Update active button
-                filterBtns.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-
-                const filter = btn.getAttribute('data-filter');
-
-                cards.forEach(card => {
-                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
-                        card.classList.remove('hide');
-                    } else {
-                        card.classList.add('hide');
-                    }
-                });
-            });
-        });
+        }
     </script>
 </body>
 </html>
