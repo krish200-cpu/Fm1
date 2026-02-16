@@ -3,25 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gadex Gadget Experts | Premium Tech Retail</title>
+    <title>Gadex Gadget Experts | Premium Tech</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --bg-dark: #0a0a0a;
+            --bg-card: #121212;
+            --bg-card-hover: #1e1e1e;
+            --primary: #2563eb; /* Royal Blue */
+            --accent: #7c3aed; /* Violet */
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.08);
+            --glass: rgba(18, 18, 18, 0.85);
+            --radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-padding { padding: 100px 0; }
+
+        /* --- Navigation --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        .nav-links a:hover { color: var(--text-main); }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 1001;
+        }
+
+        .mobile-menu-btn span {
+            width: 24px;
+            height: 2px;
+            background-color: var(--text-main);
+            transition: var(--transition);
+        }
+
+        /* Mobile Nav Overlay */
+        .mobile-nav {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            z-index: 999;
+            transform: translateX(100%);
+            transition: var(--transition);
+        }
+        .mobile-nav.active { transform: translateX(0); }
+        .mobile-nav a { font-size: 2rem; font-weight: 600; }
+
+        /* --- Hero Section --- */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(37, 99, 235, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(124, 58, 237, 0.15) 0%, transparent 25%);
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 16px;
+            background: rgba(37, 99, 235, 0.1);
+            color: #60a5fa;
+            border: 1px solid rgba(37, 99, 235, 0.2);
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        #hero h1 {
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        #hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .cta-group { display: flex; gap: 16px; flex-wrap: wrap; }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 100px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--text-main);
+            color: var(--bg-dark);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,255,255,0.2); }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+        .btn-outline:hover { border-color: var(--text-main); background: rgba(255,255,255,0.05); }
+
+        /* --- Category Cards --- */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .section-header h2 { font-size: 2.5rem; letter-spacing: -0.5px; }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            background: var(--bg-card);
+            padding: 6px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            padding: 10px 24px;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 100px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--bg-card-hover);
+            color: var(--text-main);
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+            group: hover;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-4px);
+        }
+
+        .card-image-wrapper {
+            height: 240px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover img { transform: scale(1.05); }
+
+        .card-content { padding: 24px; }
+        .card-content h3 { font-size: 1.25rem; margin-bottom: 8px; }
+        .card-content p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; }
+
+        .card-link {
+            color: var(--primary);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hide { display: none; }
+
+        /* --- Footer --- */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 80px 0 30px;
+            margin-top: 50px;
+            background: #050505;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand p { color: var(--text-muted); margin-top: 10px; max-width: 300px; }
+        .footer-col h4 { color: #fff; margin-bottom: 20px; }
+        .footer-col a { display: block; color: var(--text-muted); margin-bottom: 12px; }
+        .footer-col a:hover { color: var(--primary); }
+
+        .copyright {
+            text-align: center;
+            color: #52525b;
+            font-size: 0.9rem;
+            padding-top: 30px;
+            border-top: 1px solid #1e1e1e;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: flex; }
+            
+            #hero { text-align: center; justify-content: center; }
+            .hero-content { margin: 0 auto; }
+            .cta-group { justify-content: center; }
+            
+            .section-header { flex-direction: column; align-items: flex-start; }
+            .filter-buttons { width: 100%; overflow-x: auto; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+        }
+    </style>
 </head>
 <body>
 
     <header id="navbar">
         <div class="container nav-container">
-            <a href="#" class="logo">GADEX<span class="dot">.</span></a>
-            
+            <a href="#" class="logo">GADEX.</a>
             <nav class="nav-links">
                 <a href="#hero">Home</a>
-                <a href="#categories">Categories</a>
-                <a href="#features">Why Us</a>
-                <a href="#featured">Deals</a>
+                <a href="#categories">Shop</a>
+                <a href="#about">Why Us</a>
+                <a href="#contact">Support</a>
             </nav>
-
             <button class="mobile-menu-btn" aria-label="Toggle Menu">
                 <span></span>
                 <span></span>
@@ -31,21 +349,20 @@
     </header>
 
     <div class="mobile-nav">
-        <a href="#hero" class="mobile-link">Home</a>
-        <a href="#categories" class="mobile-link">Categories</a>
-        <a href="#features" class="mobile-link">Why Us</a>
-        <a href="#featured" class="mobile-link">Deals</a>
+        <a href="#hero">Home</a>
+        <a href="#categories">Shop</a>
+        <a href="#about">Why Us</a>
+        <a href="#contact">Support</a>
     </div>
 
     <section id="hero">
-        <div class="hero-overlay"></div>
         <div class="container hero-content">
-            <span class="badge">New Arrivals In Stock</span>
+            <span class="badge">🚀 New Arrivals In Stock</span>
             <h1>Gadex Gadget Experts</h1>
-            <p>Your trusted source for phones, gaming, and lifestyle tech. Experience the future today.</p>
+            <p>Your premium destination for the latest phones, next-gen gaming consoles, and lifestyle tech. Experience the future today.</p>
             <div class="cta-group">
-                <a href="#categories" class="btn btn-primary">Shop Phones</a>
-                <a href="#categories" class="btn btn-outline">Browse Categories</a>
+                <button class="btn btn-primary" onclick="document.getElementById('categories').scrollIntoView()">Shop Now</button>
+                <button class="btn btn-outline">View Deals</button>
             </div>
         </div>
     </section>
@@ -53,141 +370,57 @@
     <section id="categories" class="section-padding">
         <div class="container">
             <div class="section-header">
-                <h2>Explore Categories</h2>
+                <h2>Browse Categories</h2>
                 <div class="filter-buttons">
                     <button class="filter-btn active" data-filter="all">All</button>
                     <button class="filter-btn" data-filter="phones">Phones</button>
                     <button class="filter-btn" data-filter="gaming">Gaming</button>
-                    <button class="filter-btn" data-filter="vapes">Vapes</button>
+                    <button class="filter-btn" data-filter="vapes">Lifestyle</button>
                 </div>
             </div>
 
             <div class="category-grid">
-                <div class="card category-card" data-category="phones">
-                    <img src="https://placehold.co/600x400/1e293b/ffffff?text=Apple+iPhone+Series" alt="iPhone">
-                    <div class="card-content">
-                        <h3>Apple iPhone</h3>
-                        <p>Latest Pro & Max models available.</p>
-                        <a href="#" class="text-link">View Models &rarr;</a>
+                <div class="card" data-category="phones">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=800&auto=format&fit=crop" alt="iPhone 15">
                     </div>
-                </div>
-                
-                <div class="card category-card" data-category="phones">
-                    <img src="https://placehold.co/600x400/1e293b/ffffff?text=Samsung+Galaxy+S" alt="Samsung Galaxy">
                     <div class="card-content">
-                        <h3>Samsung Galaxy</h3>
-                        <p>Ultra performance Android devices.</p>
-                        <a href="#" class="text-link">View Models &rarr;</a>
+                        <h3>Smartphones</h3>
+                        <p>Latest iPhone & Samsung Galaxy models.</p>
+                        <a href="#" class="card-link">View Models &rarr;</a>
                     </div>
                 </div>
 
-                <div class="card category-card" data-category="gaming">
-                    <img src="https://placehold.co/600x400/2a1e3b/ffffff?text=PlayStation+5" alt="PlayStation">
+                <div class="card" data-category="gaming">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop" alt="PS5">
+                    </div>
                     <div class="card-content">
-                        <h3>PlayStation</h3>
-                        <p>Consoles, controllers & accessories.</p>
-                        <a href="#" class="text-link">Shop PS5 &rarr;</a>
+                        <h3>Gaming Consoles</h3>
+                        <p>PS5, Xbox Series X, and Nintendo Switch.</p>
+                        <a href="#" class="card-link">Shop Gaming &rarr;</a>
                     </div>
                 </div>
 
-                <div class="card category-card" data-category="gaming">
-                    <img src="https://placehold.co/600x400/1e3b22/ffffff?text=Xbox+Series+X" alt="Xbox">
+                <div class="card" data-category="vapes">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1559183492-960cb011786e?q=80&w=800&auto=format&fit=crop" alt="Vapes">
+                    </div>
                     <div class="card-content">
-                        <h3>Xbox</h3>
-                        <p>Power your dreams with Game Pass.</p>
-                        <a href="#" class="text-link">Shop Xbox &rarr;</a>
+                        <h3>Vapes & Disposables</h3>
+                        <p>Premium disposables and refillable kits.</p>
+                        <a href="#" class="card-link">Browse Selection &rarr;</a>
                     </div>
                 </div>
 
-                <div class="card category-card" data-category="vapes">
-                    <img src="https://placehold.co/600x400/3b1e1e/ffffff?text=Disposable+Vapes" alt="Disposables">
-                    <div class="card-content">
-                        <h3>Disposables</h3>
-                        <p>Premium brands & flavors.</p>
-                        <a href="#" class="text-link">Browse Selection &rarr;</a>
+                <div class="card" data-category="phones">
+                    <div class="card-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1572569028738-411a56103324?q=80&w=800&auto=format&fit=crop" alt="Accessories">
                     </div>
-                </div>
-
-                <div class="card category-card" data-category="vapes">
-                    <img src="https://placehold.co/600x400/3b1e1e/ffffff?text=Refillable+Kits" alt="Refillables">
                     <div class="card-content">
-                        <h3>Refillable Devices</h3>
-                        <p>Mods, pods, and accessories.</p>
-                        <a href="#" class="text-link">View Kits &rarr;</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="features" class="section-padding bg-darker">
-        <div class="container">
-            <div class="section-header center-text">
-                <h2>Why Choose Gadex?</h2>
-                <p>We prioritize quality, speed, and trust.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-item">
-                    <div class="icon">💎</div>
-                    <h3>100% Genuine</h3>
-                    <p>Authentic products sourced directly from manufacturers.</p>
-                </div>
-                <div class="feature-item">
-                    <div class="icon">⚡</div>
-                    <h3>Fast Delivery</h3>
-                    <p>Same-day local dispatch and tracked shipping.</p>
-                </div>
-                <div class="feature-item">
-                    <div class="icon">🏷️</div>
-                    <h3>Best Prices</h3>
-                    <p>Competitive pricing matched with market leaders.</p>
-                </div>
-                <div class="feature-item">
-                    <div class="icon">🛡️</div>
-                    <h3>Warranty</h3>
-                    <p>Comprehensive support and warranty on all tech.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="featured" class="section-padding">
-        <div class="container">
-            <div class="section-header">
-                <h2>Trending This Week</h2>
-            </div>
-            <div class="product-scroller">
-                <div class="card product-card">
-                    <div class="badge-overlay">Hot</div>
-                    <img src="https://placehold.co/400x400/222/fff?text=iPhone+15+Pro" alt="Product">
-                    <div class="card-content">
-                        <h4>iPhone 15 Pro Max</h4>
-                        <span class="price">$1,199.00</span>
-                        <button class="btn btn-sm">View Details</button>
-                    </div>
-                </div>
-                <div class="card product-card">
-                    <img src="https://placehold.co/400x400/222/fff?text=PS5+Slim" alt="Product">
-                    <div class="card-content">
-                        <h4>Sony PS5 Slim</h4>
-                        <span class="price">$499.00</span>
-                        <button class="btn btn-sm">View Details</button>
-                    </div>
-                </div>
-                <div class="card product-card">
-                    <img src="https://placehold.co/400x400/222/fff?text=Galaxy+S24" alt="Product">
-                    <div class="card-content">
-                        <h4>Samsung S24 Ultra</h4>
-                        <span class="price">$1,299.00</span>
-                        <button class="btn btn-sm">View Details</button>
-                    </div>
-                </div>
-                <div class="card product-card">
-                    <img src="https://placehold.co/400x400/222/fff?text=Vape+Kit" alt="Product">
-                    <div class="card-content">
-                        <h4>Pro Vape Kit</h4>
-                        <span class="price">$45.00</span>
-                        <button class="btn btn-sm">View Details</button>
+                        <h3>Tech Accessories</h3>
+                        <p>Cases, chargers, and audio gear.</p>
+                        <a href="#" class="card-link">View Accessories &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -195,37 +428,103 @@
     </section>
 
     <footer>
-        <div class="container footer-content">
-            <div class="footer-brand">
-                <h3>GADEX.</h3>
-                <p>Tech for the modern lifestyle.</p>
-            </div>
-            <div class="footer-links">
-                <h4>Shop</h4>
-                <a href="#">Phones</a>
-                <a href="#">Gaming</a>
-                <a href="#">Vapes</a>
-            </div>
-            <div class="footer-links">
-                <h4>Support</h4>
-                <a href="#">Contact Us</a>
-                <a href="#">Warranty</a>
-                <a href="#">Returns</a>
-            </div>
-            <div class="footer-social">
-                <h4>Follow Us</h4>
-                <div class="social-icons">
-                    <a href="#" aria-label="Facebook">FB</a>
-                    <a href="#" aria-label="Instagram">IG</a>
-                    <a href="#" aria-label="Twitter">X</a>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3 class="logo">GADEX.</h3>
+                    <p>Authentic tech, unbeatable prices, and local support you can trust.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Shop</h4>
+                    <a href="#">All Products</a>
+                    <a href="#">New Arrivals</a>
+                    <a href="#">Featured</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Shipping Policy</a>
+                    <a href="#">Returns</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Social</h4>
+                    <a href="#">Instagram</a>
+                    <a href="#">Twitter / X</a>
+                    <a href="#">Facebook</a>
                 </div>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2024 Gadex Gadget Experts. All rights reserved.</p>
+            <div class="copyright">
+                &copy; 2024 Gadex Gadget Experts. All rights reserved.
+            </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // --- JAVASCRIPT LOGIC --- //
+        
+        // 1. Mobile Menu Toggle
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        const mobileNav = document.querySelector('.mobile-nav');
+        
+        mobileBtn.addEventListener('click', () => {
+            mobileNav.classList.toggle('active');
+            
+            // Animate hamburger to X
+            const spans = mobileBtn.querySelectorAll('span');
+            if (mobileNav.classList.contains('active')) {
+                spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+                spans[1].style.opacity = '0';
+                spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+            } else {
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            }
+        });
+
+        // Close mobile menu when link is clicked
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileNav.classList.remove('active');
+                // Reset hamburger
+                const spans = mobileBtn.querySelectorAll('span');
+                spans[0].style.transform = 'none';
+                spans[1].style.opacity = '1';
+                spans[2].style.transform = 'none';
+            });
+        });
+
+        // 2. Sticky Navbar
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 3. Category Filter
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+
+                cards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.classList.remove('hide');
+                    } else {
+                        card.classList.add('hide');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
