@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop Phones | Gadex Gadget Experts</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 1. CORE VARIABLES & RESET --- */
+        :root {
+            --bg-body: #050505;
+            --bg-panel: #101010;
+            --bg-hover: #181818;
+            --primary: #2563eb;
+            --accent: #10b981; /* Green for deals/success */
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.1);
+            --radius: 12px;
+            --nav-height: 70px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            height: 100vh;
+            overflow: hidden; /* Main scroll handled by grid */
+            display: flex;
+            flex-direction: column;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        button { cursor: pointer; border: none; font-family: inherit; }
+
+        /* --- 2. NAVIGATION --- */
+        nav {
+            height: var(--nav-height);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            justify-content: space-between;
+            background: var(--bg-body);
+            z-index: 10;
+        }
+
+        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -1px; }
+        
+        .cart-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--bg-panel);
+            padding: 8px 16px;
+            border-radius: 100px;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .cart-count { color: var(--primary); }
+
+        /* --- 3. MAIN LAYOUT (SIDEBAR + GRID) --- */
+        .layout {
+            display: flex;
+            height: calc(100vh - var(--nav-height));
+        }
+
+        /* Sidebar Filters */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-panel);
+            border-right: 1px solid var(--border);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            overflow-y: auto;
+        }
+
+        .filter-group h3 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; color: var(--text-muted); }
+        
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .filter-option input {
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Product Grid Area */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        /* Product Card */
+        .product-card {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .p-img-wrap {
+            height: 250px;
+            background: #000;
+            position: relative;
+        }
+
+        .p-details { padding: 20px; }
+        .p-brand { color: var(--text-muted); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
+        .p-title { font-size: 1.1rem; font-weight: 700; margin: 5px 0; }
+        .p-price { color: var(--text-main); font-weight: 600; margin-top: 10px; display: block; }
+        
+        .btn-view {
+            margin-top: 15px;
+            width: 100%;
+            padding: 10px;
+            background: var(--bg-hover);
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .product-card:hover .btn-view { background: var(--primary); }
+
+        /* --- 4. UPSELL MODAL (THE INTEGRATED SYSTEM) --- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-content {
+            background: #121212;
+            width: 900px;
+            max-width: 95%;
+            height: 80vh;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 50px 100px -20px rgba(0,0,0,1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        /* Left Side: Product Focus */
+        .modal-left {
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .modal-img { max-height: 80%; object-fit: contain; }
+
+        /* Right Side: Upsell Engine */
+        .modal-right {
+            padding: 40px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-brand { color: var(--primary); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; }
+        .modal-title { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 10px; }
+        .modal-base-price { font-size: 1.5rem; color: var(--text-muted); margin-bottom: 30px; }
+
+        /* The Upsell Section */
+        .upsell-section {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .upsell-header {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .upsell-header span { color: var(--accent); }
+
+        .upsell-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .upsell-item:last-child { border-bottom: none; }
+
+        .upsell-info { display: flex; align-items: center; gap: 12px; }
+        .upsell-thumb { width: 40px; height: 40px; background: #333; border-radius: 6px; }
+        .upsell-name { font-size: 0.9rem; font-weight: 500; }
+        .upsell-price { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* Switch Toggle */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 24px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--primary); }
+        input:checked + .slider:before { transform: translateX(16px); }
+
+        /* Bottom Action Bar */
+        .action-bar {
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+        .total-label { font-size: 0.9rem; color: var(--text-muted); }
+        .total-price { font-size: 2rem; font-weight: 900; }
+
+        .btn-add-cart {
+            width: 100%;
+            background: var(--text-main);
+            color: black;
+            padding: 16px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: 0.3s;
+        }
+        .btn-add-cart:hover { background: var(--primary); color: white; }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .modal-content { grid-template-columns: 1fr; overflow-y: scroll; height: 90vh; }
+            .modal-left { height: 300px; padding: 20px; }
+            .modal-right { overflow: visible; }
+            .sidebar { display: none; /* Hidden on mobile for this demo */ }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">GADEX. SHOP</a>
+        <div class="cart-indicator">
+            <span>🛒 Basket</span>
+            <span class="cart-count" id="cartCount">0 Items</span>
+        </div>
+    </nav>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="filter-group">
+                <h3>Brand</h3>
+                <label class="filter-option">
+                    <input type="checkbox" name="brand" value="Apple" checked onchange="filterProducts()"> Apple
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="brand" value="Samsung" checked onchange="filterProducts()"> Samsung
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox" name="brand" value="Google" checked onchange="filterProducts()"> Google
+                </label>
+            </div>
+            
+            <div class="filter-group">
+                <h3>Condition</h3>
+                <label class="filter-option"><input type="checkbox" checked> Brand New</label>
+                <label class="filter-option"><input type="checkbox"> Refurbished</label>
+            </div>
+
+            <div class="filter-group">
+                <h3>Storage</h3>
+                <label class="filter-option"><input type="checkbox"> 128GB</label>
+                <label class="filter-option"><input type="checkbox"> 256GB</label>
+                <label class="filter-option"><input type="checkbox"> 1TB</label>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="products-grid" id="productGrid">
+                </div>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="productModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">✕</button>
+            
+            <div class="modal-left">
+                <img src="" alt="Product" class="modal-img" id="mImg">
+            </div>
+
+            <div class="modal-right">
+                <span class="modal-brand" id="mBrand">Apple</span>
+                <h2 class="modal-title" id="mTitle">iPhone 15 Pro</h2>
+                <div class="modal-base-price" id="mBasePrice">$999</div>
+
+                <div class="upsell-section">
+                    <div class="upsell-header">
+                        Complete the Setup
+                        <span>Save 20% on Bundle</span>
+                    </div>
+
+                    <div class="upsell-item">
+                        <div class="upsell-info">
+                            <div class="upsell-thumb" style="background: url('https://images.unsplash.com/photo-1599643478518-17488fbbcd75?w=100') center/cover;"></div>
+                            <div>
+                                <div class="upsell-name">Tempered Glass</div>
+                                <div class="upsell-price">+$15.00</div>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" class="upsell-check" data-price="15" onchange="updateTotal()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="upsell-item">
+                        <div class="upsell-info">
+                            <div class="upsell-thumb" style="background: url('https://images.unsplash.com/photo-1617042375876-a13e36732a04?w=100') center/cover;"></div>
+                            <div>
+                                <div class="upsell-name">MagSafe Case</div>
+                                <div class="upsell-price">+$35.00</div>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" class="upsell-check" data-price="35" onchange="updateTotal()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="upsell-item">
+                        <div class="upsell-info">
+                            <div class="upsell-thumb" style="background: url('https://images.unsplash.com/photo-1618483185366-5452eb8e2285?w=100') center/cover;"></div>
+                            <div>
+                                <div class="upsell-name">20W Fast Charger</div>
+                                <div class="upsell-price">+$25.00</div>
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" class="upsell-check" data-price="25" onchange="updateTotal()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="action-bar">
+                    <div class="total-row">
+                        <span class="total-label">Total Bundle Price</span>
+                        <span class="total-price" id="mTotalPrice">$999</span>
+                    </div>
+                    <button class="btn-add-cart" onclick="addToCart()">Add Bundle to Basket</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- MOCK DATABASE --- */
+        const products = [
+            {
+                id: 1,
+                brand: "Apple",
+                name: "iPhone 15 Pro",
+                price: 999,
+                img: "https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 2,
+                brand: "Apple",
+                name: "iPhone 15",
+                price: 799,
+                img: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 3,
+                brand: "Samsung",
+                name: "Galaxy S24 Ultra",
+                price: 1199,
+                img: "https://images.unsplash.com/photo-1610945415295-d96bf067d9e4?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 4,
+                brand: "Samsung",
+                name: "Galaxy Z Fold 5",
+                price: 1799,
+                img: "https://images.unsplash.com/photo-1610945265078-d86f3d297dfb?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 5,
+                brand: "Google",
+                name: "Pixel 8 Pro",
+                price: 899,
+                img: "https://images.unsplash.com/photo-1621330381971-8b73ad7553b5?q=80&w=800&auto=format&fit=crop"
+            },
+            {
+                id: 6,
+                brand: "Apple",
+                name: "iPhone 13 Refurbished",
+                price: 499,
+                img: "https://images.unsplash.com/photo-1592750475338-74b7b21918a4?q=80&w=800&auto=format&fit=crop"
+            }
+        ];
+
+        /* --- STATE --- */
+        let currentBasePrice = 0;
+        let cartItems = 0;
+
+        /* --- INIT --- */
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+        });
+
+        /* --- RENDER GRID --- */
+        function renderProducts(list) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            
+            list.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.onclick = () => openModal(product);
+                card.innerHTML = `
+                    <div class="p-img-wrap">
+                        <img src="${product.img}" alt="${product.name}">
+                    </div>
+                    <div class="p-details">
+                        <div class="p-brand">${product.brand}</div>
+                        <div class="p-title">${product.name}</div>
+                        <div class="p-price">$${product.price}</div>
+                        <button class="btn-view">Configure Bundle</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        /* --- FILTER LOGIC --- */
+        function filterProducts() {
+            const checkboxes = document.querySelectorAll('input[name="brand"]:checked');
+            const selectedBrands = Array.from(checkboxes).map(cb => cb.value);
+            
+            const filtered = products.filter(p => selectedBrands.includes(p.brand));
+            renderProducts(filtered);
+        }
+
+        /* --- MODAL & UPSELL LOGIC --- */
+        function openModal(product) {
+            const modal = document.getElementById('productModal');
+            
+            // Set Product Data
+            document.getElementById('mImg').src = product.img;
+            document.getElementById('mBrand').innerText = product.brand;
+            document.getElementById('mTitle').innerText = product.name;
+            document.getElementById('mBasePrice').innerText = '$' + product.price;
+            
+            // Reset Upsells
+            const checkboxes = document.querySelectorAll('.upsell-check');
+            checkboxes.forEach(cb => cb.checked = false);
+            
+            // Set Price State
+            currentBasePrice = product.price;
+            updateTotal();
+            
+            // Show
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('productModal').classList.remove('active');
+        }
+
+        /* --- DYNAMIC PRICING --- */
+        function updateTotal() {
+            let total = currentBasePrice;
+            
+            const checkboxes = document.querySelectorAll('.upsell-check:checked');
+            checkboxes.forEach(cb => {
+                total += parseInt(cb.getAttribute('data-price'));
+            });
+            
+            document.getElementById('mTotalPrice').innerText = '$' + total;
+        }
+
+        /* --- ADD TO CART --- */
+        function addToCart() {
+            cartItems++;
+            document.getElementById('cartCount').innerText = `${cartItems} Items`;
+            
+            // Visual feedback
+            const btn = document.querySelector('.btn-add-cart');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "Added to Basket! ✓";
+            btn.style.background = "#10b981";
+            btn.style.color = "white";
+            
+            setTimeout(() => {
+                closeModal();
+                // Reset button style after modal closes
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.background = "white";
+                    btn.style.color = "black";
+                }, 300);
+            }, 800);
+        }
+
+        // Close modal on outside click
+        document.getElementById('productModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('productModal')) closeModal();
+        });
+    </script>
+</body>
+</html>
