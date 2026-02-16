@@ -3,322 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop Phones | Gadex Gadget Experts</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <title>Shop | GADEX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
-        /* --- 1. CORE VARIABLES & RESET --- */
+        /* INHERITING DESIGN SYSTEM FROM INDEX (Shortened for brevity but consistent) */
         :root {
-            --bg-body: #050505;
-            --bg-panel: #101010;
-            --bg-hover: #181818;
-            --primary: #2563eb;
-            --accent: #10b981; /* Green for deals/success */
-            --text-main: #ffffff;
-            --text-muted: #a1a1aa;
-            --border: rgba(255, 255, 255, 0.1);
-            --radius: 12px;
-            --nav-height: 70px;
+            --color-bg: #030305;
+            --color-panel: #121215;
+            --color-panel-hover: #1c1c21;
+            --color-primary: #3b82f6;
+            --color-text-main: #fff;
+            --color-text-muted: #9ca3af;
+            --color-border: rgba(255,255,255,0.08);
+            --header-height: 80px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            height: 100vh;
-            overflow: hidden; /* Main scroll handled by grid */
-            display: flex;
-            flex-direction: column;
-        }
-
+        body { background: var(--color-bg); color: var(--color-text-main); font-family: 'Inter', sans-serif; overflow-x: hidden; }
         a { text-decoration: none; color: inherit; }
-        img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        img { width: 100%; height: 100%; object-fit: cover; }
         button { cursor: pointer; border: none; font-family: inherit; }
 
-        /* --- 2. NAVIGATION --- */
+        /* HEADER (Simplified for Shop) */
         nav {
-            height: var(--nav-height);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 30px;
-            justify-content: space-between;
-            background: var(--bg-body);
-            z-index: 10;
+            height: var(--header-height);
+            border-bottom: 1px solid var(--color-border);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 40px; background: rgba(3,3,5,0.9); backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 50;
         }
-
-        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -1px; }
+        .logo { font-family: 'Space Grotesk'; font-size: 1.5rem; font-weight: 700; }
         
-        .cart-indicator {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--bg-panel);
-            padding: 8px 16px;
-            border-radius: 100px;
-            border: 1px solid var(--border);
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
+        /* LAYOUT */
+        .shop-layout { display: flex; min-height: 100vh; }
         
-        .cart-count { color: var(--primary); }
-
-        /* --- 3. MAIN LAYOUT (SIDEBAR + GRID) --- */
-        .layout {
-            display: flex;
-            height: calc(100vh - var(--nav-height));
-        }
-
-        /* Sidebar Filters */
+        /* SIDEBAR FILTERS */
         .sidebar {
-            width: 280px;
-            background: var(--bg-panel);
-            border-right: 1px solid var(--border);
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
+            width: 300px;
+            border-right: 1px solid var(--color-border);
+            padding: 40px;
+            position: sticky;
+            top: var(--header-height);
+            height: calc(100vh - var(--header-height));
             overflow-y: auto;
+            background: var(--color-bg);
         }
 
-        .filter-group h3 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; color: var(--text-muted); }
+        .filter-section { margin-bottom: 40px; }
+        .filter-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 20px; font-weight: 700; color: #fff; }
         
         .filter-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            font-size: 0.95rem;
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 12px; cursor: pointer; color: var(--color-text-muted); font-size: 0.95rem; transition: 0.2s;
         }
-
+        .filter-option:hover { color: #fff; }
         .filter-option input {
-            accent-color: var(--primary);
-            width: 16px;
-            height: 16px;
+            appearance: none; width: 18px; height: 18px; border: 1px solid #444; border-radius: 4px;
+            display: grid; place-content: center;
         }
+        .filter-option input::before { content: ""; width: 10px; height: 10px; background: var(--color-primary); transform: scale(0); transition: 0.2s; }
+        .filter-option input:checked { border-color: var(--color-primary); }
+        .filter-option input:checked::before { transform: scale(1); }
 
-        /* Product Grid Area */
-        .main-content {
-            flex: 1;
-            padding: 40px;
-            overflow-y: auto;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        /* Product Card */
-        .product-card {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            transition: 0.3s;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-
-        .p-img-wrap {
-            height: 250px;
-            background: #000;
-            position: relative;
-        }
-
-        .p-details { padding: 20px; }
-        .p-brand { color: var(--text-muted); font-size: 0.8rem; font-weight: 600; text-transform: uppercase; }
-        .p-title { font-size: 1.1rem; font-weight: 700; margin: 5px 0; }
-        .p-price { color: var(--text-main); font-weight: 600; margin-top: 10px; display: block; }
+        /* PRODUCT GRID */
+        .main-content { flex: 1; padding: 40px; }
         
-        .btn-view {
-            margin-top: 15px;
-            width: 100%;
-            padding: 10px;
-            background: var(--bg-hover);
-            color: white;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: 0.2s;
+        .toolbar {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;
         }
-        .product-card:hover .btn-view { background: var(--primary); }
+        .results-count { color: var(--color-text-muted); }
+        select.sort-select {
+            background: var(--color-panel); border: 1px solid var(--color-border);
+            color: white; padding: 10px 20px; border-radius: 4px;
+        }
 
-        /* --- 4. UPSELL MODAL (THE INTEGRATED SYSTEM) --- */
+        .grid-products {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;
+        }
+
+        /* PRODUCT CARD */
+        .card {
+            background: var(--color-panel); border: 1px solid var(--color-border);
+            border-radius: 12px; overflow: hidden; position: relative; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .card:hover { transform: translateY(-8px); border-color: var(--color-primary); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5); }
+        
+        .card-img-wrap { height: 280px; position: relative; overflow: hidden; background: #000; }
+        .card-img-wrap img { transition: transform 0.6s; }
+        .card:hover .card-img-wrap img { transform: scale(1.08); }
+        
+        .badge {
+            position: absolute; top: 15px; left: 15px; background: var(--color-primary);
+            color: white; font-size: 0.7rem; font-weight: 700; padding: 4px 10px; border-radius: 4px;
+        }
+
+        .card-body { padding: 25px; }
+        .card-brand { font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+        .card-title { font-size: 1.1rem; font-weight: 700; margin: 8px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-price { font-size: 1.1rem; color: #fff; margin-bottom: 20px; display: block; }
+        
+        .btn-config {
+            width: 100%; padding: 12px; background: rgba(255,255,255,0.05); color: white;
+            font-weight: 600; border-radius: 6px; transition: 0.2s;
+        }
+        .card:hover .btn-config { background: var(--color-primary); }
+
+        /* MODAL (BUNDLE BUILDER) */
         .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(5px);
-            z-index: 100;
-            display: none; /* Hidden by default */
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: 0.3s;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: 0.3s;
         }
-
-        .modal-overlay.active { display: flex; opacity: 1; }
-
-        .modal-content {
-            background: #121212;
-            width: 900px;
-            max-width: 95%;
-            height: 80vh;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,1);
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        
+        .modal {
+            width: 1000px; height: 80vh; background: #111; border: 1px solid #333;
+            border-radius: 20px; display: grid; grid-template-columns: 1fr 1.2fr; overflow: hidden;
+            box-shadow: 0 0 100px rgba(0,0,0,1); transform: scale(0.95); transition: 0.3s;
         }
+        .modal-overlay.active .modal { transform: scale(1); }
 
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.1);
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
+        .modal-left { background: #000; padding: 40px; display: flex; align-items: center; justify-content: center; }
+        .modal-right { padding: 50px; overflow-y: auto; display: flex; flex-direction: column; }
+
+        .bundle-item {
+            background: #1a1a1a; padding: 15px; border-radius: 8px; margin-bottom: 10px;
+            display: flex; align-items: center; justify-content: space-between; border: 1px solid #333;
         }
-
-        /* Left Side: Product Focus */
-        .modal-left {
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-        }
-
-        .modal-img { max-height: 80%; object-fit: contain; }
-
-        /* Right Side: Upsell Engine */
-        .modal-right {
-            padding: 40px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .modal-brand { color: var(--primary); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; }
-        .modal-title { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 10px; }
-        .modal-base-price { font-size: 1.5rem; color: var(--text-muted); margin-bottom: 30px; }
-
-        /* The Upsell Section */
-        .upsell-section {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 30px;
-        }
-
-        .upsell-header {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-        }
-        .upsell-header span { color: var(--accent); }
-
-        .upsell-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .upsell-item:last-child { border-bottom: none; }
-
-        .upsell-info { display: flex; align-items: center; gap: 12px; }
-        .upsell-thumb { width: 40px; height: 40px; background: #333; border-radius: 6px; }
-        .upsell-name { font-size: 0.9rem; font-weight: 500; }
-        .upsell-price { color: var(--text-muted); font-size: 0.9rem; }
-
-        /* Switch Toggle */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 40px;
-            height: 24px;
-        }
+        
+        /* Custom Toggle Switch */
+        .switch { position: relative; width: 44px; height: 24px; }
         .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #333;
-            transition: .4s;
-            border-radius: 24px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .slider { background-color: var(--primary); }
-        input:checked + .slider:before { transform: translateX(16px); }
+        .slider { position: absolute; inset: 0; background: #333; border-radius: 34px; transition: .4s; cursor: pointer; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: .4s; }
+        input:checked + .slider { background: var(--color-primary); }
+        input:checked + .slider:before { transform: translateX(20px); }
 
-        /* Bottom Action Bar */
-        .action-bar {
-            margin-top: auto;
-            border-top: 1px solid var(--border);
-            padding-top: 20px;
+        .btn-add {
+            margin-top: auto; width: 100%; background: #fff; color: #000; padding: 18px;
+            font-weight: 800; font-size: 1.1rem; border-radius: 8px; transition: 0.2s;
         }
+        .btn-add:hover { background: var(--color-primary); color: white; transform: translateY(-2px); }
 
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 20px;
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed; bottom: 30px; right: 30px; background: #10b981; color: white;
+            padding: 16px 30px; border-radius: 8px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateY(100px); transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 200;
         }
-        .total-label { font-size: 0.9rem; color: var(--text-muted); }
-        .total-price { font-size: 2rem; font-weight: 900; }
+        .toast.show { transform: translateY(0); }
 
-        .btn-add-cart {
-            width: 100%;
-            background: var(--text-main);
-            color: black;
-            padding: 16px;
-            border-radius: 8px;
-            font-weight: 800;
-            font-size: 1.1rem;
-            transition: 0.3s;
-        }
-        .btn-add-cart:hover { background: var(--primary); color: white; }
-
-        /* Mobile Responsive */
+        /* MOBILE */
         @media (max-width: 900px) {
-            .modal-content { grid-template-columns: 1fr; overflow-y: scroll; height: 90vh; }
-            .modal-left { height: 300px; padding: 20px; }
-            .modal-right { overflow: visible; }
-            .sidebar { display: none; /* Hidden on mobile for this demo */ }
+            .sidebar { display: none; }
+            .modal { grid-template-columns: 1fr; height: 100vh; border-radius: 0; }
+            .modal-left { height: 30vh; }
         }
     </style>
 </head>
@@ -326,275 +166,274 @@
 
     <nav>
         <a href="index.html" class="logo">GADEX. SHOP</a>
-        <div class="cart-indicator">
-            <span>🛒 Basket</span>
-            <span class="cart-count" id="cartCount">0 Items</span>
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <a href="index.html" style="font-size: 0.9rem; color: #999;">Back to Home</a>
+            <div style="background: #222; padding: 8px 16px; border-radius: 100px; border: 1px solid #333;">
+                🛒 <span id="cartCount">0</span>
+            </div>
         </div>
     </nav>
 
-    <div class="layout">
+    <div class="shop-layout">
         <aside class="sidebar">
-            <div class="filter-group">
-                <h3>Brand</h3>
-                <label class="filter-option">
-                    <input type="checkbox" name="brand" value="Apple" checked onchange="filterProducts()"> Apple
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="brand" value="Samsung" checked onchange="filterProducts()"> Samsung
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox" name="brand" value="Google" checked onchange="filterProducts()"> Google
-                </label>
-            </div>
-            
-            <div class="filter-group">
-                <h3>Condition</h3>
-                <label class="filter-option"><input type="checkbox" checked> Brand New</label>
-                <label class="filter-option"><input type="checkbox"> Refurbished</label>
+            <div class="filter-section">
+                <div class="filter-title">Departments</div>
+                <label class="filter-option"><input type="checkbox" checked value="Phones" class="cat-filter"> Mobile Phones</label>
+                <label class="filter-option"><input type="checkbox" checked value="Gaming" class="cat-filter"> Gaming Consoles</label>
+                <label class="filter-option"><input type="checkbox" checked value="Vape" class="cat-filter"> Vapes & Pods</label>
             </div>
 
-            <div class="filter-group">
-                <h3>Storage</h3>
-                <label class="filter-option"><input type="checkbox"> 128GB</label>
-                <label class="filter-option"><input type="checkbox"> 256GB</label>
-                <label class="filter-option"><input type="checkbox"> 1TB</label>
+            <div class="filter-section">
+                <div class="filter-title">Brands</div>
+                <label class="filter-option"><input type="checkbox" checked value="Apple" class="brand-filter"> Apple</label>
+                <label class="filter-option"><input type="checkbox" checked value="Samsung" class="brand-filter"> Samsung</label>
+                <label class="filter-option"><input type="checkbox" checked value="Sony" class="brand-filter"> Sony</label>
+                <label class="filter-option"><input type="checkbox" checked value="ElfBar" class="brand-filter"> ElfBar</label>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-title">Price Range</div>
+                <input type="range" min="0" max="2000" style="width: 100%; accent-color: var(--color-primary);">
+                <div style="display: flex; justify-content: space-between; margin-top: 10px; color: #666; font-size: 0.8rem;">
+                    <span>$0</span>
+                    <span>$2000+</span>
+                </div>
             </div>
         </aside>
 
         <main class="main-content">
-            <div class="products-grid" id="productGrid">
+            <div class="toolbar">
+                <div class="results-count">Showing <span id="visibleCount">0</span> products</div>
+                <select class="sort-select" id="sortSelect">
+                    <option value="featured">Featured</option>
+                    <option value="lowHigh">Price: Low to High</option>
+                    <option value="highLow">Price: High to Low</option>
+                </select>
+            </div>
+
+            <div class="grid-products" id="productGrid">
                 </div>
         </main>
     </div>
 
-    <div class="modal-overlay" id="productModal">
-        <div class="modal-content">
-            <button class="modal-close" onclick="closeModal()">✕</button>
-            
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
             <div class="modal-left">
-                <img src="" alt="Product" class="modal-img" id="mImg">
+                <img id="mImg" src="" alt="Product">
             </div>
-
             <div class="modal-right">
-                <span class="modal-brand" id="mBrand">Apple</span>
-                <h2 class="modal-title" id="mTitle">iPhone 15 Pro</h2>
-                <div class="modal-base-price" id="mBasePrice">$999</div>
+                <button onclick="closeModal()" style="position: absolute; top: 30px; right: 30px; color: #fff; font-size: 1.5rem;">✕</button>
+                
+                <h4 style="color: var(--color-primary); text-transform: uppercase; margin-bottom: 5px;" id="mBrand">Brand</h4>
+                <h2 style="font-size: 2.5rem; line-height: 1.1; margin-bottom: 10px;" id="mTitle">Product Name</h2>
+                <div style="font-size: 1.5rem; color: #aaa; margin-bottom: 30px;" id="mBasePrice">$0.00</div>
 
-                <div class="upsell-section">
-                    <div class="upsell-header">
-                        Complete the Setup
-                        <span>Save 20% on Bundle</span>
-                    </div>
-
-                    <div class="upsell-item">
-                        <div class="upsell-info">
-                            <div class="upsell-thumb" style="background: url('https://images.unsplash.com/photo-1599643478518-17488fbbcd75?w=100') center/cover;"></div>
+                <div style="margin-bottom: 30px;">
+                    <h5 style="color: #fff; margin-bottom: 15px; border-bottom: 1px solid #333; padding-bottom: 10px;">Frequently Bought Together (Save 15%)</h5>
+                    
+                    <div class="bundle-item">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <div style="width: 40px; height: 40px; background: #333; border-radius: 4px;"></div>
                             <div>
-                                <div class="upsell-name">Tempered Glass</div>
-                                <div class="upsell-price">+$15.00</div>
+                                <div style="font-size: 0.9rem; font-weight: 600;">Premium Protection Case</div>
+                                <div style="color: #888; font-size: 0.8rem;">+$25.00</div>
                             </div>
                         </div>
                         <label class="switch">
-                            <input type="checkbox" class="upsell-check" data-price="15" onchange="updateTotal()">
+                            <input type="checkbox" class="bundle-check" data-price="25" onchange="updateTotal()">
                             <span class="slider"></span>
                         </label>
                     </div>
 
-                    <div class="upsell-item">
-                        <div class="upsell-info">
-                            <div class="upsell-thumb" style="background: url('https://images.unsplash.com/photo-1617042375876-a13e36732a04?w=100') center/cover;"></div>
+                    <div class="bundle-item">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <div style="width: 40px; height: 40px; background: #333; border-radius: 4px;"></div>
                             <div>
-                                <div class="upsell-name">MagSafe Case</div>
-                                <div class="upsell-price">+$35.00</div>
+                                <div style="font-size: 0.9rem; font-weight: 600;">Tempered Glass (2-Pack)</div>
+                                <div style="color: #888; font-size: 0.8rem;">+$15.00</div>
                             </div>
                         </div>
                         <label class="switch">
-                            <input type="checkbox" class="upsell-check" data-price="35" onchange="updateTotal()">
+                            <input type="checkbox" class="bundle-check" data-price="15" onchange="updateTotal()">
                             <span class="slider"></span>
                         </label>
                     </div>
-
-                    <div class="upsell-item">
-                        <div class="upsell-info">
-                            <div class="upsell-thumb" style="background: url('https://images.unsplash.com/photo-1618483185366-5452eb8e2285?w=100') center/cover;"></div>
+                     <div class="bundle-item">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <div style="width: 40px; height: 40px; background: #333; border-radius: 4px;"></div>
                             <div>
-                                <div class="upsell-name">20W Fast Charger</div>
-                                <div class="upsell-price">+$25.00</div>
+                                <div style="font-size: 0.9rem; font-weight: 600;">Extended Warranty (1 Yr)</div>
+                                <div style="color: #888; font-size: 0.8rem;">+$40.00</div>
                             </div>
                         </div>
                         <label class="switch">
-                            <input type="checkbox" class="upsell-check" data-price="25" onchange="updateTotal()">
+                            <input type="checkbox" class="bundle-check" data-price="40" onchange="updateTotal()">
                             <span class="slider"></span>
                         </label>
                     </div>
                 </div>
 
-                <div class="action-bar">
-                    <div class="total-row">
-                        <span class="total-label">Total Bundle Price</span>
-                        <span class="total-price" id="mTotalPrice">$999</span>
+                <div style="margin-top: auto; border-top: 1px solid #333; padding-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 15px;">
+                        <span style="color: #888;">Total Bundle Price</span>
+                        <span style="font-size: 2rem; font-weight: 800;" id="mTotalPrice">$0.00</span>
                     </div>
-                    <button class="btn-add-cart" onclick="addToCart()">Add Bundle to Basket</button>
+                    <button class="btn-add" onclick="addToCart()">Add to Cart</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="toast" id="toast">Item Added to Cart Successfully!</div>
+
     <script>
-        /* --- MOCK DATABASE --- */
+        /* * ==========================================
+         * DATA STORE (Simulating Database)
+         * ==========================================
+         */
         const products = [
-            {
-                id: 1,
-                brand: "Apple",
-                name: "iPhone 15 Pro",
-                price: 999,
-                img: "https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=800&auto=format&fit=crop"
-            },
-            {
-                id: 2,
-                brand: "Apple",
-                name: "iPhone 15",
-                price: 799,
-                img: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?q=80&w=800&auto=format&fit=crop"
-            },
-            {
-                id: 3,
-                brand: "Samsung",
-                name: "Galaxy S24 Ultra",
-                price: 1199,
-                img: "https://images.unsplash.com/photo-1610945415295-d96bf067d9e4?q=80&w=800&auto=format&fit=crop"
-            },
-            {
-                id: 4,
-                brand: "Samsung",
-                name: "Galaxy Z Fold 5",
-                price: 1799,
-                img: "https://images.unsplash.com/photo-1610945265078-d86f3d297dfb?q=80&w=800&auto=format&fit=crop"
-            },
-            {
-                id: 5,
-                brand: "Google",
-                name: "Pixel 8 Pro",
-                price: 899,
-                img: "https://images.unsplash.com/photo-1621330381971-8b73ad7553b5?q=80&w=800&auto=format&fit=crop"
-            },
-            {
-                id: 6,
-                brand: "Apple",
-                name: "iPhone 13 Refurbished",
-                price: 499,
-                img: "https://images.unsplash.com/photo-1592750475338-74b7b21918a4?q=80&w=800&auto=format&fit=crop"
-            }
+            { id: 1, name: "iPhone 15 Pro Max", brand: "Apple", cat: "Phones", price: 1199, img: "https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=800&auto=format&fit=crop", badge: "Best Seller" },
+            { id: 2, name: "Galaxy S24 Ultra", brand: "Samsung", cat: "Phones", price: 1299, img: "https://images.unsplash.com/photo-1610945415295-d96bf067d9e4?q=80&w=800&auto=format&fit=crop", badge: "AI Ready" },
+            { id: 3, name: "PlayStation 5 Slim", brand: "Sony", cat: "Gaming", price: 499, img: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop", badge: "In Stock" },
+            { id: 4, name: "Xbox Series X", brand: "Microsoft", cat: "Gaming", price: 499, img: "https://images.unsplash.com/photo-1621259182903-06dc7c49f6eb?q=80&w=800&auto=format&fit=crop", badge: null },
+            { id: 5, name: "ElfBar 600 V2", brand: "ElfBar", cat: "Vape", price: 15, img: "https://images.unsplash.com/photo-1536566482680-fca31930a09d?q=80&w=800&auto=format&fit=crop", badge: "3 for $40" },
+            { id: 6, name: "Pixel 8 Pro", brand: "Google", cat: "Phones", price: 999, img: "https://images.unsplash.com/photo-1621330381971-8b73ad7553b5?q=80&w=800&auto=format&fit=crop", badge: null },
+            { id: 7, name: "Nintendo Switch OLED", brand: "Nintendo", cat: "Gaming", price: 349, img: "https://images.unsplash.com/photo-1578303512597-81e6cc155b3e?q=80&w=800&auto=format&fit=crop", badge: "Family Fav" },
+            { id: 8, name: "GeekVape Aegis", brand: "GeekVape", cat: "Vape", price: 65, img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800&auto=format&fit=crop", badge: "Durable" }
         ];
 
-        /* --- STATE --- */
-        let currentBasePrice = 0;
-        let cartItems = 0;
+        let currentProduct = null;
+        let cart = JSON.parse(localStorage.getItem('gadexCart')) || [];
 
-        /* --- INIT --- */
-        document.addEventListener('DOMContentLoaded', () => {
-            renderProducts(products);
-        });
+        /* * ==========================================
+         * CORE FUNCTIONS
+         * ==========================================
+         */
 
-        /* --- RENDER GRID --- */
+        // Render Grid
         function renderProducts(list) {
             const grid = document.getElementById('productGrid');
-            grid.innerHTML = '';
-            
-            list.forEach(product => {
+            const countSpan = document.getElementById('visibleCount');
+            grid.innerHTML = "";
+            countSpan.innerText = list.length;
+
+            list.forEach(p => {
+                const badgeHTML = p.badge ? `<span class="badge">${p.badge}</span>` : '';
                 const card = document.createElement('div');
-                card.className = 'product-card';
-                card.onclick = () => openModal(product);
+                card.className = "card";
+                card.onclick = () => openModal(p);
                 card.innerHTML = `
-                    <div class="p-img-wrap">
-                        <img src="${product.img}" alt="${product.name}">
+                    <div class="card-img-wrap">
+                        ${badgeHTML}
+                        <img src="${p.img}" alt="${p.name}">
                     </div>
-                    <div class="p-details">
-                        <div class="p-brand">${product.brand}</div>
-                        <div class="p-title">${product.name}</div>
-                        <div class="p-price">$${product.price}</div>
-                        <button class="btn-view">Configure Bundle</button>
+                    <div class="card-body">
+                        <div class="card-brand">${p.brand}</div>
+                        <div class="card-title">${p.name}</div>
+                        <div class="card-price">$${p.price}</div>
+                        <button class="btn-config">Configure Bundle</button>
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
-        /* --- FILTER LOGIC --- */
-        function filterProducts() {
-            const checkboxes = document.querySelectorAll('input[name="brand"]:checked');
-            const selectedBrands = Array.from(checkboxes).map(cb => cb.value);
+        // Filter Logic
+        function filterLogic() {
+            const catChecks = Array.from(document.querySelectorAll('.cat-filter:checked')).map(c => c.value);
+            const brandChecks = Array.from(document.querySelectorAll('.brand-filter:checked')).map(c => c.value);
             
-            const filtered = products.filter(p => selectedBrands.includes(p.brand));
+            const filtered = products.filter(p => {
+                const catMatch = catChecks.includes(p.cat);
+                // Allow fuzzy matching for brands if needed, strict here
+                const brandMatch = brandChecks.some(b => p.brand.includes(b)) || brandChecks.length === 0;
+                return catMatch && brandMatch;
+            });
+
+            // Sort Logic
+            const sortVal = document.getElementById('sortSelect').value;
+            if (sortVal === 'lowHigh') filtered.sort((a,b) => a.price - b.price);
+            if (sortVal === 'highLow') filtered.sort((a,b) => b.price - a.price);
+
             renderProducts(filtered);
         }
 
-        /* --- MODAL & UPSELL LOGIC --- */
+        // Attach Event Listeners to Filters
+        document.querySelectorAll('input[type=checkbox]').forEach(i => i.addEventListener('change', filterLogic));
+        document.getElementById('sortSelect').addEventListener('change', filterLogic);
+
+        /* * ==========================================
+         * MODAL & CART LOGIC
+         * ==========================================
+         */
         function openModal(product) {
-            const modal = document.getElementById('productModal');
-            
-            // Set Product Data
+            currentProduct = product;
             document.getElementById('mImg').src = product.img;
             document.getElementById('mBrand').innerText = product.brand;
             document.getElementById('mTitle').innerText = product.name;
             document.getElementById('mBasePrice').innerText = '$' + product.price;
             
-            // Reset Upsells
-            const checkboxes = document.querySelectorAll('.upsell-check');
-            checkboxes.forEach(cb => cb.checked = false);
-            
-            // Set Price State
-            currentBasePrice = product.price;
+            // Reset Toggles
+            document.querySelectorAll('.bundle-check').forEach(c => c.checked = false);
             updateTotal();
             
-            // Show
-            modal.classList.add('active');
+            document.getElementById('modalOverlay').classList.add('active');
         }
 
         function closeModal() {
-            document.getElementById('productModal').classList.remove('active');
+            document.getElementById('modalOverlay').classList.remove('active');
         }
 
-        /* --- DYNAMIC PRICING --- */
         function updateTotal() {
-            let total = currentBasePrice;
-            
-            const checkboxes = document.querySelectorAll('.upsell-check:checked');
-            checkboxes.forEach(cb => {
-                total += parseInt(cb.getAttribute('data-price'));
+            let total = currentProduct.price;
+            document.querySelectorAll('.bundle-check:checked').forEach(c => {
+                total += parseInt(c.dataset.price);
             });
-            
-            document.getElementById('mTotalPrice').innerText = '$' + total;
+            document.getElementById('mTotalPrice').innerText = '$' + total.toFixed(2);
         }
 
-        /* --- ADD TO CART --- */
         function addToCart() {
-            cartItems++;
-            document.getElementById('cartCount').innerText = `${cartItems} Items`;
-            
-            // Visual feedback
-            const btn = document.querySelector('.btn-add-cart');
-            const originalText = btn.innerText;
-            
-            btn.innerText = "Added to Basket! ✓";
-            btn.style.background = "#10b981";
-            btn.style.color = "white";
-            
-            setTimeout(() => {
-                closeModal();
-                // Reset button style after modal closes
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.style.background = "white";
-                    btn.style.color = "black";
-                }, 300);
-            }, 800);
+            // Calculate final price with bundle
+            let finalPrice = currentProduct.price;
+            document.querySelectorAll('.bundle-check:checked').forEach(c => {
+                finalPrice += parseInt(c.dataset.price);
+            });
+
+            // Add object to cart
+            cart.push({
+                id: currentProduct.id,
+                name: currentProduct.name,
+                price: finalPrice,
+                img: currentProduct.img,
+                qty: 1
+            });
+
+            // Save & Update UI
+            localStorage.setItem('gadexCart', JSON.stringify(cart));
+            updateCartCount();
+            closeModal();
+            showToast();
         }
 
+        function updateCartCount() {
+            document.getElementById('cartCount').innerText = cart.length;
+        }
+
+        function showToast() {
+            const t = document.getElementById('toast');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3000);
+        }
+
+        // Init
+        renderProducts(products);
+        updateCartCount();
+        
         // Close modal on outside click
-        document.getElementById('productModal').addEventListener('click', (e) => {
-            if (e.target === document.getElementById('productModal')) closeModal();
+        document.getElementById('modalOverlay').addEventListener('click', (e) => {
+            if(e.target === document.getElementById('modalOverlay')) closeModal();
         });
+
     </script>
 </body>
 </html>
