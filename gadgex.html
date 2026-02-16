@@ -76,9 +76,12 @@
         /* Mobile Menu Toggle (Hidden on Desktop) */
         .menu-toggle { display: none; flex-direction: column; gap: 6px; z-index: 1002; }
         .menu-toggle span { width: 25px; height: 2px; background: white; transition: 0.3s; }
+        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
 
         /* --- HERO SLIDER --- */
-        .hero-section { height: calc(100vh - var(--header-height)); position: relative; overflow: hidden; }
+        .hero-section { height: calc(100vh - var(--header-height)); position: relative; overflow: hidden; min-height: 600px; }
         .slider-container { height: 100%; width: 100%; position: relative; }
         
         .slide {
@@ -106,6 +109,11 @@
             color: white; padding: 16px 40px; border-radius: 4px; font-weight: 600;
             text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; transition: 0.3s;
         }
+        .cta-btn:hover { background: transparent; border: 1px solid var(--color-primary); color: var(--color-primary); }
+
+        .slider-nav { position: absolute; bottom: 40px; right: 100px; display: flex; gap: 10px; z-index: 20; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: 0.3s; }
+        .dot.active { background: var(--color-primary); transform: scale(1.2); }
 
         /* --- BRAND TICKER --- */
         .ticker-wrap { overflow: hidden; background: var(--color-surface); padding: 30px 0; border-bottom: 1px solid var(--color-border); }
@@ -132,6 +140,17 @@
         .item-wide { grid-column: span 2; }
         .item-tall { grid-row: span 2; }
 
+        /* --- CART DRAWER --- */
+        .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; opacity: 0; pointer-events: none; transition: 0.3s; }
+        .cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 450px; background: #111; z-index: 2001; transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); display: flex; flex-direction: column; border-left: 1px solid var(--color-border); }
+        .cart-open .cart-overlay { opacity: 1; pointer-events: auto; }
+        .cart-open .cart-drawer { transform: translateX(0); }
+
+        .cart-header { padding: 25px; border-bottom: 1px solid var(--color-border); display: flex; justify-content: space-between; align-items: center; }
+        .cart-body { flex: 1; padding: 25px; overflow-y: auto; }
+        .cart-footer { padding: 25px; border-top: 1px solid var(--color-border); background: var(--color-surface); }
+        .cart-empty-msg { text-align: center; color: var(--color-text-muted); margin-top: 50px; }
+
         /* --- FOOTER --- */
         footer { background: #000; border-top: 1px solid var(--color-border); padding-top: 80px; }
         .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 60px; padding-bottom: 60px; border-bottom: 1px solid var(--color-border); }
@@ -141,10 +160,10 @@
         @media (max-width: 900px) {
             .container { padding: 0 20px; }
             
-            /* Nav becomes Hamburger */
+            /* Nav becomes Hamburger Drawer */
             .nav-links {
                 position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-                background: #000; flex-direction: column; justify-content: center;
+                background: #050505; flex-direction: column; justify-content: center;
                 transform: translateX(100%); transition: 0.3s; z-index: 1001;
             }
             .nav-links.active { transform: translateX(0); }
@@ -153,19 +172,41 @@
 
             /* Hero adjustments */
             .slide-title { font-size: 3rem; }
-            .slide-content { padding-left: 20px; text-align: center; margin: 0 auto; }
+            .slide-content { padding-left: 0; text-align: center; margin: 0 auto; width: 100%; padding: 0 20px; }
+            .slider-nav { right: 50%; transform: translateX(50%); bottom: 30px; }
             
             /* Bento Grid Stacking */
-            .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; gap: 20px; }
             .item-large, .item-wide, .item-tall { grid-column: span 1; grid-row: span 1; height: 300px; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 20px; }
             
             /* Footer Stacking */
             .footer-grid { grid-template-columns: 1fr; gap: 40px; }
-            .section-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+            
+            /* Cart Width */
+            .cart-drawer { width: 100%; }
         }
     </style>
 </head>
 <body>
+
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <h3>Your Cart (<span id="cartCountHeader">0</span>)</h3>
+            <button onclick="toggleCart()">✕</button>
+        </div>
+        <div class="cart-body" id="cartItemsContainer">
+            <div class="cart-empty-msg">Your cart is currently empty.</div>
+        </div>
+        <div class="cart-footer">
+            <div class="flex" style="justify-content: space-between; margin-bottom: 20px;">
+                <span>Subtotal</span>
+                <span id="cartSubtotal" style="font-weight: 700; font-size: 1.2rem;">$0.00</span>
+            </div>
+            <button class="cta-btn" style="width: 100%; justify-content: center;">Checkout Now</button>
+        </div>
+    </div>
 
     <div class="announcement-bar">Free Next-Day Shipping on Orders Over $500 • 12 Months Warranty Included</div>
 
@@ -174,14 +215,19 @@
             <a href="index.html" class="brand">GADEX<span>.</span></a>
             
             <nav class="nav-links" id="navLinks">
-                <a href="shop.html" class="nav-link">Mobile Phones</a>
-                <a href="shop.html" class="nav-link">Gaming Consoles</a>
-                <a href="shop.html" class="nav-link">Vapes & Tech</a>
-                <a href="#about" class="nav-link">Why Us</a>
+                <a href="shop.html" class="nav-link" onclick="toggleMenu()">Mobile Phones</a>
+                <a href="shop.html" class="nav-link" onclick="toggleMenu()">Gaming Consoles</a>
+                <a href="shop.html" class="nav-link" onclick="toggleMenu()">Vapes & Tech</a>
+                <a href="#about" class="nav-link" onclick="toggleMenu()">Why Us</a>
+                <button class="icon-btn" style="font-size: 1.5rem; margin-top: 20px;" onclick="toggleMenu()">✕ Close</button>
             </nav>
 
             <div class="header-actions">
-                <a href="shop.html" class="icon-btn">🛒 <span class="cart-badge">2</span></a>
+                <button class="icon-btn">🔍</button>
+                <button class="icon-btn" onclick="toggleCart()">
+                    🛒
+                    <span class="cart-badge" id="navCartCount">0</span>
+                </button>
                 <button class="menu-toggle" onclick="toggleMenu()">
                     <span></span><span></span><span></span>
                 </button>
@@ -190,7 +236,7 @@
     </header>
 
     <section class="hero-section">
-        <div class="slider-container">
+        <div class="slider-container" id="heroSlider">
             <div class="slide active">
                 <div class="slide-bg" style="background: url('https://images.unsplash.com/photo-1556656793-02715d8dd6f5?q=80&w=2670&auto=format&fit=crop') center/cover;"></div>
                 <div class="overlay"></div>
@@ -200,6 +246,30 @@
                     <a href="shop.html" class="cta-btn">Shop Apple &rarr;</a>
                 </div>
             </div>
+            <div class="slide">
+                <div class="slide-bg" style="background: url('https://images.unsplash.com/photo-1605901309584-818e25960b8f?q=80&w=2670&auto=format&fit=crop') center/cover;"></div>
+                <div class="overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag">Next-Gen Gaming</span>
+                    <h1 class="slide-title">Power Your<br>Dreams.</h1>
+                    <a href="shop.html" class="cta-btn">Shop Consoles &rarr;</a>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-bg" style="background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2670&auto=format&fit=crop') center/cover;"></div>
+                <div class="overlay"></div>
+                <div class="slide-content">
+                    <span class="slide-tag">Lifestyle Tech</span>
+                    <h1 class="slide-title">Vape & Chill<br>Essentials.</h1>
+                    <a href="shop.html" class="cta-btn">Browse Vapes &rarr;</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slider-nav">
+            <div class="dot active" onclick="goToSlide(0)"></div>
+            <div class="dot" onclick="goToSlide(1)"></div>
+            <div class="dot" onclick="goToSlide(2)"></div>
         </div>
     </section>
 
@@ -270,9 +340,72 @@
     </footer>
 
     <script>
+        /* --- MENU TOGGLE --- */
         function toggleMenu() {
             document.getElementById('navLinks').classList.toggle('active');
+            document.querySelector('.menu-toggle').classList.toggle('active');
         }
+
+        /* --- SLIDER LOGIC --- */
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        const totalSlides = slides.length;
+
+        function updateSlider() {
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+        function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateSlider(); }
+        function goToSlide(index) { currentSlide = index; updateSlider(); }
+        setInterval(nextSlide, 5000);
+
+        /* --- CART LOGIC --- */
+        function toggleCart() {
+            document.body.classList.toggle('cart-open');
+            renderCart();
+        }
+        document.getElementById('cartOverlay').addEventListener('click', toggleCart);
+
+        function getCart() { return JSON.parse(localStorage.getItem('gadexCart')) || []; }
+
+        function renderCart() {
+            const cart = getCart();
+            const container = document.getElementById('cartItemsContainer');
+            const countBadge = document.getElementById('navCartCount');
+            const countHeader = document.getElementById('cartCountHeader');
+            const subtotalEl = document.getElementById('cartSubtotal');
+            
+            const totalItems = cart.reduce((acc, item) => acc + item.qty, 0);
+            countBadge.innerText = totalItems;
+            countHeader.innerText = totalItems;
+            const total = cart.reduce((acc, item) => acc + (item.price * item.qty), 0);
+            subtotalEl.innerText = '$' + total.toFixed(2);
+
+            if (cart.length === 0) {
+                container.innerHTML = '<div class="cart-empty-msg">Your cart is currently empty.</div>';
+                return;
+            }
+            container.innerHTML = cart.map((item, index) => `
+                <div style="display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;">
+                    <img src="${item.img}" style="width: 60px; height: 60px; border-radius: 8px;">
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600; font-size: 0.9rem;">${item.name}</div>
+                        <div style="color: var(--color-text-muted); font-size: 0.8rem;">$${item.price} x ${item.qty}</div>
+                    </div>
+                    <button style="color: #ef4444;" onclick="removeItem(${index})">✕</button>
+                </div>
+            `).join('');
+        }
+        function removeItem(index) {
+            const cart = getCart();
+            cart.splice(index, 1);
+            localStorage.setItem('gadexCart', JSON.stringify(cart));
+            renderCart();
+        }
+        renderCart();
     </script>
 </body>
 </html>
